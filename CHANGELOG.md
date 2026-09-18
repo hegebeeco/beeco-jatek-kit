@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.1.1 – 2026-09-18
+* A kalauz fejlesztői oldalai (kit.html, keret.html, modellek.html, vilag.html, mechanikak.html) nem kerülnek az offline fájllistába.
+
 ## 1.1.0 – 2026-09-18
 
 ### Új
