@@ -38,6 +38,7 @@ automatikus ellenőrzés – hogy minden játék egységes maradjon, akárki (va
 | Közös kör vége | `web/js/result.js` | `showResult({...})` – minden játék szint/kör vége panelje (eredmény-minta, ranglista, megosztás, app-sáv) |
 | Ellenőrzés | `tests/check-arculat.js` + `tests/arculat-baseline.json`, `tests/check-art.js` | lásd 8. pont |
 | Eszköz-teszt | `docs/eszkoz-teszt.md` | kézi ellenőrzőlista valódi telefonra, tabletre és a beeco app WebView-jára |
+| `[WEB]` Weboldal | `docs/weboldal.md` | a tokenek a beeco.hu Webflow-oldalain; a csak weboldalon használt minták (szekció-ritmus, méhsejt-perem, áruház-gombpár, ragadós letöltősáv) `[WEB]` jellel |
 
 **Betöltési sorrend** (`index.html`): a `<head>` saját stílusa (a játék alapja + Szelektálj! HUD, tokenekkel) → `fonts` → `tokens` → `ds` → `ds-game` → modulok CSS-e.
 A modulok a design systemre építenek (utána jönnek). (A korábbi `theme.css` „átöltöztető” réteg 2026-09-16-án megszűnt: a HUD stílusa közvetlenül tokenekre épül.)
@@ -316,3 +317,11 @@ méhecske (app-illusztrációk) és a szereplők (`rezsi-chars.js`); a valódi k
 * A beeco app-méhecskék a játékban belső használatúak – külső (partner) anyagban a beeco jóváhagyása kell.
 * Opcionális: a design system feltölthető a claude.ai Design felületére is (a Claude Code `/design-sync` parancsával),
   így az ott készülő prezentációk és anyagok (pl. cégeknek, iskoláknak) is ezt a stílust kapják.
+
+## 12. `[WEB]` A weboldal (beeco.hu)
+
+A beeco.hu ugyanerre a design systemre épül: ugyanazok a tokenek, a puha „matrica” árnyék, a 3 px olíva körvonal,
+a Lalezar + Open Sans páros és a hatszög. A Webflow-ban a tokenek pontos értéke áll az osztályokon (a Designer nem
+ismeri a `var(--…)`-t), az oldal saját kódja pedig CSS-változóként is felveszi őket.
+A **`[WEB]`** jel ebben a tárolóban azt jelöli, ami csak a weboldalra vonatkozik (a játékokba nem kerül).
+Minden részlet, token–Webflow megfeleltetés és a weboldali minták listája: **`docs/weboldal.md`**.

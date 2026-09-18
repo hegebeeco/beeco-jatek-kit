@@ -22,6 +22,7 @@ ugyanazzal a minőséggel induljon, és a fejlesztések (új matrica, új piktog
 | **Közös keret** – kör vége, beállítások, kifelé menő csatorna + mérés, kioszk, hang, szereplők | `web/js/keret/`, `hang.js`, `szereplok.js`, `docs/keret.md` |
 | **Közös profil** – album, napi küldetés, jelvények minden játékon át (+ a központ) | `web/js/profil.js`, `docs/kozos-profil.md` |
 | **Tartalom és források** – táblázatos szerkesztés, forrásjegyzék, „szám csak forrással” ellenőrzés | `tools/tartalom.js`, `tools/forras.js`, `docs/tartalom-szerkesztes.md`, `docs/forrasok.md` |
+| `[WEB]` **Weboldal-réteg**: a tokenek a beeco.hu Webflow-oldalain, csak weboldalon használt minták | `docs/weboldal.md` |
 | **Új játék sablon** – futó mintajáték, tesztek, CI, offline, CLAUDE.md | `sablon/` |
 
 ## Megnézni

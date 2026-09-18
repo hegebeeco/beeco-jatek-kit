@@ -13,7 +13,8 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 ## Készül (következő verzió)
 
-*(még nincs)*
+* **`[WEB]` weboldal-réteg** (JAVÍTÁS, a játékokat nem érinti): `docs/weboldal.md`: a tokenek megfeleltetése a beeco.hu
+  Webflow-osztályaira, a csak weboldalon használt minták listája `[WEB]` jellel; hivatkozás az `arculat.md` 2. és új 12. pontjában és a README-ben.
 
 ## 1.3.0 – 2026-09-18 (nyelvek)
 * **Kétnyelvű felület (magyar / angol):** `web/js/i18n.js` – `tr('magyar szöveg')` (a magyar a kulcs, hiányzó fordításnál
