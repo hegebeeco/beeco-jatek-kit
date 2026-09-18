@@ -14,7 +14,17 @@ ugyanazzal a minőséggel induljon, és a fejlesztések (új matrica, új piktog
 | **Eszközök** – ablak nélküli böngészős ellenőrzés, smoke-teszt, matrica-render/ív/prompt/import, 3D-ellenőrzés | `tools/` |
 | **Szabálykönyvek** – arculat, rajzolási mérce (B szint), promptolás, offline + CI, **játéktervezési elvek** | `docs/` |
 | **Claude-skillek** – `beeco-arculat`, `beeco-jatek` | `.claude/skills/` |
+| **Kalauz** – kereshető áttekintés mindenről + al-oldalak | `web/kit.html` (→ arculat, modellek, vilag, mechanikak, keret) |
+| **3D világ-készlet** – 42 kódból épített tárgy + `beecoVilag()` (ég, felhők, szigetek, rét) | `web/js/3d/`, `web/js/vilag/`, `docs/3d-vilag.md` |
+| **Játék-mechanikák** – döntéskártya, rácsos lerakás, vonalhúzás, kombinálás | `web/js/mech/`, `docs/mechanikak.md` |
+| **Közös keret** – kör vége, beállítások, kifelé menő csatorna + mérés, kioszk, hang, szereplők | `web/js/keret/`, `hang.js`, `szereplok.js`, `docs/keret.md` |
+| **Közös profil** – album, napi küldetés, jelvények minden játékon át (+ a központ) | `web/js/profil.js`, `docs/kozos-profil.md` |
+| **Tartalom és források** – táblázatos szerkesztés, forrásjegyzék, „szám csak forrással” ellenőrzés | `tools/tartalom.js`, `tools/forras.js`, `docs/tartalom-szerkesztes.md`, `docs/forrasok.md` |
 | **Új játék sablon** – futó mintajáték, tesztek, CI, offline, CLAUDE.md | `sablon/` |
+
+## Megnézni
+A kalauz élőben: **https://beeco-szelektalj.netlify.app/kit.html** (a játékgyűjtemény oldalán, nincs a keresőkben). Helyben: bármilyen statikus szerverrel a `web/` mappából.
+Verzió: `VERSION`, változások: `CHANGELOG.md`, egy projekt állapota: `node tools/kit-sync.js <projekt> --check`.
 
 ## Használat
 **Új játék:**

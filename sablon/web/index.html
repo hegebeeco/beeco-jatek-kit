@@ -15,10 +15,13 @@
   <link rel="stylesheet" href="css/ds.css">
   <link rel="stylesheet" href="css/ds-game.css">
   <link rel="stylesheet" href="css/ds-motion.css">
+  <link rel="stylesheet" href="css/keret.css">     <!-- közös keret: kör vége, beállítások, kioszk -->
   <link rel="stylesheet" href="css/jatek.css">
 </head>
 <body>
+  <button class="ds-icon-btn jtBeall" id="beallGomb" aria-label="Beállítások"></button>
   <main id="jatek" aria-live="polite"></main>
+  <div id="beallPanel" class="hidden" role="dialog" aria-modal="true"><div class="ds-panel jtBeallBox"><button class="ds-icon-btn jtBeallX" data-ds-close aria-label="Bezárás"></button><h2 class="ds-title">Beállítások</h2><div class="jtBeallSorok"></div></div></div>
   <!-- a kit: piktogramok, design system JS, matricák (csak a szükséges art-*.js fájlokat töltsd be) -->
   <script src="js/pics.js"></script>
   <script src="js/ds.js"></script>
@@ -30,6 +33,14 @@
   <script src="js/art/art-things-b.js"></script>
   <script src="js/art/art-extra.js"></script>
   <script src="js/art/art-office.js"></script>
+  <!-- közös keret (beeco-jatek-kit): hang, beállítások, kifelé menő csatorna + mérés, kör vége, profil, QR, kioszk -->
+  <script src="js/hang.js"></script>
+  <script src="js/keret/beallitasok.js"></script>
+  <script src="js/keret/bridge.js"></script>
+  <script src="js/keret/eredmeny.js"></script>
+  <script src="js/profil.js"></script>
+  <script src="js/qr.js"></script>
+  <script src="js/keret/kioszk.js"></script>
   <!-- a játék -->
   <script src="js/jatek.js"></script>
   <script src="js/offline.js"></script>            <!-- offline mód (service worker) – docs/offline-es-ci.md -->

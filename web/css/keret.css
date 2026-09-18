@@ -1,0 +1,91 @@
+/* ============================================================
+   KÖZÖS JÁTÉKKERET (beeco-jatek-kit) — kör vége panel, beállítás-sorok, kioszk-mód. Csak tokenekkel.
+   JS: web/js/keret/eredmeny.js, beallitasok.js, kioszk.js · leírás: docs/keret.md
+   ============================================================ */
+/* ---- kör vége panel ---- */
+#kerEredmeny { position:fixed; inset:0; z-index:var(--z-panel); display:flex; align-items:center; justify-content:center; padding:var(--sp-4); background:var(--scrim); }
+#kerEredmeny.hidden { display:none; }
+.kerBox { width:min(480px, 100%); max-height:92vh; overflow-y:auto; }
+.kerApp { display:flex; align-items:center; gap:12px; margin-top:var(--sp-3); } .kerApp b { display:block; font:400 var(--fs-m)/1.1 var(--display); } .kerApp small { color:var(--ink-soft); }
+/* ---- beállítás-sorok ---- */
+.kerSor { display:flex; align-items:center; justify-content:space-between; gap:var(--sp-3); background:var(--surface); border:var(--line-w) solid var(--line);
+  border-radius:var(--r-m); padding:10px 12px; margin-bottom:8px; }
+.kerSor b { display:inline-flex; align-items:center; gap:6px; } .kerSor small { display:block; color:var(--ink-soft); font-size:13px; margin-top:2px; } .kerSor .pic { width:18px; height:18px; }
+.hidden { display:none !important; }
+
+/* ---- kioszk (js/keret/kioszk.js; a beeco-szelektalj kioszkjával azonos megjelenés) ---- */
+html.kiosk-lock, html.kiosk-lock body { overscroll-behavior:none; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+html.kiosk-lock input, html.kiosk-lock textarea { -webkit-user-select:text; user-select:text; }
+/* a kilépést kínáló gombok kioszkban nem kellenek */
+html.kiosk-lock [data-le="share"], html.kiosk-lock .rzHomeShare, html.kiosk-lock #fsBtn { display:none !important; }
+
+#kioszk { position:fixed; inset:0; z-index:var(--z-scene); overflow-y:auto; display:flex; align-items:center; justify-content:center;
+  padding:max(20px, env(safe-area-inset-top)) var(--sp-4) max(20px, env(safe-area-inset-bottom)); color:var(--ink);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 1 54 16v30L28 61 2 46V16Z M28 61v36 M2 46-2 48 M54 46l4 2' fill='none' stroke='%23D8A500' stroke-opacity='.10' stroke-width='2'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 92% 6%, rgba(254,207,57,.30) 0 220px, transparent 221px),
+    radial-gradient(circle at 4% 96%, rgba(110,137,71,.16) 0 260px, transparent 261px),
+    var(--bg); }
+#kioszk.hidden { display:none; }
+.kzBox { width:min(1500px, 100%); display:flex; flex-direction:column; gap:var(--sp-4); }
+.kzHead { display:flex; align-items:center; gap:var(--sp-4); }
+.kzRole { width:clamp(96px, 12vw, 240px); height:auto; flex:0 0 auto; }
+.kzHead h1 { font:400 clamp(40px, 5.5vw, 104px)/1 var(--display); margin:0; }
+.kzHead p { font-size:clamp(17px, 1.7vw, 30px); line-height:1.35; margin:6px 0 0; color:var(--ink-soft); font-weight:600; }
+.kzStories { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, clamp(290px, 26vw, 460px)), 1fr)); gap:clamp(12px, 1.4vw, 24px); }
+.kzStory { display:flex; align-items:center; gap:14px; min-height:clamp(96px, 11vw, 170px); text-align:left; cursor:pointer; color:var(--ink);
+  background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-xl); box-shadow:var(--soft); padding:12px 14px;
+  font:inherit; transition:transform var(--t-fast) var(--ease), background var(--t-fast); }
+.kzStory:active { transform:scale(.98); background:var(--butter); }
+.kzStory:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+.kzIco { width:clamp(72px, 7vw, 124px); aspect-ratio:1/1.1; flex:0 0 auto; display:flex; align-items:center; justify-content:center; clip-path:var(--hex); background:var(--butter); }
+.kzIco img.art { width:84%; height:auto; }
+.kzTxt { flex:1 1 auto; } .kzTxt b { display:block; font:400 clamp(22px, 2vw, 36px)/1.1 var(--display); } .kzTxt small { display:block; font-size:clamp(14px, 1.15vw, 20px); line-height:1.35; color:var(--ink-soft); margin-top:3px; }
+.kzGo { width:clamp(44px, 3.4vw, 64px); height:clamp(44px, 3.4vw, 64px); flex:0 0 auto; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--accent); border:2.5px solid var(--line); }
+.kzGo .pic { width:22px; height:22px; }
+.kzTap {  display:inline-flex; align-items:center; gap:8px; margin:0; font:400 clamp(20px, 1.8vw, 32px)/1.1 var(--display); background:var(--accent); color:var(--on-accent);
+  border:var(--line-w) solid var(--line); border-radius:var(--r-pill); padding:10px 22px 7px; box-shadow:var(--soft-sm); }
+.kzTap .pic { width:24px; height:24px; }
+.kzWait { font-size:18px; color:var(--ink-soft); }
+
+#kzIdle { position:fixed; inset:0; z-index:var(--z-top); display:flex; align-items:center; justify-content:center; padding:var(--sp-4); background:var(--scrim); }
+#kzIdle.hidden { display:none; }
+.kzIdleBox { width:min(460px, 100%); text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px; }
+.kzIdleBox img { width:96px; } .kzIdleBox h2 { font:400 var(--fs-xl)/1.1 var(--display); margin:0; } .kzIdleBox p { margin:0; font-size:16px; }
+.kzNum { font:400 var(--fs-l)/1 var(--display); }
+@media (max-width:560px){ .kzHead { flex-direction:column; text-align:center; } .kzStories { grid-template-columns:1fr; } }
+/* vezérlés-váltó a nyitóképernyő alján (a stand személyzetének) */
+.kzInput { align-self:center; display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; font-size:14px; font-weight:700; color:var(--ink-soft); }
+.kzInput > span { display:inline-flex; align-items:center; gap:5px; } .kzInput .pic { width:18px; height:18px; }
+
+/* villám-rejtély (rövid) kiemelve, címkék a kártyákon */
+.kzStory.is-quick { background:var(--butter); }
+.kzTxt .ds-tag { margin-bottom:4px; }
+/* alsó sor: felhívás + QR az app letöltéséhez */
+.kzFoot { display:flex; align-items:center; justify-content:space-between; gap:var(--sp-4); flex-wrap:wrap; }
+.kzApp { display:flex; align-items:center; gap:12px; background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-xl); box-shadow:var(--soft-sm); padding:8px 16px 8px 8px; }
+.kzApp b { display:block; font:400 clamp(18px, 1.5vw, 26px)/1.1 var(--display); } .kzApp small { display:block; font-size:14px; color:var(--ink-soft); margin-top:3px; }
+
+/* képernyővédő */
+#kzSaver { position:fixed; inset:0; z-index:calc(var(--z-scene) + 2); display:flex; align-items:center; justify-content:center; overflow:hidden; color:var(--ink); cursor:pointer;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 1 54 16v30L28 61 2 46V16Z M28 61v36 M2 46-2 48 M54 46l4 2' fill='none' stroke='%23D8A500' stroke-opacity='.14' stroke-width='2'/%3E%3C/svg%3E"),
+    var(--butter); }
+#kzSaver.hidden { display:none; }
+.kzSaverBox { position:relative; z-index:1; text-align:center; display:flex; flex-direction:column; align-items:center; gap:var(--sp-3); padding:var(--sp-4); }
+.kzSaverBox .kzRole { width:clamp(140px, 16vw, 280px); animation:dsBob 3s var(--ease) infinite; }
+.kzSaverBox h1 { font:400 clamp(56px, 8vw, 140px)/1 var(--display); margin:0; }
+.kzSlides { position:relative; height:clamp(56px, 6vw, 90px); width:min(1100px, 92vw); }
+.kzSlide { position:absolute; inset:0; margin:0; display:flex; align-items:center; justify-content:center; gap:14px; font:600 clamp(20px, 2.4vw, 40px)/1.2 var(--body);
+  opacity:0; transform:translateY(12px); transition:opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease); }
+.kzSlide.on { opacity:1; transform:none; }
+.kzSlide img.art { width:clamp(44px, 4vw, 72px); height:auto; }
+.kzSaverApp { position:absolute; right:var(--sp-4); bottom:var(--sp-4); z-index:1; }
+.kzBees img { position:absolute; width:clamp(60px, 6vw, 110px); left:calc(var(--i) * 12% + 2%); top:110%; animation:kzFly calc(14s + var(--i) * 1.3s) linear infinite; animation-delay:calc(var(--i) * -2.1s); opacity:.9; }
+@keyframes kzFly{ 0%{ transform:translate(0, 0) rotate(-6deg); } 25%{ transform:translate(30px, -35vh) rotate(6deg); } 50%{ transform:translate(-20px, -70vh) rotate(-6deg); }
+  75%{ transform:translate(25px, -105vh) rotate(6deg); } 100%{ transform:translate(0, -140vh) rotate(-6deg); } }
+@media (prefers-reduced-motion: reduce){ .kzBees img, .kzSaverBox .kzRole { animation:none; } .kzBees { display:none; } }
+.reduce-motion .kzBees { display:none; } .reduce-motion .kzSaverBox .kzRole { animation:none; }
+
+/* nagy standképernyőn: a játék a saját elemeire teszi a .kz-nagyit osztályt (vagy zoom:var(--kz-zoom)) */
+html.kiosk-lock .kz-nagyit, html.kiosk-lock #kerEredmeny .kerBox { zoom:var(--kz-zoom, 1); }

@@ -1,0 +1,4 @@
+{
+ "_readme": "FORRÁSJEGYZÉK – minden szám, arány, statisztika csak innen hivatkozott forrással kerülhet a játékba (a tartalomban: \"forras\": \"<id>\" vagy [\"<id>\", \"<id>\"]). Egy forrás: { \"id\":\"ksh-hulladek-2023\", \"cim\":\"…\", \"url\":\"https://… (a konkrét oldal)\", \"kiado\":\"KSH\", \"ev\":2023, \"megjegyzes\":\"melyik táblázat/oldal, mire használjuk\" }. Hiteles: hivatalos, statisztikai vagy tudományos forrás; számhoz lehetőleg 2 egyező. Ellenőrzés: node tests/check-forras.js · szabály: docs/forrasok.md",
+ "forrasok": []
+}

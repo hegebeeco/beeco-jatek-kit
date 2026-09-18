@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex" />
+  <title>Közös keret – beeco játék-kit</title>
+  <link rel="icon" href="assets/brand/ikon-32.png" sizes="32x32" />
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/ds.css">
+  <link rel="stylesheet" href="css/ds-game.css">
+  <link rel="stylesheet" href="css/ds-motion.css">
+  <link rel="stylesheet" href="css/keret.css">
+  <style>
+    /* a bemutató oldal elrendezése – csak tokenekkel */
+    *, *::before, *::after { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); }
+    .wrap { max-width:960px; margin:0 auto; padding:max(20px, env(safe-area-inset-top)) var(--sp-4) 48px; }
+    h1 { font:400 clamp(30px, 4.5vw, 48px)/1 var(--display); margin:8px 0 4px; }
+    section { margin-top:var(--sp-5); } h2 { font:400 var(--fs-xl)/1.1 var(--display); margin:0 0 8px; }
+    code { background:var(--sage-bg); padding:1px 5px; border-radius:6px; font-size:13px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .cast { display:flex; gap:14px; flex-wrap:wrap; } .cast figure { margin:0; text-align:center; width:104px; }
+    .cast .szereplo { width:96px; height:auto; } .cast figcaption { font-weight:700; font-size:13px; }
+    .missions { display:flex; flex-direction:column; gap:6px; max-width:560px; }
+    .mission { display:flex; justify-content:space-between; gap:10px; background:var(--surface); border:2px solid var(--line); border-radius:var(--r-m); padding:6px 10px; }
+    .mission.ok { background:var(--good-bg); color:var(--good-ink); }
+    .sets { max-width:560px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a href="kit.html" class="ds-btn-sm">${'←'} Vissza a kalauzhoz</a>
+  <h1>Közös játékkeret</h1>
+  <p class="ds-lead">Amit minden beeco játék használ – leírás: <code>docs/keret.md</code>, közös profil: <code>docs/kozos-profil.md</code>.</p>
+
+  <section><h2>Kör vége panel</h2><p><code>keretEredmeny.mutat({ … })</code> – csillagok egyenként, felfutó pont, lenyitható részek; magától hívja a profilt és a mérést.</p>
+    <div class="row"><button class="ds-btn" id="e1">Pontszámos kör vége</button><button class="ds-btn-sm" id="e2">Profilos kör vége (pontszám nélkül)</button></div></section>
+
+  <section><h2>Beállítások</h2><p><code>keretBeallitasok.panelHTML()</code> + <code>bekot(el)</code> – ugyanazok a mentési kulcsok, mint a Szelektálj!-ban.</p>
+    <div class="sets" id="sets"></div></section>
+
+  <section><h2>Közös profil</h2><p><code>beecoProfil</code> – album, napi küldetés (3 feladat, mindenkinek ugyanaz), sorozat, jelvények – a játékokon át.</p>
+    <div class="row"><button class="ds-btn-sm" id="p1">Matrica beragasztása (próba)</button><span class="ds-chip" id="pa"></span><span class="ds-chip" id="pj"></span></div>
+    <h3>Mai küldetés</h3><div class="missions" id="pm"></div></section>
+
+  <section><h2>Szereplők</h2><p><code>szereploHTML(id, 'talk' | 'happy' | 'sad')</code> · új szereplő: <code>szereploHozzaad()</code></p>
+    <div class="cast" id="cast"></div></section>
+
+  <section><h2>Hang</h2><p><code>beecoHang</code> – halk háttérzene, hangjelzés; a visszajelző hangok: <code>dsFeedback('good' | 'great' | 'try')</code>.</p>
+    <div class="row"><button class="ds-btn-sm" id="h1">Jó válasz</button><button class="ds-btn-sm" id="h2">Majdnem</button><button class="ds-btn-sm" id="h3">Zene be/ki</button></div></section>
+
+  <section><h2>Kioszk-mód</h2><p><code>keretKioszk.indit({ … })</code> – rendezvényi érintőképernyő: kezdőképernyő, védelem, tétlenségi alaphelyzet, képernyővédő, QR.
+    Próba: nyisd meg ezt az oldalt <a href="keret.html?kioszk=1">?kioszk=1</a>-gyel.</p></section>
+
+  <section><h2>Kifelé menő csatorna</h2><p><code>beecoBridge.eredmeny({…})</code>, <code>beecoBridge.meres('start' | 'end' | 'quit')</code> – iframe: postMessage, Flutter: BeecoBridge. Soha nem hív beeco API-t.</p></section>
+</div>
+<div id="toast"></div>
+<script src="js/pics.js"></script>
+<script src="js/ds.js"></script>
+<script src="js/art/art.js"></script>
+<script src="js/art/art-nature.js"></script><script src="js/art/art-nature-b.js"></script><script src="js/art/art-home.js"></script>
+<script src="js/art/art-office.js"></script><script src="js/art/art-things.js"></script><script src="js/art/art-things-b.js"></script>
+<script src="js/art/art-extra.js"></script><script src="js/art/art-devices.js"></script>
+<script src="js/hang.js"></script>
+<script src="js/keret/beallitasok.js"></script>
+<script src="js/keret/bridge.js"></script>
+<script src="js/keret/eredmeny.js"></script>
+<script src="js/profil.js"></script>
+<script src="js/qr.js"></script>
+<script src="js/keret/kioszk.js"></script>
+<script src="js/szereplok.js"></script>
+<script>
+  document.querySelector('.ds-btn-sm').innerHTML = pic('back') + ' Vissza a kalauzhoz';
+  const toastEl = document.getElementById('toast');
+  function toast(msg){ toastEl.innerHTML = msg; toastEl.className = 'ds-toast show'; clearTimeout(toast.t); toast.t = setTimeout(() => toastEl.className = 'ds-toast', 2200); }
+  beecoBridge.jatek('kalauz'); beecoProfil.jatek({ id:'kalauz', nev:'Kalauz', ikon:'fuzet', kuldetesek:[] });
+  const $ = id => document.getElementById(id);
+  $('e1').onclick = () => keretEredmeny.mutat({ title:'Szép kör!', stars:2, score:840, lead:'Egy mondat arról, mi sikerült.',
+    stats:[{ icon:'check', value:'12/14', label:'Jó döntés', tone:'is-good' }], more:[{ icon:'diary', title:'Ebből tanulhatunk', html:'<p>Ide jön a magyarázat, forrással.</p>' }],
+    ujra:() => {}, kilep:() => {} });
+  $('e2').onclick = () => keretEredmeny.mutat({ title:'Így alakult a városod', mood:'good', lead:'Sok zöld beavatkozást indítottál, de a költségvetést erősen megterhelted. A lakók támogatása hullámzó maradt.', ujraFelirat:'Új menet', ujra:() => {} });
+  const sets = $('sets'); sets.innerHTML = keretBeallitasok.panelHTML(); keretBeallitasok.bekot(sets);
+  function profil(){
+    const a = beecoProfil.album(), n = beecoProfil.napi();
+    $('pa').innerHTML = pic('star') + Object.keys(a.items).length + ' matrica'; $('pj').innerHTML = pic('medal') + beecoProfil.jelvenyek().filter(b => b.got).length + ' jelvény';
+    $('pm').innerHTML = beecoProfil.maiKuldetesek().map(m => { const p = Math.min(m.goal, n.prog[m.id] || 0);
+      return `<div class="mission${p >= m.goal ? ' ok' : ''}"><span>${p >= m.goal ? pic('check') : pic('star')} ${m.text}</span><b>${p}/${m.goal}</b></div>`; }).join('');
+  }
+  $('p1').onclick = () => { const t = ['lombfa', 'bicikli', 'kulacs', 'napelem'][Math.floor(Math.random()*4)]; beecoProfil.gyujt('kalauz', t + Date.now(), t, t); profil(); };
+  profil();
+  $('cast').innerHTML = ['anya', 'apa', 'panni', 'marci', 'nagyi', 'meh'].map(id => `<figure>${szereploHTML(id, 'happy')}<figcaption>${SZEREPLO_NEV[id]}</figcaption></figure>`).join('');
+  $('h1').onclick = () => dsFeedback('good'); $('h2').onclick = () => dsFeedback('try');
+  $('h3').onclick = () => { beecoHang.setMusic(!beecoHang.music); toast(beecoHang.music ? 'Zene be' : 'Zene ki'); };
+  keretKioszk.indit({ cim:'Közös keret – kioszk-próba', alcim:'Így néz ki egy játék kezdőképernyője a standon.', kep:'assets/brand/roles/kacsint.webp',
+    kartyak:[{ id:'a', cim:'Rövid kör', alcim:'5 perc, egy képernyő', ikon:'stopper', kiemelt:true, cimke:'Rövid' }, { id:'b', cim:'Hosszabb kör', alcim:'10–15 perc', ikon:'naptar' }],
+    inditas:() => toast('Itt indulna a játék'), alaphelyzet:() => {} });
+</script>
+</body>
+</html>

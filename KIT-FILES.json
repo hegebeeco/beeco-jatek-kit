@@ -38,12 +38,39 @@
   "docs/offline-es-ci.md",
   ".claude/skills/beeco-arculat/",
   "docs/jatektervezes.md",
-  ".claude/skills/beeco-jatek/"
+  ".claude/skills/beeco-jatek/",
+  "web/js/hang.js",
+  "web/js/szereplok.js",
+  "web/js/profil.js",
+  "web/js/keret/",
+  "web/css/keret.css",
+  "web/kit.html",
+  "web/keret.html",
+  "web/kit-tartalom.json",
+  "tools/kit-index.js",
+  "docs/keret.md",
+  "docs/kozos-profil.md",
+  "tools/forras.js",
+  "docs/forrasok.md",
+  "web/js/3d/",
+  "web/js/vilag/",
+  "web/modellek.html",
+  "web/vilag.html",
+  "docs/3d-vilag.md",
+  "tests/check-3d.js",
+  "web/js/mech/",
+  "web/css/mech.css",
+  "web/mechanikak.html",
+  "docs/mechanikak.md",
+  "tests/check-mech.js"
  ],
  "sablon": [
   "tests/check-arculat.js",
   "tests/check-art.js",
   "web/data/art-override.json",
-  "tests/arculat-baseline.json"
+  "tests/arculat-baseline.json",
+  "tests/check-forras.js",
+  "tools/tartalom.js",
+  "docs/tartalom-szerkesztes.md"
  ]
 }

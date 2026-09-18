@@ -1,0 +1,2508 @@
+{
+ "verzio": "1.1.0",
+ "keszult": "2026-09-18",
+ "csoportok": [
+  {
+   "cim": "Matricák (B szint)",
+   "ikon": "palette",
+   "link": "arculat.html#illusztraciok",
+   "elemek": [
+    {
+     "nev": "hutogep",
+     "info": "hűtő-fagyasztó"
+    },
+    {
+     "nev": "mosogep",
+     "info": "mosógép"
+    },
+    {
+     "nev": "szaritogep",
+     "info": "szárítógép"
+    },
+    {
+     "nev": "mosogatogep",
+     "info": "mosogatógép"
+    },
+    {
+     "nev": "suto",
+     "info": "sütő"
+    },
+    {
+     "nev": "termosztat",
+     "info": "termosztát"
+    },
+    {
+     "nev": "radiator",
+     "info": "radiátor"
+    },
+    {
+     "nev": "gazkazan",
+     "info": "gázkazán"
+    },
+    {
+     "nev": "gazora",
+     "info": "gázóra"
+    },
+    {
+     "nev": "villanyora",
+     "info": "villanyóra"
+    },
+    {
+     "nev": "vizora",
+     "info": "vízóra"
+    },
+    {
+     "nev": "mobil_klima",
+     "info": "mobil klíma"
+    },
+    {
+     "nev": "klima_kulteri",
+     "info": "kültéri klímaegység"
+    },
+    {
+     "nev": "hoszivattyu",
+     "info": "hőszivattyú"
+    },
+    {
+     "nev": "hokamera",
+     "info": "hőkamera"
+    },
+    {
+     "nev": "napelem",
+     "info": "napelem"
+    },
+    {
+     "nev": "meropohar",
+     "info": "mérőpohár"
+    },
+    {
+     "nev": "tomitoszalag",
+     "info": "tömítőszalag"
+    },
+    {
+     "nev": "locsolotomlo",
+     "info": "locsolótömlő"
+    },
+    {
+     "nev": "esovizgyujto",
+     "info": "esővízgyűjtő hordó"
+    },
+    {
+     "nev": "bevasarlokocsi",
+     "info": "bevásárlókocsi"
+    },
+    {
+     "nev": "borond",
+     "info": "bőrönd"
+    },
+    {
+     "nev": "hullam",
+     "info": "hullám"
+    },
+    {
+     "nev": "vitorlas",
+     "info": "vitorlás"
+    },
+    {
+     "nev": "napraforgo",
+     "info": "napraforgó"
+    },
+    {
+     "nev": "nyitott_lakat",
+     "info": "nyitott lakat"
+    },
+    {
+     "nev": "konfetti",
+     "info": "konfetti"
+    },
+    {
+     "nev": "serpenyo",
+     "info": "serpenyő"
+    },
+    {
+     "nev": "illegalis_lerako",
+     "info": "illegális szemétlerakó"
+    },
+    {
+     "nev": "eldobott_szemet",
+     "info": "eldobott szemét"
+    },
+    {
+     "nev": "elemgyujto",
+     "info": "elemgyűjtő doboz"
+    },
+    {
+     "nev": "kulacs",
+     "info": "kulacs"
+    },
+    {
+     "nev": "szelektiv_kukak",
+     "info": "szelektív kukák"
+    },
+    {
+     "nev": "szelturbina",
+     "info": "szélturbina"
+    },
+    {
+     "nev": "aeroszol",
+     "info": "aeroszolos flakon"
+    },
+    {
+     "nev": "pet_palack",
+     "info": "PET-palack"
+    },
+    {
+     "nev": "zold_teto",
+     "info": "zöldtető"
+    },
+    {
+     "nev": "halogen_izzo",
+     "info": "halogénizzó"
+    },
+    {
+     "nev": "regi_mobil",
+     "info": "régi mobiltelefon"
+    },
+    {
+     "nev": "hamburger",
+     "info": "hamburger"
+    },
+    {
+     "nev": "eper",
+     "info": "eper"
+    },
+    {
+     "nev": "sushi",
+     "info": "szusi"
+    },
+    {
+     "nev": "csokolade",
+     "info": "csokoládé"
+    },
+    {
+     "nev": "cukorka",
+     "info": "cukorka"
+    },
+    {
+     "nev": "krumpli",
+     "info": "krumpli"
+    },
+    {
+     "nev": "tojas",
+     "info": "tojás"
+    },
+    {
+     "nev": "tej",
+     "info": "pohár tej"
+    },
+    {
+     "nev": "mogyoro",
+     "info": "földimogyoró"
+    },
+    {
+     "nev": "gyumolcsle",
+     "info": "dobozos gyümölcslé"
+    },
+    {
+     "nev": "csirkecomb",
+     "info": "sült csirkecomb"
+    },
+    {
+     "nev": "avokado",
+     "info": "avokádó"
+    },
+    {
+     "nev": "narancs",
+     "info": "mandarin"
+    },
+    {
+     "nev": "mez",
+     "info": "mézesbödön"
+    },
+    {
+     "nev": "elviteles_doboz",
+     "info": "elviteles ételdoboz"
+    },
+    {
+     "nev": "evoeszkoz",
+     "info": "evőeszköz"
+    },
+    {
+     "nev": "udito",
+     "info": "üdítő szívószállal"
+    },
+    {
+     "nev": "kenyer",
+     "info": "kenyér"
+    },
+    {
+     "nev": "fazek",
+     "info": "fazék étel"
+    },
+    {
+     "nev": "konzerv",
+     "info": "konzervdoboz"
+    },
+    {
+     "nev": "kave",
+     "info": "kávé"
+    },
+    {
+     "nev": "banan",
+     "info": "banán"
+    },
+    {
+     "nev": "repa",
+     "info": "sárgarépa"
+    },
+    {
+     "nev": "keksz",
+     "info": "keksz"
+    },
+    {
+     "nev": "gw_szivacs",
+     "info": "Mosogatószivacs"
+    },
+    {
+     "nev": "gw_gyumolcsle",
+     "info": "Gyümölcslé"
+    },
+    {
+     "nev": "gw_testapolo",
+     "info": "Testápoló"
+    },
+    {
+     "nev": "gw_nyomtatopapir",
+     "info": "Nyomtatópapír"
+    },
+    {
+     "nev": "gw_evoeszkoz",
+     "info": "Eldobható evőeszköz"
+    },
+    {
+     "nev": "gw_sportcipo",
+     "info": "Sportcipő"
+    },
+    {
+     "nev": "gw_babaruha",
+     "info": "Babaruha"
+    },
+    {
+     "nev": "gw_irodaszek",
+     "info": "Irodaszék"
+    },
+    {
+     "nev": "gw_szallas",
+     "info": "Szálláshely"
+    },
+    {
+     "nev": "gw_falfestek",
+     "info": "Falfesték"
+    },
+    {
+     "nev": "gw_lazac",
+     "info": "Tenyésztett lazac"
+    },
+    {
+     "nev": "gw_kekszesdoboz",
+     "info": "Kekszes doboz"
+    },
+    {
+     "nev": "gw_festekkazetta",
+     "info": "Felújított festékkazetta"
+    },
+    {
+     "nev": "gw_kave",
+     "info": "Kávé"
+    },
+    {
+     "nev": "gw_udito",
+     "info": "Üdítő"
+    },
+    {
+     "nev": "gw_szatyor",
+     "info": "Bevásárlószatyor"
+    },
+    {
+     "nev": "gw_csomag",
+     "info": "Webshop-csomag"
+    },
+    {
+     "nev": "gw_tusfurdo",
+     "info": "Tusfürdő"
+    },
+    {
+     "nev": "gw_papirpohar",
+     "info": "Papírpohár"
+    },
+    {
+     "nev": "gw_farmer",
+     "info": "Farmer"
+    },
+    {
+     "nev": "gw_mosopor",
+     "info": "Mosópor"
+    },
+    {
+     "nev": "gw_novenyiital",
+     "info": "Növényi ital"
+    },
+    {
+     "nev": "gw_proteinszelet",
+     "info": "Proteinszelet"
+    },
+    {
+     "nev": "gw_szappan",
+     "info": "Szappan"
+    },
+    {
+     "nev": "gw_mogyorovaj",
+     "info": "Mogyoróvaj"
+    },
+    {
+     "nev": "gw_oblito",
+     "info": "Öblítő"
+    },
+    {
+     "nev": "gw_hamburger",
+     "info": "Hamburger"
+    },
+    {
+     "nev": "gw_chips",
+     "info": "Chipses zacskó"
+    },
+    {
+     "nev": "gw_gyumolcstalca",
+     "info": "Gyümölcstálca"
+    },
+    {
+     "nev": "gw_torolkozo",
+     "info": "Törölköző"
+    },
+    {
+     "nev": "gw_ragogumi",
+     "info": "Rágógumi"
+    },
+    {
+     "nev": "gw_csokolade",
+     "info": "Csokoládé"
+    },
+    {
+     "nev": "gw_hutoszekreny",
+     "info": "Hűtőszekrény"
+    },
+    {
+     "nev": "gw_ablaktisztito",
+     "info": "Ablaktisztító"
+    },
+    {
+     "nev": "gw_dezodor",
+     "info": "Dezodor spray"
+    },
+    {
+     "nev": "gw_repulojegy",
+     "info": "Repülőjegy"
+    },
+    {
+     "nev": "gw_naptej",
+     "info": "Naptej"
+    },
+    {
+     "nev": "gw_monitor",
+     "info": "Számítógép-monitor"
+    },
+    {
+     "nev": "gw_sushi",
+     "info": "Halas fogás"
+    },
+    {
+     "nev": "gw_ruzs",
+     "info": "Rúzs"
+    },
+    {
+     "nev": "gw_keksz",
+     "info": "Keksz"
+    },
+    {
+     "nev": "gw_hatizsak",
+     "info": "Túrahátizsák"
+    },
+    {
+     "nev": "gw_sportdzseki",
+     "info": "Sportdzseki"
+    },
+    {
+     "nev": "gw_tisztitoszer",
+     "info": "Általános tisztítószer"
+    },
+    {
+     "nev": "gw_mosogatotabletta",
+     "info": "Mosogatógép-tabletta"
+    },
+    {
+     "nev": "gw_liszt",
+     "info": "Tönkölyliszt"
+    },
+    {
+     "nev": "gw_fuzet",
+     "info": "Füzet"
+    },
+    {
+     "nev": "gw_papirtorlo",
+     "info": "Papírtörlő"
+    },
+    {
+     "nev": "gw_tonhal",
+     "info": "Tonhalkonzerv"
+    },
+    {
+     "nev": "gw_kezkrem",
+     "info": "Kézkrém"
+    },
+    {
+     "nev": "gw_szemeteszsak",
+     "info": "Szemeteszsák"
+    },
+    {
+     "nev": "gw_furdotisztito",
+     "info": "Fürdőszoba-tisztító"
+    },
+    {
+     "nev": "gw_kavekapszula",
+     "info": "Kávékapszula"
+    },
+    {
+     "nev": "gw_sampon",
+     "info": "Sampon"
+    },
+    {
+     "nev": "gw_asvanyviz",
+     "info": "Ásványvíz"
+    },
+    {
+     "nev": "gw_polo",
+     "info": "Póló"
+    },
+    {
+     "nev": "gw_mosogatoszer",
+     "info": "Mosogatószer"
+    },
+    {
+     "nev": "gw_vagodeszka",
+     "info": "Vágódeszka"
+    },
+    {
+     "nev": "gw_tisztitokendo",
+     "info": "Tisztítókendő"
+    },
+    {
+     "nev": "jegkocka",
+     "info": "jégkocka"
+    },
+    {
+     "nev": "teritek",
+     "info": "teríték"
+    },
+    {
+     "nev": "idozito",
+     "info": "időzítő"
+    },
+    {
+     "nev": "stopper",
+     "info": "stopperóra"
+    },
+    {
+     "nev": "haz",
+     "info": "ház"
+    },
+    {
+     "nev": "haz_kert",
+     "info": "ház kerttel"
+    },
+    {
+     "nev": "regi_haz",
+     "info": "öreg ház"
+    },
+    {
+     "nev": "lakat",
+     "info": "lakat"
+    },
+    {
+     "nev": "iranytu",
+     "info": "iránytű"
+    },
+    {
+     "nev": "vonalzo",
+     "info": "vonalzó"
+    },
+    {
+     "nev": "szogmero",
+     "info": "háromszög vonalzó"
+    },
+    {
+     "nev": "ollo",
+     "info": "olló"
+    },
+    {
+     "nev": "kanape",
+     "info": "kanapé"
+    },
+    {
+     "nev": "ajto",
+     "info": "ajtó"
+    },
+    {
+     "nev": "szek",
+     "info": "szék"
+    },
+    {
+     "nev": "kosar",
+     "info": "kosár"
+    },
+    {
+     "nev": "gombolyag",
+     "info": "fonalgombolyag"
+    },
+    {
+     "nev": "balta",
+     "info": "balta"
+    },
+    {
+     "nev": "izzo",
+     "info": "villanykörte"
+    },
+    {
+     "nev": "tv",
+     "info": "televízió"
+    },
+    {
+     "nev": "zuhany",
+     "info": "zuhanyfej"
+    },
+    {
+     "nev": "kad",
+     "info": "fürdőkád"
+    },
+    {
+     "nev": "wc",
+     "info": "vécé"
+    },
+    {
+     "nev": "csap",
+     "info": "vízcsap"
+    },
+    {
+     "nev": "sal",
+     "info": "sál"
+    },
+    {
+     "nev": "ablak",
+     "info": "ablak"
+    },
+    {
+     "nev": "zseblampa",
+     "info": "zseblámpa"
+    },
+    {
+     "nev": "kulcs",
+     "info": "kulcs"
+    },
+    {
+     "nev": "papirtekercs",
+     "info": "papírtekercs"
+    },
+    {
+     "nev": "tegla",
+     "info": "téglafal"
+    },
+    {
+     "nev": "cerna",
+     "info": "cérna"
+    },
+    {
+     "nev": "f_alma",
+     "info": "Alma"
+    },
+    {
+     "nev": "f_paradicsom",
+     "info": "Paradicsom"
+    },
+    {
+     "nev": "f_eper",
+     "info": "Eper"
+    },
+    {
+     "nev": "f_burgonya",
+     "info": "Burgonya"
+    },
+    {
+     "nev": "f_hagyma",
+     "info": "Vöröshagyma"
+    },
+    {
+     "nev": "f_fokhagyma",
+     "info": "Fokhagyma"
+    },
+    {
+     "nev": "f_salata",
+     "info": "Saláta"
+    },
+    {
+     "nev": "f_brokkoli",
+     "info": "Brokkoli"
+    },
+    {
+     "nev": "f_sargarepa",
+     "info": "Sárgarépa"
+    },
+    {
+     "nev": "f_uborka",
+     "info": "Uborka"
+    },
+    {
+     "nev": "f_banan",
+     "info": "Banán"
+    },
+    {
+     "nev": "f_gomba",
+     "info": "Gomba"
+    },
+    {
+     "nev": "f_citromle",
+     "info": "Citromlé"
+    },
+    {
+     "nev": "f_mez",
+     "info": "Méz"
+    },
+    {
+     "nev": "f_olivaolaj",
+     "info": "Olívaolaj"
+    },
+    {
+     "nev": "f_kenyer",
+     "info": "Kenyér"
+    },
+    {
+     "nev": "f_maradek",
+     "info": "Főtt maradék"
+    },
+    {
+     "nev": "f_tej",
+     "info": "Tej"
+    },
+    {
+     "nev": "f_joghurt",
+     "info": "Joghurt"
+    },
+    {
+     "nev": "f_tejfol",
+     "info": "Tejföl"
+    },
+    {
+     "nev": "f_felvagott",
+     "info": "Felvágott, sonka"
+    },
+    {
+     "nev": "f_tojas",
+     "info": "Tojás"
+    },
+    {
+     "nev": "f_csirke",
+     "info": "Nyers csirke"
+    },
+    {
+     "nev": "f_darlathus",
+     "info": "Darált hús"
+    },
+    {
+     "nev": "f_hal",
+     "info": "Friss hal"
+    },
+    {
+     "nev": "f_sertes",
+     "info": "Sertéskaraj"
+    },
+    {
+     "nev": "f_felenged",
+     "info": "Fagyasztott hús"
+    },
+    {
+     "nev": "f_udito",
+     "info": "Üdítő"
+    },
+    {
+     "nev": "f_ketchup",
+     "info": "Ketchup"
+    },
+    {
+     "nev": "f_mustar",
+     "info": "Mustár"
+    },
+    {
+     "nev": "f_lekvar",
+     "info": "Lekvár"
+    },
+    {
+     "nev": "f_vaj",
+     "info": "Vaj"
+    },
+    {
+     "nev": "f_sajt",
+     "info": "Sajt"
+    },
+    {
+     "nev": "imp_kave",
+     "info": "Egy csésze kávé"
+    },
+    {
+     "nev": "imp_avokado",
+     "info": "Avokádó"
+    },
+    {
+     "nev": "imp_okostelefon",
+     "info": "Okostelefon"
+    },
+    {
+     "nev": "imp_fulhallgato",
+     "info": "Vezeték nélküli fülhallgató"
+    },
+    {
+     "nev": "imp_eauto",
+     "info": "Elektromos autó"
+    },
+    {
+     "nev": "imp_repulo",
+     "info": "Rövid repülőút"
+    },
+    {
+     "nev": "imp_facebook",
+     "info": "1 óra Facebookozás"
+    },
+    {
+     "nev": "tuz",
+     "info": "láng"
+    },
+    {
+     "nev": "pamacs",
+     "info": "füstpamacs"
+    },
+    {
+     "nev": "pillango",
+     "info": "pillangó"
+    },
+    {
+     "nev": "noveny",
+     "info": "kis növény"
+    },
+    {
+     "nev": "lombfa",
+     "info": "lombos fa"
+    },
+    {
+     "nev": "halo",
+     "info": "háló"
+    },
+    {
+     "nev": "viragfej",
+     "info": "virág"
+    },
+    {
+     "nev": "zoldag",
+     "info": "zöld ág"
+    },
+    {
+     "nev": "tropusi_hal",
+     "info": "trópusi hal"
+    },
+    {
+     "nev": "fenyofa",
+     "info": "fenyőfa"
+    },
+    {
+     "nev": "csillamok",
+     "info": "csillámok"
+    },
+    {
+     "nev": "kezdo_jelveny",
+     "info": "kezdő jelvény"
+    },
+    {
+     "nev": "levelek",
+     "info": "szálló levelek"
+    },
+    {
+     "nev": "orveny",
+     "info": "örvény"
+    },
+    {
+     "nev": "teknos",
+     "info": "teknős"
+    },
+    {
+     "nev": "denever",
+     "info": "denevér"
+    },
+    {
+     "nev": "giliszta",
+     "info": "giliszta"
+    },
+    {
+     "nev": "faronk",
+     "info": "farönk"
+    },
+    {
+     "nev": "kalasz",
+     "info": "kalász"
+    },
+    {
+     "nev": "nap",
+     "info": "nap"
+    },
+    {
+     "nev": "vizcsepp",
+     "info": "vízcsepp"
+    },
+    {
+     "nev": "villam",
+     "info": "villám"
+    },
+    {
+     "nev": "hopehely",
+     "info": "hópehely"
+    },
+    {
+     "nev": "szel",
+     "info": "szél"
+    },
+    {
+     "nev": "esofelho",
+     "info": "esőfelhő"
+    },
+    {
+     "nev": "kod",
+     "info": "köd"
+    },
+    {
+     "nev": "oszi_level",
+     "info": "őszi levél"
+    },
+    {
+     "nev": "buborekok",
+     "info": "buborékok"
+    },
+    {
+     "nev": "gozolgo",
+     "info": "gőzölgő meleg"
+    },
+    {
+     "nev": "foldgolyo",
+     "info": "Föld"
+    },
+    {
+     "nev": "holdsarlo",
+     "info": "holdsarló"
+    },
+    {
+     "nev": "csillag",
+     "info": "csillag"
+    },
+    {
+     "nev": "ragyo_csillag",
+     "info": "ragyogó csillag"
+    },
+    {
+     "nev": "ujrahasznositas",
+     "info": "újrahasznosítás"
+    },
+    {
+     "nev": "zold_gomb",
+     "info": "zöld pötty"
+    },
+    {
+     "nev": "pipa_jelveny",
+     "info": "pipa jelvény"
+    },
+    {
+     "nev": "pipa",
+     "info": "pipa"
+    },
+    {
+     "nev": "jegcsapok",
+     "info": "jégcsapok"
+    },
+    {
+     "nev": "celtabla",
+     "info": "céltábla"
+    },
+    {
+     "nev": "nyul",
+     "info": "nyúl"
+    },
+    {
+     "nev": "tyuk",
+     "info": "tyúk"
+    },
+    {
+     "nev": "hal",
+     "info": "hal"
+    },
+    {
+     "nev": "beka",
+     "info": "béka"
+    },
+    {
+     "nev": "homero",
+     "info": "hőmérő"
+    },
+    {
+     "nev": "elem",
+     "info": "elem"
+    },
+    {
+     "nev": "dugvilla",
+     "info": "villásdugó"
+    },
+    {
+     "nev": "doboz",
+     "info": "kartondoboz"
+    },
+    {
+     "nev": "jegyzettabla",
+     "info": "jegyzettábla"
+    },
+    {
+     "nev": "zsirkreta",
+     "info": "zsírkréta"
+    },
+    {
+     "nev": "boritek",
+     "info": "boríték"
+    },
+    {
+     "nev": "festopaletta",
+     "info": "festőpaletta"
+    },
+    {
+     "nev": "szemetes",
+     "info": "szemetes"
+    },
+    {
+     "nev": "szemetbedobas",
+     "info": "szemét a kukába"
+    },
+    {
+     "nev": "naptar",
+     "info": "naptár"
+    },
+    {
+     "nev": "szovegbuborek",
+     "info": "szövegbuborék"
+    },
+    {
+     "nev": "kimeno",
+     "info": "kimenő tálca"
+    },
+    {
+     "nev": "nagyito",
+     "info": "nagyító"
+    },
+    {
+     "nev": "mikroszkop",
+     "info": "mikroszkóp"
+    },
+    {
+     "nev": "konyvek",
+     "info": "könyvek"
+    },
+    {
+     "nev": "toltotoll",
+     "info": "töltőtoll"
+    },
+    {
+     "nev": "nyomtato",
+     "info": "nyomtató"
+    },
+    {
+     "nev": "laptop",
+     "info": "laptop"
+    },
+    {
+     "nev": "telefonkagylo",
+     "info": "telefonkagyló"
+    },
+    {
+     "nev": "jatekvezerlo",
+     "info": "játékvezérlő"
+    },
+    {
+     "nev": "hangszoro",
+     "info": "hangszóró"
+    },
+    {
+     "nev": "fejhallgato",
+     "info": "fejhallgató"
+    },
+    {
+     "nev": "fuzet",
+     "info": "füzet"
+    },
+    {
+     "nev": "kodzar",
+     "info": "kódzár"
+    },
+    {
+     "nev": "szamla",
+     "info": "számla"
+    },
+    {
+     "nev": "okostelefon",
+     "info": "okostelefon"
+    },
+    {
+     "nev": "kemcso",
+     "info": "kémcső"
+    },
+    {
+     "nev": "csavarkulcs",
+     "info": "csavarkulcs"
+    },
+    {
+     "nev": "szerszamoslada",
+     "info": "szerszámosláda"
+    },
+    {
+     "nev": "p_rozetta",
+     "info": "öko-pecsét (rozetta)"
+    },
+    {
+     "nev": "p_baber",
+     "info": "öko-pecsét (babérkoszorú)"
+    },
+    {
+     "nev": "p_pipa",
+     "info": "öko-pecsét (pipa)"
+    },
+    {
+     "nev": "p_szalag",
+     "info": "öko-pecsét (szalag)"
+    },
+    {
+     "nev": "p_pajzs",
+     "info": "öko-pecsét (pajzs)"
+    },
+    {
+     "nev": "p_fold",
+     "info": "öko-pecsét (földgolyó)"
+    },
+    {
+     "nev": "p_pecset",
+     "info": "öko-pecsét (csillagos)"
+    },
+    {
+     "nev": "p_csepp",
+     "info": "öko-pecsét (vízcsepp)"
+    },
+    {
+     "nev": "p_fa",
+     "info": "öko-pecsét (fa)"
+    },
+    {
+     "nev": "p_cimke",
+     "info": "öko-pecsét (függőcímke)"
+    },
+    {
+     "nev": "p_erem",
+     "info": "öko-pecsét (érem)"
+    },
+    {
+     "nev": "p_hatszog",
+     "info": "öko-pecsét (hatszög)"
+    },
+    {
+     "nev": "cigaretta",
+     "info": "cigaretta"
+    },
+    {
+     "nev": "sator",
+     "info": "sátor"
+    },
+    {
+     "nev": "szatyor",
+     "info": "bevásárlószatyor"
+    },
+    {
+     "nev": "gyar",
+     "info": "gyár"
+    },
+    {
+     "nev": "bicikli",
+     "info": "bicikli"
+    },
+    {
+     "nev": "gyalogos",
+     "info": "gyalogos"
+    },
+    {
+     "nev": "kezitaska",
+     "info": "kézitáska"
+    },
+    {
+     "nev": "vonat",
+     "info": "vonat"
+    },
+    {
+     "nev": "auto",
+     "info": "autó"
+    },
+    {
+     "nev": "ruha",
+     "info": "ruha"
+    },
+    {
+     "nev": "traktor",
+     "info": "traktor"
+    },
+    {
+     "nev": "flakon",
+     "info": "pumpás flakon"
+    },
+    {
+     "nev": "repulo",
+     "info": "repülő"
+    },
+    {
+     "nev": "horgaszbot",
+     "info": "horgászbot"
+    },
+    {
+     "nev": "busz",
+     "info": "busz"
+    },
+    {
+     "nev": "lampas",
+     "info": "lámpás"
+    },
+    {
+     "nev": "cimke",
+     "info": "címke"
+    },
+    {
+     "nev": "lufi",
+     "info": "lufi"
+    },
+    {
+     "nev": "erem",
+     "info": "érem"
+    },
+    {
+     "nev": "polo",
+     "info": "póló"
+    },
+    {
+     "nev": "farmer",
+     "info": "farmer"
+    },
+    {
+     "nev": "sportcipo",
+     "info": "sportcipő"
+    },
+    {
+     "nev": "kabat",
+     "info": "kabát"
+    },
+    {
+     "nev": "sapka",
+     "info": "baseballsapka"
+    },
+    {
+     "nev": "ruzs",
+     "info": "rúzs"
+    },
+    {
+     "nev": "szappan",
+     "info": "szappan"
+    },
+    {
+     "nev": "szivacs",
+     "info": "szivacs"
+    },
+    {
+     "nev": "hatizsak",
+     "info": "hátizsák"
+    },
+    {
+     "nev": "kituntetes",
+     "info": "kitüntetés"
+    },
+    {
+     "nev": "trofea",
+     "info": "trófea"
+    },
+    {
+     "nev": "pajzs",
+     "info": "pajzs"
+    },
+    {
+     "nev": "szalloda",
+     "info": "szálloda"
+    },
+    {
+     "nev": "hudvelykujj",
+     "info": "felfelé mutató hüvelykujj"
+    },
+    {
+     "nev": "agy",
+     "info": "agy"
+    },
+    {
+     "nev": "nyomozo",
+     "info": "nyomozó"
+    },
+    {
+     "nev": "cumisuveg",
+     "info": "cumisüveg"
+    },
+    {
+     "nev": "i_pelenka",
+     "info": "Használt pelenka"
+    },
+    {
+     "nev": "i_porszivozsak",
+     "info": "Porszívózsák"
+    },
+    {
+     "nev": "i_ragogumi",
+     "info": "Rágógumi"
+    },
+    {
+     "nev": "i_tukor",
+     "info": "Tükör"
+    },
+    {
+     "nev": "i_torlokendo",
+     "info": "Nedves törlőkendő"
+    },
+    {
+     "nev": "i_almacsutka",
+     "info": "Almacsutka"
+    },
+    {
+     "nev": "i_kenyer",
+     "info": "Száraz kenyér"
+    },
+    {
+     "nev": "i_naranchej",
+     "info": "Narancshéj"
+    },
+    {
+     "nev": "i_salata",
+     "info": "Fonnyadt saláta"
+    },
+    {
+     "nev": "i_diohej",
+     "info": "Dióhéj"
+    },
+    {
+     "nev": "i_fritur",
+     "info": "Fritőrolaj"
+    },
+    {
+     "nev": "i_avasolaj",
+     "info": "Avas étolaj"
+    },
+    {
+     "nev": "i_margarin",
+     "info": "Margarin maradék"
+    },
+    {
+     "nev": "i_disznozsir",
+     "info": "Sertészsír"
+    },
+    {
+     "nev": "i_kokuszzsir",
+     "info": "Kókuszzsír"
+    },
+    {
+     "nev": "i_laptop",
+     "info": "Laptop"
+    },
+    {
+     "nev": "i_billentyuzet",
+     "info": "Billentyűzet"
+    },
+    {
+     "nev": "i_fulhallgato",
+     "info": "Fülhallgató"
+    },
+    {
+     "nev": "i_ledizzo",
+     "info": "LED-izzó"
+    },
+    {
+     "nev": "i_porszivo",
+     "info": "Porszívó"
+    },
+    {
+     "nev": "i_szemcsepp",
+     "info": "Szemcsepp"
+    },
+    {
+     "nev": "i_orrspray",
+     "info": "Orrspray"
+    },
+    {
+     "nev": "i_buborekfolia",
+     "info": "Gyógyszeres buborékfólia"
+    },
+    {
+     "nev": "i_antibiotikum",
+     "info": "Lejárt antibiotikum"
+    },
+    {
+     "nev": "i_porgyogyszer",
+     "info": "Gyógyszeres tasak"
+    },
+    {
+     "nev": "i_karacsonyfa",
+     "info": "Karácsonyfa"
+    },
+    {
+     "nev": "i_sovenynyeses",
+     "info": "Sövénynyesedék"
+    },
+    {
+     "nev": "i_toboz",
+     "info": "Toboz, termés"
+    },
+    {
+     "nev": "i_szalma",
+     "info": "Széna, szalma"
+    },
+    {
+     "nev": "i_hullottgyumolcs",
+     "info": "Lehullott gyümölcs"
+    },
+    {
+     "nev": "i_elem9v",
+     "info": "9V-os elem"
+    },
+    {
+     "nev": "i_autoakku",
+     "info": "Autó-akkumulátor"
+    },
+    {
+     "nev": "i_powerbank",
+     "info": "Powerbank"
+    },
+    {
+     "nev": "i_szerszamakku",
+     "info": "Szerszám-akku"
+    },
+    {
+     "nev": "i_ebikeakku",
+     "info": "Roller/bicikli akku"
+    },
+    {
+     "nev": "i_kabat",
+     "info": "Kabát"
+    },
+    {
+     "nev": "i_zokni",
+     "info": "Zokni"
+    },
+    {
+     "nev": "i_sal",
+     "info": "Sál, sapka"
+    },
+    {
+     "nev": "i_fuggony",
+     "info": "Függöny"
+    },
+    {
+     "nev": "i_pluss",
+     "info": "Plüssjáték"
+    },
+    {
+     "nev": "i_koromlakk",
+     "info": "Körömlakk"
+    },
+    {
+     "nev": "i_ragaszto",
+     "info": "Ragasztó, szilikon"
+    },
+    {
+     "nev": "i_homero",
+     "info": "Higanyos hőmérő"
+    },
+    {
+     "nev": "i_tisztitoszer",
+     "info": "Klóros tisztítószer"
+    },
+    {
+     "nev": "i_fagyallo",
+     "info": "Fagyálló"
+    },
+    {
+     "nev": "i_szorolap",
+     "info": "Szórólap"
+    },
+    {
+     "nev": "i_boritek",
+     "info": "Boríték"
+    },
+    {
+     "nev": "i_tojastarto",
+     "info": "Papír tojástartó"
+    },
+    {
+     "nev": "i_wcguriga",
+     "info": "WC-papír guriga"
+    },
+    {
+     "nev": "i_csomagolopapir",
+     "info": "Csomagolópapír"
+    },
+    {
+     "nev": "i_tejfolos",
+     "info": "Tejfölös doboz"
+    },
+    {
+     "nev": "i_mososzer",
+     "info": "Mosószeres flakon"
+    },
+    {
+     "nev": "i_alufolia",
+     "info": "Alufólia"
+    },
+    {
+     "nev": "i_femkupak",
+     "info": "Fém kupak, tető"
+    },
+    {
+     "nev": "i_szatyor",
+     "info": "Műanyag szatyor"
+    },
+    {
+     "nev": "i_pezsgo",
+     "info": "Pezsgősüveg"
+    },
+    {
+     "nev": "i_uditosuveg",
+     "info": "Üdítős üveg"
+    },
+    {
+     "nev": "i_bebiuveg",
+     "info": "Bébiételes üveg"
+    },
+    {
+     "nev": "i_kremestegely",
+     "info": "Krémes üvegtégely"
+    },
+    {
+     "nev": "i_ecetesuveg",
+     "info": "Ecetes üveg"
+    }
+   ]
+  },
+  {
+   "cim": "Piktogramok",
+   "ikon": "star",
+   "link": "arculat.html#ikonok",
+   "elemek": [
+    {
+     "nev": "home",
+     "info": "pic('home')"
+    },
+    {
+     "nev": "sound",
+     "info": "pic('sound')"
+    },
+    {
+     "nev": "mute",
+     "info": "pic('mute')"
+    },
+    {
+     "nev": "tip",
+     "info": "pic('tip')"
+    },
+    {
+     "nev": "full",
+     "info": "pic('full')"
+    },
+    {
+     "nev": "star",
+     "info": "pic('star')"
+    },
+    {
+     "nev": "flame",
+     "info": "pic('flame')"
+    },
+    {
+     "nev": "heart",
+     "info": "pic('heart')"
+    },
+    {
+     "nev": "timer",
+     "info": "pic('timer')"
+    },
+    {
+     "nev": "box",
+     "info": "pic('box')"
+    },
+    {
+     "nev": "wind",
+     "info": "pic('wind')"
+    },
+    {
+     "nev": "leaf",
+     "info": "pic('leaf')"
+    },
+    {
+     "nev": "info",
+     "info": "pic('info')"
+    },
+    {
+     "nev": "trophy",
+     "info": "pic('trophy')"
+    },
+    {
+     "nev": "gear",
+     "info": "pic('gear')"
+    },
+    {
+     "nev": "games",
+     "info": "pic('games')"
+    },
+    {
+     "nev": "people",
+     "info": "pic('people')"
+    },
+    {
+     "nev": "play",
+     "info": "pic('play')"
+    },
+    {
+     "nev": "close",
+     "info": "pic('close')"
+    },
+    {
+     "nev": "bee",
+     "info": "pic('bee')"
+    },
+    {
+     "nev": "music",
+     "info": "pic('music')"
+    },
+    {
+     "nev": "vibrate",
+     "info": "pic('vibrate')"
+    },
+    {
+     "nev": "motion",
+     "info": "pic('motion')"
+    },
+    {
+     "nev": "compass",
+     "info": "pic('compass')"
+    },
+    {
+     "nev": "text",
+     "info": "pic('text')"
+    },
+    {
+     "nev": "palette",
+     "info": "pic('palette')"
+    },
+    {
+     "nev": "slow",
+     "info": "pic('slow')"
+    },
+    {
+     "nev": "refresh",
+     "info": "pic('refresh')"
+    },
+    {
+     "nev": "trash",
+     "info": "pic('trash')"
+    },
+    {
+     "nev": "pause",
+     "info": "pic('pause')"
+    },
+    {
+     "nev": "back",
+     "info": "pic('back')"
+    },
+    {
+     "nev": "next",
+     "info": "pic('next')"
+    },
+    {
+     "nev": "check",
+     "info": "pic('check')"
+    },
+    {
+     "nev": "lock",
+     "info": "pic('lock')"
+    },
+    {
+     "nev": "bag",
+     "info": "pic('bag')"
+    },
+    {
+     "nev": "phone",
+     "info": "pic('phone')"
+    },
+    {
+     "nev": "board",
+     "info": "pic('board')"
+    },
+    {
+     "nev": "thermo",
+     "info": "pic('thermo')"
+    },
+    {
+     "nev": "map",
+     "info": "pic('map')"
+    },
+    {
+     "nev": "tools",
+     "info": "pic('tools')"
+    },
+    {
+     "nev": "share",
+     "info": "pic('share')"
+    },
+    {
+     "nev": "link",
+     "info": "pic('link')"
+    },
+    {
+     "nev": "diary",
+     "info": "pic('diary')"
+    },
+    {
+     "nev": "calendar",
+     "info": "pic('calendar')"
+    },
+    {
+     "nev": "unlock",
+     "info": "pic('unlock')"
+    },
+    {
+     "nev": "moon",
+     "info": "pic('moon')"
+    },
+    {
+     "nev": "pin",
+     "info": "pic('pin')"
+    },
+    {
+     "nev": "nostar",
+     "info": "pic('nostar')"
+    },
+    {
+     "nev": "todo",
+     "info": "pic('todo')"
+    },
+    {
+     "nev": "done",
+     "info": "pic('done')"
+    },
+    {
+     "nev": "menu",
+     "info": "pic('menu')"
+    },
+    {
+     "nev": "sun",
+     "info": "pic('sun')"
+    },
+    {
+     "nev": "drop",
+     "info": "pic('drop')"
+    },
+    {
+     "nev": "bolt",
+     "info": "pic('bolt')"
+    },
+    {
+     "nev": "fire",
+     "info": "pic('fire')"
+    },
+    {
+     "nev": "coin",
+     "info": "pic('coin')"
+    },
+    {
+     "nev": "photo",
+     "info": "pic('photo')"
+    },
+    {
+     "nev": "search",
+     "info": "pic('search')"
+    },
+    {
+     "nev": "cut",
+     "info": "pic('cut')"
+    },
+    {
+     "nev": "medal",
+     "info": "pic('medal')"
+    }
+   ]
+  },
+  {
+   "cim": "Tokenek",
+   "ikon": "palette",
+   "link": "arculat.html#szinek",
+   "elemek": [
+    {
+     "nev": "--honey",
+     "info": "#FECF39"
+    },
+    {
+     "nev": "--honey-deep",
+     "info": "#D8A500"
+    },
+    {
+     "nev": "--butter",
+     "info": "#FEEEBB"
+    },
+    {
+     "nev": "--olive",
+     "info": "#2F371E"
+    },
+    {
+     "nev": "--olive-soft",
+     "info": "#596B39"
+    },
+    {
+     "nev": "--leaf",
+     "info": "#6E8947"
+    },
+    {
+     "nev": "--sage",
+     "info": "#D3DDBB"
+    },
+    {
+     "nev": "--sage-bg",
+     "info": "#E3ECCD"
+    },
+    {
+     "nev": "--cream",
+     "info": "#FFF8E7"
+    },
+    {
+     "nev": "--paper",
+     "info": "#FFFDF6"
+    },
+    {
+     "nev": "--blossom",
+     "info": "#F5B4C7"
+    },
+    {
+     "nev": "--blossom-bg",
+     "info": "#FDE2E8"
+    },
+    {
+     "nev": "--berry",
+     "info": "#7A2E3F"
+    },
+    {
+     "nev": "--sky",
+     "info": "#B1DEFF"
+    },
+    {
+     "nev": "--sky-bg",
+     "info": "#D6E8F7"
+    },
+    {
+     "nev": "--ember",
+     "info": "#EA580C"
+    },
+    {
+     "nev": "--focus",
+     "info": "#2656D9"
+    },
+    {
+     "nev": "--night",
+     "info": "#1F2615"
+    },
+    {
+     "nev": "--night-surface",
+     "info": "#353F25"
+    },
+    {
+     "nev": "--bg",
+     "info": "var(--cream)"
+    },
+    {
+     "nev": "--surface",
+     "info": "var(--paper)"
+    },
+    {
+     "nev": "--ink",
+     "info": "var(--olive)"
+    },
+    {
+     "nev": "--ink-soft",
+     "info": "var(--olive-soft)"
+    },
+    {
+     "nev": "--line",
+     "info": "var(--olive)"
+    },
+    {
+     "nev": "--accent",
+     "info": "var(--honey)"
+    },
+    {
+     "nev": "--on-accent",
+     "info": "var(--olive)"
+    },
+    {
+     "nev": "--good-bg",
+     "info": "var(--sage-bg)"
+    },
+    {
+     "nev": "--good-ink",
+     "info": "var(--olive)"
+    },
+    {
+     "nev": "--good",
+     "info": "var(--leaf)"
+    },
+    {
+     "nev": "--bad-bg",
+     "info": "var(--blossom-bg)"
+    },
+    {
+     "nev": "--bad-ink",
+     "info": "var(--berry)"
+    },
+    {
+     "nev": "--scrim",
+     "info": "rgba(47,55,30,.45)"
+    },
+    {
+     "nev": "--data-before",
+     "info": "var(--blossom)"
+    },
+    {
+     "nev": "--data-after",
+     "info": "var(--leaf)"
+    },
+    {
+     "nev": "--display",
+     "info": "\"Lalezar\", \"Arial Rounded MT Bold\", \"Tre"
+    },
+    {
+     "nev": "--body",
+     "info": "\"Open Sans\", \"Segoe UI\", system-ui, -app"
+    },
+    {
+     "nev": "--fs-xs",
+     "info": "12px"
+    },
+    {
+     "nev": "--fs-s",
+     "info": "14px"
+    },
+    {
+     "nev": "--fs-m",
+     "info": "16px"
+    },
+    {
+     "nev": "--fs-l",
+     "info": "20px"
+    },
+    {
+     "nev": "--fs-xl",
+     "info": "26px"
+    },
+    {
+     "nev": "--fs-2xl",
+     "info": "34px"
+    },
+    {
+     "nev": "--fs-3xl",
+     "info": "46px"
+    },
+    {
+     "nev": "--sp-1",
+     "info": "4px"
+    },
+    {
+     "nev": "--sp-2",
+     "info": "8px"
+    },
+    {
+     "nev": "--sp-3",
+     "info": "12px"
+    },
+    {
+     "nev": "--sp-4",
+     "info": "16px"
+    },
+    {
+     "nev": "--sp-5",
+     "info": "24px"
+    },
+    {
+     "nev": "--sp-6",
+     "info": "32px"
+    },
+    {
+     "nev": "--line-w",
+     "info": "3px"
+    },
+    {
+     "nev": "--r-s",
+     "info": "12px"
+    },
+    {
+     "nev": "--r-m",
+     "info": "18px"
+    },
+    {
+     "nev": "--r-l",
+     "info": "24px"
+    },
+    {
+     "nev": "--r-xl",
+     "info": "32px"
+    },
+    {
+     "nev": "--r-pill",
+     "info": "999px"
+    },
+    {
+     "nev": "--hex",
+     "info": "polygon(50% 0, 100% 25%, 100% 75%, 50% 1"
+    },
+    {
+     "nev": "--soft",
+     "info": "0 4px 0 rgba(47,55,30,.18), 0 10px 22px "
+    },
+    {
+     "nev": "--soft-sm",
+     "info": "0 3px 0 rgba(47,55,30,.18)"
+    },
+    {
+     "nev": "--press",
+     "info": "0 4px 0 var(--olive)"
+    },
+    {
+     "nev": "--t-fast",
+     "info": ".12s"
+    },
+    {
+     "nev": "--t-base",
+     "info": ".2s"
+    },
+    {
+     "nev": "--t-slow",
+     "info": ".4s"
+    },
+    {
+     "nev": "--t-xslow",
+     "info": ".8s"
+    },
+    {
+     "nev": "--ease",
+     "info": "cubic-bezier(.2,.8,.2,1)"
+    },
+    {
+     "nev": "--bounce",
+     "info": "cubic-bezier(.34,1.56,.64,1)"
+    },
+    {
+     "nev": "--glow",
+     "info": "rgba(254,207,57,.5)"
+    },
+    {
+     "nev": "--glow-0",
+     "info": "rgba(254,207,57,0)"
+    },
+    {
+     "nev": "--shine",
+     "info": "rgba(255,255,255,.55)"
+    },
+    {
+     "nev": "--tap",
+     "info": "44px"
+    },
+    {
+     "nev": "--z-world",
+     "info": "8"
+    },
+    {
+     "nev": "--z-hud",
+     "info": "10"
+    },
+    {
+     "nev": "--z-controls",
+     "info": "12"
+    },
+    {
+     "nev": "--z-bubble",
+     "info": "16"
+    },
+    {
+     "nev": "--z-panel",
+     "info": "20"
+    },
+    {
+     "nev": "--z-popup",
+     "info": "22"
+    },
+    {
+     "nev": "--z-scene",
+     "info": "30"
+    },
+    {
+     "nev": "--z-alert",
+     "info": "40"
+    },
+    {
+     "nev": "--z-top",
+     "info": "46"
+    },
+    {
+     "nev": "--sarga",
+     "info": "var(--honey)"
+    },
+    {
+     "nev": "--fekete",
+     "info": "var(--olive)"
+    },
+    {
+     "nev": "--krem",
+     "info": "var(--cream)"
+    }
+   ]
+  },
+  {
+   "cim": "3D modellek",
+   "ikon": "box",
+   "link": "modellek.html",
+   "elemek": [
+    {
+     "nev": "fridge",
+     "info": "huto-modellek.js"
+    },
+    {
+     "nev": "door",
+     "info": "huto-modellek.js"
+    },
+    {
+     "nev": "shelf",
+     "info": "huto-modellek.js"
+    },
+    {
+     "nev": "counter",
+     "info": "huto-modellek.js"
+    },
+    {
+     "nev": "wallUnit",
+     "info": "huto-modellek.js"
+    },
+    {
+     "nev": "wall",
+     "info": "otthon-modellek.js"
+    },
+    {
+     "nev": "frame",
+     "info": "otthon-modellek.js"
+    },
+    {
+     "nev": "table",
+     "info": "otthon-modellek.js"
+    },
+    {
+     "nev": "board",
+     "info": "otthon-modellek.js"
+    },
+    {
+     "nev": "medal",
+     "info": "otthon-modellek.js"
+    },
+    {
+     "nev": "fridge",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "washer",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "dishwasher",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "boiler",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "gasmeter",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "meterbox",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "radiator",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "thermostat",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "bathtub",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "toilet",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "shower",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "barrel",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "hosereel",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "watermeter",
+     "info": "rezsi-modellek.js"
+    },
+    {
+     "nev": "wheelieBin",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "boxBin",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "barrelBin",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "bellBin",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "bin",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "fence",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "tree",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "bush",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "bed",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "lampPost",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "conveyor",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "machine",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "hallLamp",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "pipe",
+     "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "boat",
+     "info": "szelektalj-modellek.js"
+    }
+   ]
+  },
+  {
+   "cim": "Játék-mechanikák",
+   "ikon": "games",
+   "link": "mechanikak.html",
+   "elemek": [
+    {
+     "nev": "js/mech/bemutato.js",
+     "info": "A mechanikak.html bemutató mintái. SEMLEGES minta-adatok: a számok absztrakt játékértékek, nem tények"
+    },
+    {
+     "nev": "js/mech/kartya-logika.js",
+     "info": "MECHANIKA 1 – DÖNTÉSKÁRTYA: a logika (sor + késleltetett következmények)"
+    },
+    {
+     "nev": "js/mech/kartya-ui.js",
+     "info": "MECHANIKA 1 – DÖNTÉSKÁRTYA: a felület (húzás balra/jobbra, gombok, ←/→ billentyű, kirepülés)"
+    },
+    {
+     "nev": "js/mech/kombinal-logika.js",
+     "info": "MECHANIKA 4 – KOMBINÁLÁS IDŐZÍTŐVEL: a logika (Ételmentő, Körforgó háztartás)"
+    },
+    {
+     "nev": "js/mech/kombinal-ui.js",
+     "info": "MECHANIKA 4 – KOMBINÁLÁS: a felület (tárgy húzása egy másikra, időzítő-jelvény, frissesség-lépcső, receptkönyv)"
+    },
+    {
+     "nev": "js/mech/kozos.js",
+     "info": "MECHANIKÁK – közös felület-segédek (csak böngészőben; a logika-fájlok NEM függnek tőle)"
+    },
+    {
+     "nev": "js/mech/racs-logika.js",
+     "info": "MECHANIKA 2 – RÁCS + SZOMSZÉDSÁGI HATÁSOK: a logika (Élő kert, városrész-tervező)"
+    },
+    {
+     "nev": "js/mech/racs-ui.js",
+     "info": "MECHANIKA 2 – RÁCS: a felület (lapka-tálca, koppintásos lerakás, hatás-jelvények, 4 értékmérő, hőtérkép, visszavonás)"
+    },
+    {
+     "nev": "js/mech/vonal-logika.js",
+     "info": "MECHANIKA 3 – PONTOK ÖSSZEKÖTÉSE: a logika (Beporzó hálózat, zöldfolyosók, közlekedési háló)"
+    },
+    {
+     "nev": "js/mech/vonal-ui.js",
+     "info": "MECHANIKA 3 – PONTOK ÖSSZEKÖTÉSE: a felület (térkép, vonalhúzás pontról pontra, koppintás a vonalra = törlés)"
+    }
+   ]
+  },
+  {
+   "cim": "Közös keret",
+   "ikon": "home",
+   "link": "keret.html",
+   "elemek": [
+    {
+     "nev": "js/keret/beallitasok.js",
+     "info": "KERET – beállítások: hang, háttérzene, rezgés, kevesebb mozgás, vezérlés (érintés / egér)"
+    },
+    {
+     "nev": "js/keret/bridge.js",
+     "info": "KERET – kifelé menő csatorna (a befogadó weboldal vagy a beeco app felé) + névtelen mérés"
+    },
+    {
+     "nev": "js/keret/eredmeny.js",
+     "info": "KERET – kör vége panel (design system eredmény-minta: dsResultHTML)"
+    },
+    {
+     "nev": "js/keret/kioszk.js",
+     "info": "KERET – kioszk-mód rendezvényi érintőképernyőhöz (pl. Brain Bar stand) – ?kioszk=1 az URL-ben"
+    },
+    {
+     "nev": "js/profil.js",
+     "info": "KÖZÖS JÁTÉKOSPROFIL („beeco playground”) — matrica-album, napi küldetés sorozattal, jelvények, MINDEN beeco játékon át"
+    },
+    {
+     "nev": "js/hang.js",
+     "info": "közös hangkezelés a beeco játékokhoz: némítás, halk háttérzene, rövid hangjelzés, rezgés"
+    },
+    {
+     "nev": "js/szereplok.js",
+     "info": "a beeco játékok rajzolt figurái (SVG, kódból – nincs letöltendő kép)"
+    },
+    {
+     "nev": "js/qr.js",
+     "info": "a beeco app letöltéséhez (kioszk nyitóképernyő, képernyővédő, kör vége kioszkban)"
+    },
+    {
+     "nev": "js/offline.js",
+     "info": "OFFLINE MÓD – a service worker (sw.js) regisztrálása"
+    }
+   ]
+  },
+  {
+   "cim": "3D világ és hátterek",
+   "ikon": "sun",
+   "link": "vilag.html",
+   "elemek": [
+    {
+     "nev": "js/vilag/vilag-fold.js",
+     "info": "beeco VILÁG – a talaj: füves textúra, füves sík, hatszögletű méhsejt-sziget földrétegekkel, virágos rét"
+    },
+    {
+     "nev": "js/vilag/vilag-modellek.js",
+     "info": "beeco VILÁG – a háttér kódból épített 3D elemei (B szint: docs/rajzolas.md), a hatter.js / rezsi-kulso.js mintájára"
+    },
+    {
+     "nev": "js/vilag/vilag.js",
+     "info": "beeco VILÁG – önálló, paraméterezhető 3D háttér bármelyik Three.js-játékhoz (a Szelektálj! C szintű hátterének kit-változata)"
+    }
+   ]
+  },
+  {
+   "cim": "Eszközök",
+   "ikon": "tip",
+   "link": null,
+   "elemek": [
+    {
+     "nev": "tools/art-import.py",
+     "info": "!/usr/bin/env python3"
+    },
+    {
+     "nev": "tools/art-png.js",
+     "info": "Matricák PNG-be (átlátszó háttérrel) — referenciaképek a kép- és 3D-generátorokhoz"
+    },
+    {
+     "nev": "tools/art-prompts.js",
+     "info": "Kép- és 3D-generátor promptok minden matricához — node tools/art-prompts.js"
+    },
+    {
+     "nev": "tools/art-render.js",
+     "info": "Rajz-renderelő ellenőrzéshez (2D matrica és 3D modell) – a B szintű munkafolyamat része: docs/rajzolas.md"
+    },
+    {
+     "nev": "tools/art-sheet.js",
+     "info": "Matrica-ív: az illusztrációk egy képen, ellenőrzéshez (fejlesztői eszköz, nem kerül ki a webre)"
+    },
+    {
+     "nev": "tools/forras.js",
+     "info": "!/usr/bin/env node"
+    },
+    {
+     "nev": "tools/headless.js",
+     "info": "Fej nélküli Chrome/Chromium a fejlesztői eszközöknek (márka-képek, matrica-PNG-k)"
+    },
+    {
+     "nev": "tools/jatek-foto.js",
+     "info": "JÁTÉK-FOTÓ – láthatatlan böngészős ellenőrzés: saját kis statikus szerver (a web/ mappa) + fej nélküli Chrome,"
+    },
+    {
+     "nev": "tools/kit-index.js",
+     "info": "a Kalauz (web/kit.html) tartalomjegyzéke: mi van a kitben, számokkal"
+    },
+    {
+     "nev": "tools/kit-sync.js",
+     "info": "a beeco-jatek-kit közös fájljainak szinkronizálása egy játék-projekttel"
+    },
+    {
+     "nev": "tools/model-check.js",
+     "info": "3D-modell (GLB) ellenőrzése a játék kerete szerint — node tools/model-check.js <fájl.glb | mappa> [--hos]"
+    },
+    {
+     "nev": "tools/modell-kit.js",
+     "info": "3D-modell készlet Node-ban: a web/js/art/model-kit.js (ugyanaz a kód fut a játékban) + GLB-mentés"
+    },
+    {
+     "nev": "tools/modell-nezo.html",
+     "info": "<!doctype html>"
+    },
+    {
+     "nev": "tools/smoke.js",
+     "info": "SMOKE-TESZT – „elindul-e mind a hat játék?” – automatikusan minden élesítés előtt (CI), de kézzel is futtatható"
+    },
+    {
+     "nev": "tools/sw-lista.js",
+     "info": "SW-LISTA – az offline mód fájllistája (web/sw-files.json) + a gyorsítótár verziója"
+    },
+    {
+     "nev": "tools/tartalom.js",
+     "info": "!/usr/bin/env node"
+    },
+    {
+     "nev": "tools/uj-jatek.js",
+     "info": "új beeco játék-projekt létrehozása a kit sablonjából"
+    }
+   ]
+  },
+  {
+   "cim": "Szabálykönyvek",
+   "ikon": "diary",
+   "link": null,
+   "elemek": [
+    {
+     "nev": "docs/3d-vilag.md",
+     "info": "3D készlet és világ – modellek + háttér bármelyik beeco-játékhoz"
+    },
+    {
+     "nev": "docs/arculat.md",
+     "info": "beeco játékok – design system („Méhsejt-diorama”)"
+    },
+    {
+     "nev": "docs/forrasok.md",
+     "info": "Források – szám csak forrással"
+    },
+    {
+     "nev": "docs/grafika-spec.md",
+     "info": "Rajzolási útmutató — beeco illusztrációk („Méhsejt-diorama” matricák)"
+    },
+    {
+     "nev": "docs/jatektervezes.md",
+     "info": "beeco játéktervezési elvek (minden új játékra)"
+    },
+    {
+     "nev": "docs/keret.md",
+     "info": "Közös játékkeret (beeco-jatek-kit)"
+    },
+    {
+     "nev": "docs/kozos-profil.md",
+     "info": "Közös játékosprofil és a „központ” (beeco playground)"
+    },
+    {
+     "nev": "docs/mechanikak.md",
+     "info": "Játékmechanikák – közös építőelemek"
+    },
+    {
+     "nev": "docs/offline-es-ci.md",
+     "info": "Offline mód és automatikus ellenőrzés (CI)"
+    },
+    {
+     "nev": "docs/promptolas-forrasok.md",
+     "info": "AI-generátorok matricákhoz és low-poly 3D-hez – ellenőrzött tények (lekérve: 2026-09-17)"
+    },
+    {
+     "nev": "docs/promptolas.md",
+     "info": "Promptolás – jobb képek és 3D modellek a beeco stílusban"
+    },
+    {
+     "nev": "docs/rajzolas.md",
+     "info": "Rajzolási mérce – „B szint” (2D matrica és 3D modell)"
+    },
+    {
+     "nev": "docs/tartalom-szerkesztes.md",
+     "info": "Tartalom szerkesztése táblázatban (Excel / Google Táblázat)"
+    }
+   ]
+  },
+  {
+   "cim": "Claude-skillek",
+   "ikon": "bee",
+   "link": null,
+   "elemek": [
+    {
+     "nev": "beeco-arculat",
+     "info": "A beeco játékok design systemje („Méhsejt-diorama”). Használd MINDEN olyan munkánál, ami a játékok kinézetét érinti – új vagy átdolgozott képernyő, panel, gomb, HUD, menü, CSS, pik"
+    },
+    {
+     "nev": "beeco-jatek",
+     "info": "Új beeco webjáték indítása vagy fejlesztése a beeco-jatek-kit alapján (design system, B szintű matricák és 3D, sablon, kioszk/offline/CI, tervezési elvek). Használd, ha a felhaszná"
+    }
+   ]
+  }
+ ]
+}

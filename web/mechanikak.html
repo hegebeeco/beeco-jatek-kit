@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>beeco játékmechanikák</title>
+  <meta name="theme-color" content="#FECF39">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/ikon-32.png">
+  <link rel="apple-touch-icon" href="assets/brand/ikon-180.png">
+  <!--
+    ÉLŐ BEMUTATÓ: a négy közös játékmechanika (web/js/mech/) kipróbálható mintával.
+    A minta-adatok SEMLEGESEK (absztrakt játékértékek, nem tények) – a valódi tartalom a játékok JSON-jába kerül.
+    Leírás és API: docs/mechanikak.md
+  -->
+  <link rel="preload" href="assets/fonts/lalezar-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/ds.css">
+  <link rel="stylesheet" href="css/ds-game.css">
+  <link rel="stylesheet" href="css/ds-motion.css">
+  <link rel="stylesheet" href="css/mech.css">
+  <style>
+    /* csak a bemutató elrendezése – tokenekkel */
+    *{ box-sizing:border-box; }
+    [hidden]{ display:none !important; }
+    body{ margin:0; color:var(--ink); font-family:var(--body); font-size:var(--fs-m); line-height:1.5;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 1 54 16v30L28 61 2 46V16Z M28 61v36 M2 46-2 48 M54 46l4 2' fill='none' stroke='%23D8A500' stroke-opacity='.10' stroke-width='2'/%3E%3C/svg%3E"),
+        var(--bg); }   /* halvány méhsejt-minta, mint a főmenüben */
+    .wrap{ max-width:1060px; margin:0 auto; padding-inline:var(--sp-4); padding-block:var(--sp-5) 64px; }
+    header.top{ display:flex; align-items:center; gap:var(--sp-4); flex-wrap:wrap; }
+    header.top img{ width:76px; height:auto; }
+    header.top h1{ font:400 clamp(32px, 6vw, var(--fs-3xl))/1 var(--display); margin:0; }
+    .bar{ display:flex; flex-wrap:wrap; gap:var(--sp-2); align-items:center; margin-top:var(--sp-4); }
+    .bar a{ color:var(--ink); text-decoration:none; }
+    .bar label{ display:flex; align-items:center; gap:var(--sp-2); margin-left:auto; font-weight:700; font-size:var(--fs-s); }
+    section{ margin-top:var(--sp-6); scroll-margin-top:16px; }
+    section > h2{ font:400 var(--fs-2xl)/1.05 var(--display); margin:0 0 var(--sp-1); display:flex; align-items:center; gap:var(--sp-2); }
+    section > h2 .pic{ width:34px; height:34px; }
+    section > .ds-lead{ margin-bottom:var(--sp-3); }
+    .for{ margin:0 0 var(--sp-3); }
+    .demo{ background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-l); box-shadow:var(--soft); padding:var(--sp-4); }
+    .demo-row{ display:flex; gap:var(--sp-2); flex-wrap:wrap; align-items:center; margin-top:var(--sp-3); }
+    .values{ display:grid; grid-template-columns:repeat(4, 1fr); gap:var(--sp-2) var(--sp-3); width:min(100%, 520px); margin:0 auto var(--sp-4); }
+    .values > div{ display:flex; align-items:center; gap:6px; }
+    .values .ds-meter{ flex:1; }
+    .values .pic{ width:22px; height:22px; }
+    .card-art{ font-size:64px; line-height:1; } .card-art img.art{ width:84px; height:84px; vertical-align:0; }
+    .card-text{ font:400 var(--fs-l)/1.2 var(--display); margin:0; text-wrap:balance; }
+    .card-note{ font-size:var(--fs-s); color:var(--ink-soft); margin:0; }
+    pre{ margin:0 0 12px; padding:var(--sp-3); background:var(--bg); border-radius:var(--r-s); overflow-x:auto; font-size:var(--fs-xs); line-height:1.5; }
+    @media (max-width:560px){ .values{ grid-template-columns:repeat(2, 1fr); } section > h2{ font-size:var(--fs-xl); } }
+  </style>
+</head>
+<body class="ds-page">
+<div class="wrap">
+  <header class="top">
+    <img src="assets/brand/bee-happy.webp" alt="">
+    <div><h1>Játékmechanikák</h1><p class="ds-lead">Négy közös építőelem a következő beeco játékokhoz – mindegyik kipróbálható.</p></div>
+  </header>
+  <nav class="bar" aria-label="Tartalom">
+    <a class="ds-tag" href="#kartya">1 · Döntéskártya</a><a class="ds-tag" href="#racs">2 · Rács</a>
+    <a class="ds-tag" href="#vonal">3 · Összekötés</a><a class="ds-tag" href="#kombinal">4 · Kombinálás</a>
+    <label>Kevesebb mozgás <button type="button" class="ds-switch" role="switch" aria-checked="false" id="rm" aria-label="Kevesebb mozgás"></button></label>
+  </nav>
+
+  <!-- 1. DÖNTÉSKÁRTYA -->
+  <section id="kartya">
+    <h2><span data-pic="board"></span>Döntéskártya</h2>
+    <p class="ds-lead">Húzd a kártyát balra vagy jobbra (vagy gomb, ←/→) – egyes döntések később visszajönnek.</p>
+    <p class="for ds-muted">Kinek: Polgármester egy napra, Greenwashing-stílusú kártyák · <code>js/mech/kartya-*.js</code></p>
+    <div class="demo">
+      <div class="values" id="kVals"></div>
+      <div id="kDemo"></div>
+      <div class="demo-row" style="justify-content:center"><button type="button" class="ds-btn-sm" id="kAgain" hidden>Újrakezdés</button></div>
+    </div>
+    <details class="ds-details"><summary><span data-pic="text"></span>Hogyan használd?</summary><div><pre>MechKartya.mount(el, { cards, render:c =&gt; html, labels:{ left:'Nem', right:'Igen' },
+  onDecide:(side, card, kovetkezmeny) =&gt; {…}, onEnd:(tortenet) =&gt; {…} });
+// késleltetett következmény a kártyán: right:{ label:'Igen', then:{ card:{…}, after:2 } }</pre></div></details>
+  </section>
+
+  <!-- 2. RÁCS -->
+  <section id="racs">
+    <h2><span data-pic="map"></span>Rács szomszédsági hatásokkal</h2>
+    <p class="ds-lead">Válassz lapkát, koppints egy mezőre – a szomszédok egymásra hatnak, a mérők azonnal mutatják.</p>
+    <p class="for ds-muted">Kinek: Élő kert · <code>js/mech/racs-*.js</code></p>
+    <div class="demo"><div id="rDemo"></div></div>
+    <details class="ds-details"><summary><span data-pic="text"></span>Hogyan használd?</summary><div><pre>MechRacs.mount(el, { w:6, h:5, tiles:[{ type:'fa', label:'Fa', icon:'🌳' }],
+  values:[{ id:'elohely', label:'Élőhely', icon:'leaf', min:-10, max:20 }],
+  rules:{ tiles:{ fa:{ base:{ elohely:2 }, aura:{ radius:1, add:{ ho:-1 } },
+                       near:[{ type:'virag', add:{ elohely:1 }, max:2 }] } } } });</pre></div></details>
+  </section>
+
+  <!-- 3. VONAL -->
+  <section id="vonal">
+    <h2><span data-pic="link"></span>Pontok összekötése</h2>
+    <p class="ds-lead">Húzz vonalat két pont között (vagy koppints egymás után a kettőre); a vonalra koppintva törlöd.</p>
+    <p class="for ds-muted">Kinek: Beporzó hálózat · <code>js/mech/vonal-*.js</code> · <span class="ds-tag is-bad"><span data-pic="bolt"></span>kritikus: ha kiesik, szétszakad a háló</span></p>
+    <div class="demo">
+      <div id="vDemo"></div>
+      <div class="demo-row"><button type="button" class="ds-btn-sm" id="vZavar"><span data-pic="wind"></span> Zavarás: egy pont kiesik</button>
+        <button type="button" class="ds-btn-sm" id="vUjra"><span data-pic="refresh"></span> Újra</button></div>
+    </div>
+    <details class="ds-details"><summary><span data-pic="text"></span>Hogyan használd?</summary><div><pre>const v = MechVonal.mount(el, { nodes:[{ id:'a', x:10, y:20, type:'ret' }], size:[100, 60],
+  types:{ ret:{ label:'Rét', icon:'🌼' } }, maxDist:30, maxLinks:8, onChange:(m) =&gt; {…} });
+v.graph.metrics()  // { components, isolated, critical, bridges, … } · v.remove('a') = zavarás</pre></div></details>
+  </section>
+
+  <!-- 4. KOMBINÁLÁS -->
+  <section id="kombinal">
+    <h2><span data-pic="tools"></span>Kombinálás időzítővel</h2>
+    <p class="ds-lead">Húzz egy tárgyat egy másikra – ha összeillenek, új lesz belőlük; a „Következő kör” telik az idő.</p>
+    <p class="for ds-muted">Kinek: Ételmentő, Körforgó háztartás · <code>js/mech/kombinal-*.js</code></p>
+    <div class="demo"><div id="cDemo"></div></div>
+    <details class="ds-details"><summary><span data-pic="text"></span>Hogyan használd?</summary><div><pre>MechKombinal.mount(el, { slots:8, items:{ repa:{ label:'Répa', icon:'🥕', fresh:4, spoilsTo:'komposzt' } },
+  recipes:[{ a:'repa', b:'krumpli', out:'leves', time:2 }], start:['repa'], supply:['repa'] });</pre></div></details>
+  </section>
+</div>
+
+<script src="js/pics.js"></script>
+<script src="js/ds.js"></script>
+<script src="js/art/art.js"></script>
+<script src="js/art/art-nature.js"></script>
+<script src="js/art/art-nature-b.js"></script>
+<script src="js/art/art-home.js"></script>
+<script src="js/art/art-food.js"></script>
+<script src="js/art/art-things.js"></script>
+<script src="js/art/art-things-b.js"></script>
+<script src="js/art/art-extra.js"></script>
+<script src="js/art/art-office.js"></script>
+<script src="js/mech/kozos.js"></script>
+<script src="js/mech/kartya-logika.js"></script>
+<script src="js/mech/kartya-ui.js"></script>
+<script src="js/mech/racs-logika.js"></script>
+<script src="js/mech/racs-ui.js"></script>
+<script src="js/mech/vonal-logika.js"></script>
+<script src="js/mech/vonal-ui.js"></script>
+<script src="js/mech/kombinal-logika.js"></script>
+<script src="js/mech/kombinal-ui.js"></script>
+<script src="js/mech/bemutato.js"></script>
+</body>
+</html>

@@ -32,6 +32,9 @@ Játékterv: `docs/jatekterv.md`. Tervezési elvek (kötelező): `docs/jatekterv
   Matricák: `artIcon('név')` / `ART.draw()` – előbb nézd meg, van-e már (`node tools/art-sheet.js`); 370+ kész.
 * Stickeren/rajzon nincs márka, logó, felirat vagy arc. Valódi logó csak szabad forrásból (licenccel) vagy írásos engedéllyel.
 * A beeco méhecskét nem rajzoljuk újra (`web/assets/brand/`).
+* **Kész építőkockák a kitből – előbb nézd meg, van-e már:** közös keret (`docs/keret.md`: kör vége panel, beállítások, kioszk,
+  kifelé menő csatorna + mérés, hang, szereplők), közös profil (`docs/kozos-profil.md`), játék-mechanikák (`docs/mechanikak.md`:
+  döntéskártya, rácsos lerakás, vonalhúzás, kombinálás), 3D világ és modellek (`docs/3d-vilag.md`). Kalauz: `web/kit.html`.
 * **A kit közös fájljait ne itt fejleszd csendben:** ha a design systemen javítasz (új piktogram, új matrica, token), utána
   `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js . --vissza`, majd a kitben commit + push, hogy a többi játék is megkapja.
   Frissítés a kitből: `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js .`
@@ -39,6 +42,8 @@ Játékterv: `docs/jatekterv.md`. Tervezési elvek (kötelező): `docs/jatekterv
 ## 5. Adat és tények – szigorú szabály
 * **Soha ne találj ki konkrét számot, arányt vagy statisztikát.** Ha egy tényhez szám kell: `TODO: forrás kell`, és a szöveg váza szám nélkül.
   Minden számhoz hiteles forrás (hivatalos, lehetőleg 2 egyező). Valódi céget forrás nélkül nem minősítünk.
+* A számok forrása a `web/data/forrasok.json` jegyzékben; a `node tests/check-forras.js` minden forrás nélküli számot megfog.
+  Tartalom-szerkesztés táblázatban (a beeco csapatnak): `node tools/tartalom.js export|import` – `docs/tartalom-szerkesztes.md`.
 * Magyar szöveg: tegező, rövid, bátorító, nem moralizáló – rossz döntésnél is tanítunk, nem szidunk. Képernyőnként egy mondat, a többi lenyitható.
 
 ## 6. Munkamódszer

@@ -1,0 +1,73 @@
+# A beeco-jatek-kit változásai
+
+A kit verziószáma a `VERSION` fájlban van, **szemantikus verziózással** (FŐ.MELLÉK.JAVÍTÁS):
+
+* **JAVÍTÁS** (1.0.**1**) – hibajavítás, új matrica/piktogram, szövegjavítás a szabálykönyvekben; semmi nem változik, amire egy játék épít.
+* **MELLÉK** (1.**1**.0) – új lehetőség (új eszköz, új `ds-` elem, új token), ami a meglévő játékokat nem érinti.
+* **FŐ** (**2**.0.0) – olyan változás, ami miatt a játékokban is módosítani kell (átnevezés, törlés, más viselkedés). Ezt kerüljük
+  (lásd `CLAUDE.md`: csak bővítünk), és ha mégis kell, itt írjuk le, mit kell a játékokban átírni.
+
+**Kiadás menete:** a lenti „Készül” rész tételei kerülnek az új verzió alá → `VERSION` átírása → commit + push a kitben →
+a játékokban `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js .` (ez beírja a projekt `KIT-VERZIO` fájljába az új verziót).
+Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt> --check` – kiírja a projekt és a kit verzióját.
+
+## Készül (következő verzió)
+
+*(még nincs)*
+
+## 1.1.0 – 2026-09-18
+
+### Új
+* **Tartalom ⇄ táblázat (CSV) eszköz, bármelyik játékhoz** – `tools/tartalom.js`. A beeco csapat Excelben vagy Google
+  Táblázatban szerkesztheti a szövegeket: `export` → szerkesztés → `import --dry` (próba) → `import`. Hogy mi szerkeszthető,
+  azt a projekt `tartalom.config.json` fájlja írja le (JSON-fájl, tömb, id, szerkeszthető / csak olvasható / kötelező mezők,
+  max. hossz, lehetséges értékek, link- és forrásmezők, új sor felvétele). A JSON-ban csak a megváltozott értékek bájtjai
+  cserélődnek (kicsi git-diff), írás előtt önellenőrzés; magyar Excel-barát CSV (UTF-8 BOM, `;`), képlet-védelem,
+  ütközés-védelem (ellenőrző kód). Útmutató: `docs/tartalom-szerkesztes.md`. (Alapja a Szelektálj! projekt saját eszköze.)
+* **Forrásjegyzék + forrás-ellenőrzés** („szám csak forrással”) – `web/data/forrasok.json` a sablonban,
+  `tools/forras.js` + `tests/check-forras.js`: minden számot tartalmazó szövegnek forrás kell (a jegyzékből vagy http(s) link),
+  a jegyzék elemei hiánytalanok, a régi forrásra figyelmeztet; a CI minden élesítés előtt futtatja. Szabály: `docs/forrasok.md`.
+* **Kit-verzió:** `VERSION` + ez a `CHANGELOG.md`; a `tools/kit-sync.js` frissítés után `KIT-VERZIO` fájlt ír a projektbe
+  (verzió, kit-commit, dátum), a `--check` kiírja, melyik verzión van a projekt. Az `uj-jatek.js` is beírja.
+* **Sablon:** `tartalom.config.json` (a mintajáték kártyái, értékei, profiljai + a forrásjegyzék); az `uj-jatek.js`
+  `{{AZONOSITO}}` helyőrzőt is kitölt (a mappanévből: kisbetű, ékezet nélkül, „beeco-” nélkül; 4. paraméterrel felülírható).
+
+* **Közös játékkeret** (`web/js/keret/`, `web/css/keret.css`, leírás: `docs/keret.md`): kör vége panel (`keretEredmeny`),
+  beállítások (`keretBeallitasok`: hang, zene, rezgés, kevesebb mozgás, vezérlés), kifelé menő csatorna + névtelen mérés
+  (`beecoBridge`), általános kioszk-mód (`keretKioszk`, `?kioszk=1`). A sablon már ezt használja (fogaskerék, kör vége, kioszk).
+* **Közös játékosprofil („beeco playground”)** – `web/js/profil.js` (`beecoProfil`): album, napi küldetés + sorozat, jelvények
+  minden játékon át, a Szelektálj! mentési formátumával. A **központ** (közös cím, alútvonalak, Netlify-proxy): `docs/kozos-profil.md`.
+* **3D világ-készlet:** a játékok kódból épített modelljei a kitben (`web/js/3d/`: Szelektálj!, Hűtő-mester, Ökos-rejtély ház,
+  Fenntartható otthon – 42 tárgy, 50 változat, katalógus), `beecoVilag()` egy hívással: ég, nap, felhők, lebegő méhsejt-szigetek,
+  madarak, fű, hatszög-sziget, rét, napszakok, B/C minőség őrrel (`web/js/vilag/`). Galéria: `web/modellek.html`, bemutató:
+  `web/vilag.html`, leírás: `docs/3d-vilag.md`, teszt: `tests/check-3d.js`.
+* **Játék-mechanika modulok** (`web/js/mech/`, `web/css/mech.css`): húzós döntéskártya késleltetett következményekkel,
+  rácsos lerakás szomszédsági hatásokkal és hőtérképpel, vonalhúzás pontok között (kritikus pontok, elszigetelődés),
+  húzd-és-kombináld időzítővel és frissességgel. Bemutató: `web/mechanikak.html`, leírás: `docs/mechanikak.md`, teszt: `tests/check-mech.js`.
+* **Hang és szereplők:** `web/js/hang.js` (`beecoHang`: háttérzene, némítás, rezgés; a DS-hangok is ezen mennek),
+  `web/js/szereplok.js` (a Zöldi család SVG-szereplői + méhecske, bővíthető).
+* **Kalauz 2.0:** `web/kit.html` – kereshető áttekintés mindenről (adat: `web/kit-tartalom.json`, `node tools/kit-index.js`),
+  `web/keret.html` – a keret élő bemutatója.
+
+## 1.0.0 – 2026-09-18 (első kiadás, commit `9003e52`)
+
+A beeco webjátékok közös alapja, a Szelektálj! projektből kiemelve.
+
+* **Design system („Méhsejt-diorama”)** – tokenek (`web/css/tokens.css` + `web/js/ds.js`), `ds-` elemek (`ds.css`),
+  játék-minták (`ds-game.css`: buborék, csillag, eredmény-panel, jelvény…), mozgás-készlet (`ds-motion.css`, `DS.motion`),
+  piktogramok (`web/js/pics.js`), saját betűk (Lalezar + Open Sans, `web/assets/fonts/`), élő kalauz (`web/arculat.html`).
+* **Méhecskék és márkaképek** (`web/assets/brand/`, belső használatra).
+* **374 B szintű matrica kódból + 3D modell-készlet** (`web/js/art/`: `art.js`, `model-kit.js`, `art-*.js`),
+  képcsere kódmódosítás nélkül (`web/data/art-override.json`).
+* **QR-kód és offline mód** – `web/js/qr.js`, `web/js/offline.js`, `web/sw.js`, fájllista: `tools/sw-lista.js`.
+* **Eszközök** – ablak nélküli böngészős ellenőrzés (`tools/jatek-foto.js`, `tools/headless.js`), konfigurálható
+  smoke-teszt (`tools/smoke.js` + `smoke.config.json`), matrica-render/ív/PNG/prompt/import (`tools/art-*`),
+  3D-ellenőrzés és modell-néző (`tools/model-check.js`, `tools/modell-kit.js`, `tools/modell-nezo.html`).
+* **Szabálykönyvek** – arculat, rajzolási mérce (B szint), grafika-spec, promptolás (+ források), offline + CI,
+  játéktervezési elvek (`docs/`).
+* **Claude-skillek** – `beeco-arculat`, `beeco-jatek` (`.claude/skills/`).
+* **Tesztek** – `tests/check-arculat.js` (tokenek, kontraszt, racsni: `tests/arculat-baseline.json`), `tests/check-art.js`.
+* **Új játék sablon** (`sablon/`) – futó mintajáték (döntés-kártyák + rendszerértékek + profil), tartalom-teszt, CI
+  (GitHub Actions: tesztek, offline fájllista, smoke-teszt, Netlify-élesítés), offline mód, `CLAUDE.md`.
+* **Terjesztés** – `tools/uj-jatek.js` (új projekt a sablonból), `tools/kit-sync.js` (kit ⇄ projekt szinkron, `--check`,
+  `--vissza`), leltár: `KIT-FILES.json`.

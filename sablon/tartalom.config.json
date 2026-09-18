@@ -1,0 +1,49 @@
+{
+ "_readme": "Mit szerkeszthet a beeco csapat táblázatban (node tools/tartalom.js export|import) és mit ellenőriz a forrás-teszt (node tests/check-forras.js). Útmutató: docs/tartalom-szerkesztes.md, docs/forrasok.md. Mezőút ponttal: \"bal.felirat\"; tömb elemei: \"szintek[].kartyak\". Új tartalom-fájlnál vegyél fel ide egy készletet.",
+ "csvMappa": "docs/tartalom",
+ "javasoltMaxHossz": 200,
+ "keszletek": {
+  "forrasok": {
+   "cim": "Források",
+   "fajl": "web/data/forrasok.json",
+   "tipusok": [
+    { "tipus": "forrás", "tomb": "forrasok", "id": "id", "ujSor": true,
+      "szerkesztheto": { "cim": "cím", "url": "url", "kiado": "kiadó", "ev": "év", "megjegyzes": "megjegyzés" },
+      "kotelezo": ["cim", "url"],
+      "urlMezok": ["url"],
+      "szamMezok": ["ev"],
+      "maxHossz": { "megjegyzes": 0 } }
+   ]
+  },
+  "tartalom": {
+   "cim": "{{NEV}} – kártyák és szövegek",
+   "fajl": "web/data/tartalom.json",
+   "tipusok": [
+    { "tipus": "szöveg", "kulcsok": ["cim", "bevezeto"],
+      "szerkesztheto": { ".": "szöveg" }, "kotelezo": ["."] },
+    { "tipus": "kártya", "tomb": "kartyak", "id": "id",
+      "szerkesztheto": { "szoveg": "szöveg", "bal.felirat": "bal gomb", "jobb.felirat": "jobb gomb", "forras": "forrás" },
+      "csakOlvashato": { "matrica": "matrica", "bal.hatas": "bal hatás", "jobb.hatas": "jobb hatás" },
+      "kotelezo": ["szoveg", "bal.felirat", "jobb.felirat"],
+      "maxHossz": { "szoveg": 160, "bal.felirat": 30, "jobb.felirat": 30 },
+      "forrasMezok": ["forras"] },
+    { "tipus": "érték", "tomb": "ertekek", "id": "id",
+      "szerkesztheto": { "nev": "név" }, "csakOlvashato": { "matrica": "matrica" }, "kotelezo": ["nev"],
+      "maxHossz": { "nev": 20 } },
+    { "tipus": "profil", "szotar": "profilok",
+      "szerkesztheto": { "fel": "ha nő", "le": "ha csökken" }, "kotelezo": ["fel", "le"],
+      "maxHossz": { "fel": 120, "le": 120 } }
+   ]
+  }
+ },
+ "forras": {
+  "forrasFajl": "web/data/forrasok.json",
+  "forrasTomb": "forrasok[].id",
+  "fajlok": ["web/data/tartalom.json"],
+  "forrasMezok": ["forras", "forrasok"],
+  "kihagyottMezok": ["id", "matrica", "ikon", "szin", "logo", "kep"],
+  "szamKivetelek": [],
+  "regiForrasEv": 10,
+  "ketForrasSzamhoz": false
+ }
+}

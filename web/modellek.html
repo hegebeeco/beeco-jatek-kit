@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>beeco 3D modellek</title>
+  <meta name="theme-color" content="#FECF39">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/ikon-32.png">
+  <!--
+    3D MODELL-GALÉRIA: a kit minden kódból épített modellje (web/js/3d/*, web/js/vilag/vilag-modellek.js) a játék
+    fényeivel és cel-árnyalásával. A lista a web/js/3d/katalogus.js-ből jön – új modell ott, a galéria magától felveszi.
+    Kinek: Kristóf (átnézés), fejlesztő (a másolható hívás), rajzoló (B szint: 300–1200 háromszög, 4–6 szín – docs/rajzolas.md).
+  -->
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/ds.css">
+  <link rel="stylesheet" href="css/ds-game.css">
+  <style>
+    /* csak a galéria elrendezése – tokenekkel */
+    *{ box-sizing:border-box; }
+    body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:var(--fs-m); line-height:1.45; }
+    .wrap{ max-width:1320px; margin:0 auto; padding:var(--sp-4) var(--sp-4) var(--sp-6); }
+    header.top{ display:flex; align-items:center; gap:var(--sp-3); flex-wrap:wrap; }
+    header.top img{ height:44px; }
+    header.top h1{ font:400 clamp(30px, 5vw, var(--fs-3xl))/1 var(--display); margin:0; }
+    header.top .ds-lead{ flex-basis:100%; }
+    .layout{ display:grid; grid-template-columns:280px minmax(0, 1fr) 340px; gap:var(--sp-4); margin-top:var(--sp-4); align-items:start; }
+    .list{ position:sticky; top:var(--sp-3); max-height:calc(100vh - 2 * var(--sp-3)); overflow:auto; padding:var(--sp-3); }
+    .list h2{ font:400 var(--fs-l)/1.1 var(--display); margin:var(--sp-3) 0 var(--sp-1); }
+    .list h2:first-of-type{ margin-top:var(--sp-2); }
+    .item{ display:flex; justify-content:space-between; align-items:center; gap:var(--sp-2); width:100%; min-height:40px; margin:2px 0;
+      padding:6px 10px; border:2px solid transparent; border-radius:var(--r-s); background:none; color:var(--ink); cursor:pointer;
+      font:600 var(--fs-s)/1.2 var(--body); text-align:left; }
+    .item:hover{ background:var(--sage-bg); }
+    .item[aria-current="true"]{ background:var(--accent); color:var(--on-accent); border-color:var(--line); }
+    .item .n{ font:400 var(--fs-s)/1 var(--display); color:var(--ink-soft); }
+    .item[aria-current="true"] .n{ color:var(--on-accent); }
+    .viewer{ position:relative; height:min(72vh, 640px); padding:0; overflow:hidden; background:var(--sky-bg); }
+    .viewer canvas{ display:block; width:100%; height:100%; outline:none; cursor:grab; }
+    .viewer canvas:focus-visible{ outline:3px solid var(--focus); outline-offset:-3px; }
+    .viewer .hud{ position:absolute; left:var(--sp-3); right:calc(2 * var(--tap) + 3 * var(--sp-2) + var(--sp-3)); top:var(--sp-3); display:flex; gap:var(--sp-2); flex-wrap:wrap; pointer-events:none; }
+    .viewer .tools{ position:absolute; right:var(--sp-3); top:var(--sp-3); display:flex; gap:var(--sp-2); }
+    .viewer .hint{ position:absolute; left:0; right:0; bottom:var(--sp-2); text-align:center; pointer-events:none; }
+    .info{ display:grid; gap:var(--sp-3); padding:var(--sp-4); }
+    .info h2{ font:400 var(--fs-xl)/1.05 var(--display); margin:0; }
+    .row{ display:flex; gap:var(--sp-2); flex-wrap:wrap; align-items:center; }
+    .ds-seg{ flex-wrap:wrap; }
+    .part{ display:flex; align-items:center; justify-content:space-between; gap:var(--sp-2); }
+    .code{ margin:0; padding:var(--sp-2) var(--sp-3); background:var(--sage-bg); border:2px solid var(--sage); border-radius:var(--r-s);
+      font:600 13px/1.45 ui-monospace, Menlo, Consolas, monospace; white-space:pre-wrap; word-break:break-word; }
+    .lbl{ font:700 var(--fs-xs)/1 var(--body); text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); margin:0 0 var(--sp-1); }
+    @media (max-width:1180px){ .layout{ grid-template-columns:260px minmax(0, 1fr); } .info{ grid-column:2; } }
+    @media (max-width:760px){
+      .wrap{ padding-inline:var(--sp-3); }
+      .layout{ grid-template-columns:minmax(0, 1fr); gap:var(--sp-3); }
+      .viewer{ order:-2; height:52vh; } .info{ order:-1; grid-column:auto; }
+      .list{ position:static; max-height:none; }
+    }
+  </style>
+</head>
+<body class="ds-page">
+<div class="wrap">
+  <header class="top">
+    <img src="assets/brand/logo.webp" alt="beeco">
+    <h1>3D modellek</h1>
+    <p class="ds-lead">A játékok kódból épített tárgyai egy helyen – válassz egyet, és forgasd meg.</p>
+  </header>
+
+  <div class="layout">
+    <nav class="list ds-card" aria-label="Modellek">
+      <label class="ds-sr" for="q">Keresés a modellek között</label>
+      <input class="ds-input" id="q" type="search" placeholder="Keresés (pl. kuka, hűtő)" autocomplete="off">
+      <div id="list"></div>
+    </nav>
+
+    <section class="viewer ds-card" aria-label="3D nézet">
+      <canvas id="view" aria-label="A kiválasztott 3D modell – húzással forgatható, görgővel közelíthető"></canvas>
+      <div class="hud" id="hud"></div>
+      <div class="tools">
+        <button class="ds-icon-btn" id="spin" type="button" aria-pressed="true" aria-label="Automatikus forgás"></button>
+        <button class="ds-icon-btn" id="reset" type="button" aria-label="Nézet alaphelyzetbe"></button>
+      </div>
+      <p class="hint ds-muted" id="hint">Húzd a forgatáshoz · görgő vagy két ujj: közelítés</p>
+    </section>
+
+    <section class="info ds-card" aria-live="polite">
+      <div><h2 id="name">…</h2><p class="ds-muted" id="desc"></p></div>
+      <div id="variants"></div>
+      <div id="parts"></div>
+      <div><p class="lbl">Így hívd meg</p><pre class="code" id="call"></pre>
+        <div class="row" style="margin-top:var(--sp-2)"><button class="ds-btn-sm" id="copy" type="button">Hívás másolása</button>
+          <label class="part" style="gap:var(--sp-2)"><span class="ds-muted">Háló</span><button class="ds-switch" id="wire" type="button" role="switch" aria-checked="false" aria-label="Háló (háromszögek) mutatása"></button></label></div></div>
+      <details class="ds-details"><summary id="howSum">Így kerül a játékodba</summary>
+        <pre class="code" id="how"></pre>
+        <p class="ds-muted">B szint: 300–1200 háromszög, 4–6 szín, letört élek (docs/rajzolas.md). A teljes lista: node tests/check-3d.js</p></details>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/ds.js"></script>
+<script src="js/art/art.js"></script>
+<script src="js/art/model-kit.js"></script>
+<script src="js/3d/szelektalj-modellek.js"></script>
+<script src="js/3d/huto-modellek.js"></script>
+<script src="js/3d/rezsi-modellek.js"></script>
+<script src="js/3d/otthon-modellek.js"></script>
+<script src="js/vilag/vilag-modellek.js"></script>
+<script src="js/3d/katalogus.js"></script>
+<script src="js/3d/orbit.js"></script>
+<script src="js/pics.js"></script>
+<script>
+(function(){
+  const $ = s => document.querySelector(s), C = MODEL_CATALOG, W = DS.world, L = DS.light.outdoor;
+  $('#spin').innerHTML = pic('refresh'); $('#reset').innerHTML = pic('compass'); $('#howSum').insertAdjacentHTML('afterbegin', pic('info'));
+
+  // ---- 3D: a játék beállításai (sRGB kimenet, DS.light.outdoor, 3 fokozatú cel-árnyalás) ----
+  const canvas = $('#view'), renderer = new THREE.WebGLRenderer({ canvas, antialias:true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  const scene = new THREE.Scene(); scene.background = new THREE.Color(W.background);
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.05, 400);
+  scene.add(new THREE.HemisphereLight(L.hemiSky, L.hemiGround, L.hemi));
+  const sun = new THREE.DirectionalLight(L.sunColor, L.sun); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0004;
+  scene.add(sun, sun.target);
+  const GRAD = (() => { const c = document.createElement('canvas'); c.width = 3; c.height = 1; const x = c.getContext('2d');
+    [138, 207, 255].forEach((v, i) => { x.fillStyle = `rgb(${v},${v},${v})`; x.fillRect(i, 0, 1, 1); });
+    const t = new THREE.CanvasTexture(c); t.minFilter = t.magFilter = THREE.NearestFilter; return t; })();
+  let wire = false;
+  const mat = (hex, key) => new THREE.MeshToonMaterial(Object.assign({ color:hex, gradientMap:GRAD, wireframe:wire },
+    String(key).startsWith('glass') ? { transparent:true, opacity:0.5, depthWrite:false } : {}));   // üveg: áttetsző, mint a játékban
+
+  // méhsejt-sziget a tárgy alatt (a kert kicsiben): füves hatszög, mézszínű oldal. A játékban a talaj textúrás (sRGB → lineáris),
+  // ezért itt a sima színt lineárisra váltjuk – különben a napfényben kifehéredne (a modellek színe viszont pontosan a játéké)
+  const lin = hex => new THREE.Color(hex).convertSRGBToLinear();
+  const island = new THREE.Group();
+  const top = new THREE.Mesh(new THREE.CircleGeometry(1, 6), mat(lin(W.grass))); top.rotation.x = -Math.PI / 2; top.rotation.z = Math.PI / 6; top.receiveShadow = true;
+  const side = new THREE.Mesh(new THREE.CylinderGeometry(1, 0.86, 0.22, 6, 1, true), mat(lin(W.islandSide))); side.rotation.y = Math.PI / 6; side.position.y = -0.111;
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.86, 0.6, 0.14, 6), mat(lin(W.islandBase))); base.rotation.y = Math.PI / 6; base.position.y = -0.29;
+  island.add(top, side, base); scene.add(island);
+
+  const orb = beecoOrbit(THREE, camera, canvas, { az:35, el:18 });
+  let cur = null, shown = null, home = null;
+
+  // ---- lista ----
+  const list = $('#list'), items = [];
+  const tris = it => { const p = C.parts(it.variants[0].build()); return p.reduce((a, [, m]) => a + m.stats().tris, 0); };
+  for(const g of C.GROUPS){
+    const its = C.LIST.filter(i => i.group === g); if(!its.length) continue;
+    const h = document.createElement('h2'); h.textContent = g; list.appendChild(h);
+    for(const it of its){ const b = document.createElement('button'); b.type = 'button'; b.className = 'item'; b.dataset.id = it.id;
+      b.innerHTML = `<span>${it.name}</span><span class="n">${tris(it)} △</span>`; b.onclick = () => show(it.id, 0, true);
+      list.appendChild(b); items.push([b, it, h]); }
+  }
+  $('#q').addEventListener('input', e => { const q = e.target.value.trim().toLowerCase();
+    for(const [b, it] of items) b.hidden = q && !(it.name + ' ' + it.desc + ' ' + it.group).toLowerCase().includes(q);
+    for(const h of list.querySelectorAll('h2')){ let n = h.nextElementSibling, any = false; while(n && n.tagName !== 'H2'){ any = any || !n.hidden; n = n.nextElementSibling; } h.hidden = !any; } });
+
+  // ---- megjelenítés ----
+  function disposeShown(){ if(!shown) return; scene.remove(shown.root);
+    shown.root.traverse(n => { if(n.isMesh){ n.geometry.dispose(); n.material.dispose(); } }); shown = null; }
+  function show(id, vi, focusList){
+    const it = C.LIST.find(i => i.id === id) || C.LIST[0], va = it.variants[vi] || it.variants[0]; vi = it.variants.indexOf(va);
+    cur = { it, vi }; disposeShown();
+    const root = new THREE.Group(), parts = C.parts(va.build()).map(([name, m]) => {
+      const g = m.toThree(THREE, { material:mat, castShadow:true, receiveShadow:true }); g.name = name; root.add(g); return { name, m, g, on:true }; });
+    shown = { root, parts, va }; scene.add(root);
+    // talp y = 0, középre; a sziget és a kamera a mérethez igazodik
+    const box = new THREE.Box3().setFromObject(root), size = box.getSize(new THREE.Vector3()), c = box.getCenter(new THREE.Vector3());
+    root.position.set(-c.x, -box.min.y, -c.z);
+    const R = Math.max(size.x, size.z) * 0.72 + 0.3; island.scale.set(R, Math.max(R * 0.6, 0.6), R);
+    const rad = size.length() / 2, dist = rad / Math.sin(camera.fov * Math.PI / 360) * 1.3;
+    home = { target:[0, size.y * 0.45, 0], dist, az:it.front === '-z' ? 215 : 35, el:18, minDist:rad * 0.6, maxDist:dist * 4 }; orb.set(home);
+    const sb = Math.max(size.x, size.y, size.z) * 1.2 + 1;
+    Object.assign(sun.shadow.camera, { left:-sb, right:sb, top:sb, bottom:-sb, near:0.1, far:sb * 6 }); sun.shadow.camera.updateProjectionMatrix();
+    sun.position.set(0.45 * sb * 2, sb * 2, 0.25 * sb * 2);
+    const nav = list.parentElement;                                    // asztali nézetben a lista saját görgetősáv – csak azt görgetjük, az oldalt nem
+    for(const [b, i] of items){ const on = i === it; b.setAttribute('aria-current', on);
+      if(on && focusList === false && nav.scrollHeight > nav.clientHeight + 4) nav.scrollTop = b.offsetTop - nav.clientHeight / 2; }
+    $('#name').textContent = it.name; $('#desc').textContent = it.desc; $('#call').textContent = va.call;
+    $('#how').textContent = howTo(va.call);
+    // változatok
+    $('#variants').innerHTML = it.variants.length > 1 ? `<p class="lbl">Változat</p><div class="ds-seg" role="radiogroup" aria-label="Változat">${
+      it.variants.map((v, k) => `<button type="button" role="radio" aria-checked="${k === vi}" data-k="${k}">${v.label}</button>`).join('')}</div>` : '';
+    $('#variants').querySelectorAll('button').forEach(b => b.onclick = () => show(it.id, +b.dataset.k));
+    // részek (pl. hőkamera-rész, dér, üvegfal)
+    $('#parts').innerHTML = parts.length > 1 ? '<p class="lbl">Részek</p>' + parts.map((p, k) => `<div class="part"><span>${PART_NAMES[p.name] || p.name} <span class="ds-muted">${p.m.stats().tris} △</span></span>
+      <button class="ds-switch" type="button" role="switch" aria-checked="true" data-k="${k}" aria-label="${PART_NAMES[p.name] || p.name} mutatása"></button></div>`).join('') : '';
+    $('#parts').querySelectorAll('.ds-switch').forEach(b => b.onclick = () => { const p = parts[+b.dataset.k]; p.on = !p.on; p.g.visible = p.on; b.setAttribute('aria-checked', p.on); stats(); });
+    stats();
+    history.replaceState(null, '', '#' + it.id + (vi ? '/' + vi : ''));
+  }
+  const PART_NAMES = { body:'Test', heat:'Hőcserélő / ajtó (hőkamera)', frost:'Dér és jégcsap', eco:'„Új gép” címke', glass:'Üvegfal' };
+  function stats(){
+    const on = shown.parts.filter(p => p.on); let t = 0; const cols = new Set();
+    for(const p of on){ t += p.m.stats().tris; for(const k of p.m.groups().keys()) cols.add(k); }
+    const inB = t >= 300 && t <= 1200, verdict = inB ? `<span class="ds-tag is-good">${pic('check')}B szint</span>` : `<span class="ds-tag">${t < 300 ? 'kisebb tárgy' : 'nagyobb tárgy'}</span>`;
+    $('#hud').innerHTML = `<span class="ds-chip is-small is-honey">${t} △</span><span class="ds-chip is-small">${pic('palette')}${cols.size} szín</span>${verdict}`;
+  }
+  const howTo = call => ['<script src="js/art/art.js"><\/script>', '<script src="js/art/model-kit.js"><\/script>',
+    `<script src="${FILES[call.split('.')[0]] || '…'}"><\/script>`, '', `const m = ${call};`,
+    `const g = ${/^(RZ_MODELS)/.test(call) ? '(m.body)' : 'm'}.toThree(THREE, { material: hex => new THREE.MeshToonMaterial({ color: hex, gradientMap: GRAD }) });`, 'scene.add(g);'].join('\n');
+  const FILES = { SZ_MODELS:'js/3d/szelektalj-modellek.js', HUTO_MODELS:'js/3d/huto-modellek.js', RZ_MODELS:'js/3d/rezsi-modellek.js', OT_MODELS:'js/3d/otthon-modellek.js', VILAG_MODELS:'js/vilag/vilag-modellek.js' };
+
+  // ---- gombok ----
+  $('#copy').onclick = async () => { try{ await navigator.clipboard.writeText($('#call').textContent); $('#copy').textContent = 'Másolva ✓'; }
+    catch(e){ const r = document.createRange(); r.selectNodeContents($('#call')); getSelection().removeAllRanges(); getSelection().addRange(r); $('#copy').textContent = 'Kijelölve – Ctrl+C'; }
+    setTimeout(() => $('#copy').textContent = 'Hívás másolása', 1600); };
+  $('#spin').onclick = () => { orb.auto = !orb.auto; $('#spin').setAttribute('aria-pressed', orb.auto); };
+  $('#reset').onclick = () => home && orb.set(home);
+  $('#wire').onclick = () => { wire = !wire; $('#wire').setAttribute('aria-checked', wire);
+    shown.root.traverse(n => { if(n.isMesh) n.material.wireframe = wire; }); };
+
+  // ---- méret és képkocka-ciklus ----
+  function resize(){ const r = canvas.parentElement.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / Math.max(1, r.height); camera.updateProjectionMatrix(); }
+  new ResizeObserver(resize).observe(canvas.parentElement); resize();
+  let last = performance.now();
+  (function loop(now){ requestAnimationFrame(loop); const dt = Math.min((now - last) / 1000, 0.1); last = now; orb.update(dt); renderer.render(scene, camera); })(last);
+
+  const [hid, hv] = decodeURIComponent(location.hash.slice(1)).split('/');
+  show(hid || 'sz-bin', +hv || 0, false);
+  window.GALERIA = { show, get current(){ return cur && { id:cur.it.id, variant:cur.vi }; } };   // a képernyőképes ellenőrzéshez (tools/jatek-foto.js)
+})();
+</script>
+</body>
+</html>
