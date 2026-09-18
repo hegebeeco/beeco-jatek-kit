@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.2.1 – 2026-09-18
+* A 2D hátterek bemutató-oldala (hatterek.html) sem kerül az offline fájllistába.
+
 ## 1.2.0 – 2026-09-18 (design system 1.2)
 * **10 új `ds-` elem** (`web/css/ds-ext.css`, `web/js/ds-ext.js`, bemutató: `arculat.html` → Új elemek): változásjelző
   (`dsDeltaHTML`, `DS.delta.show`, `dsMeterHTML` szellem-szakasszal), profil-ábra (`dsProfileHTML` radar/sávok), forrás-sor és
