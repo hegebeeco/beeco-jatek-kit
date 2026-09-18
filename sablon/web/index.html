@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{{NEV}} – beeco</title>
+  <meta name="description" content="{{LEIRAS}}" />
+  <meta name="theme-color" content="#FECF39" />
+  <link rel="icon" href="assets/brand/ikon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/brand/ikon-180.png" />
+  <link rel="preload" href="assets/fonts/lalezar-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <!-- DESIGN SYSTEM (beeco-jatek-kit) – mindig a játék saját CSS-e ELŐTT -->
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/ds.css">
+  <link rel="stylesheet" href="css/ds-game.css">
+  <link rel="stylesheet" href="css/ds-motion.css">
+  <link rel="stylesheet" href="css/jatek.css">
+</head>
+<body>
+  <main id="jatek" aria-live="polite"></main>
+  <!-- a kit: piktogramok, design system JS, matricák (csak a szükséges art-*.js fájlokat töltsd be) -->
+  <script src="js/pics.js"></script>
+  <script src="js/ds.js"></script>
+  <script src="js/art/art.js"></script>
+  <script src="js/art/art-home.js"></script>
+  <script src="js/art/art-nature.js"></script>
+  <script src="js/art/art-nature-b.js"></script>
+  <script src="js/art/art-things.js"></script>
+  <script src="js/art/art-things-b.js"></script>
+  <script src="js/art/art-extra.js"></script>
+  <script src="js/art/art-office.js"></script>
+  <!-- a játék -->
+  <script src="js/jatek.js"></script>
+  <script src="js/offline.js"></script>            <!-- offline mód (service worker) – docs/offline-es-ci.md -->
+</body>
+</html>

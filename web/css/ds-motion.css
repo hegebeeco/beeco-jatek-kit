@@ -1,0 +1,65 @@
+/* ============================================================
+   beeco design system — MOZGÁS-KÉSZLET (a ds.css / ds-game.css párja)
+   Az alapokat (pop, shake, float, spin, in) a ds-game.css adja; itt a bővítés: érkezés, pecsét, pipa,
+   pontszám-felszállás, méhzümmögés, mézes ragyogás, fénycsík, lapozás, figyelemfelhívás.
+   Szabályok: minden mozgás token-időzítéssel (--t-*, --ease, --bounce) megy, legfeljebb egy „főszereplő"
+   mozog egy képernyőn, és a „Kevesebb mozgás" beállítás (.reduce-motion) és a rendszerbeállítás MINDET leállítja.
+   Segédek: DS.motion.play/again/burst/countUp (web/js/ds.js). Bemutató: web/arculat.html → Mozgás.
+   ============================================================ */
+
+/* ---- 1. Érkezés és távozás ---------------------------------------------------------------- */
+@keyframes dsDrop{ 0%{ transform:translateY(-28px) scale(.9, 1.06); opacity:0; } 60%{ opacity:1; }
+  80%{ transform:translateY(0) scale(1.06, .94); } 100%{ transform:none; } }          /* matrica leérkezik, kicsit „megnyekken" */
+@keyframes dsSlideL{ from{ transform:translateX(26px); opacity:0; } to{ transform:none; opacity:1; } }
+@keyframes dsSlideR{ from{ transform:translateX(-26px); opacity:0; } to{ transform:none; opacity:1; } }
+@keyframes dsOut{ to{ transform:translateY(8px) scale(.96); opacity:0; } }
+.ds-anim-drop{ animation:dsDrop var(--t-slow) var(--bounce) both; }
+.ds-anim-slide-l{ animation:dsSlideL var(--t-base) var(--ease) both; }
+.ds-anim-slide-r{ animation:dsSlideR var(--t-base) var(--ease) both; }
+.ds-anim-out{ animation:dsOut var(--t-base) var(--ease) both; }
+
+/* ---- 2. Ítélet, jutalom -------------------------------------------------------------------- */
+/* lecsapó pecsét – a végállás az elem saját szögéhez igazodik (--stamp-rot) */
+@keyframes dsStamp{ 0%{ transform:scale(1.9) rotate(calc(var(--stamp-rot, -7deg) - 8deg)); opacity:0; } 55%{ opacity:1; }
+  70%{ transform:scale(.94) rotate(var(--stamp-rot, -7deg)); } 100%{ transform:scale(1) rotate(var(--stamp-rot, -7deg)); opacity:1; } }
+@keyframes dsTick{ 0%{ transform:scale(.4) rotate(-18deg); opacity:0; } 60%{ transform:scale(1.15) rotate(4deg); opacity:1; } 100%{ transform:none; } }
+@keyframes dsRise{ 0%{ transform:translateY(6px) scale(.9); opacity:0; } 25%{ transform:translateY(0) scale(1); opacity:1; }
+  100%{ transform:translateY(-34px) scale(1); opacity:0; } }                            /* felszálló pontszám: +120 */
+.ds-anim-stamp{ animation:dsStamp var(--t-slow) var(--bounce) both; }
+.ds-anim-tick{ animation:dsTick var(--t-slow) var(--bounce) both; }
+.ds-anim-rise{ animation:dsRise var(--t-xslow) var(--ease) both; }
+
+/* ---- 3. Élet és figyelem -------------------------------------------------------------------- */
+@keyframes dsBuzz{ 0%,100%{ transform:rotate(0); } 25%{ transform:rotate(-3deg) translateY(-1px); } 75%{ transform:rotate(3deg) translateY(1px); } }
+@keyframes dsGlow{ 0%,100%{ box-shadow:0 0 0 0 var(--glow); } 50%{ box-shadow:0 0 0 10px var(--glow-0); } }
+@keyframes dsPulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.05); } }
+@keyframes dsSweep{ to{ background-position:-200% 0; } }                                /* fénycsík végigfut a felületen */
+.ds-anim-buzz{ animation:dsBuzz .5s var(--ease) infinite; }
+.ds-anim-glow{ animation:dsGlow 1.6s var(--ease) infinite; border-radius:inherit; }
+.ds-anim-pulse{ animation:dsPulse 1.8s var(--ease) infinite; }
+.ds-anim-sweep{ position:relative; overflow:hidden; }
+.ds-anim-sweep::after{ content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(100deg, transparent 35%, var(--shine) 50%, transparent 65%); background-size:200% 100%;
+  animation:dsSweep 2.6s var(--ease) infinite; }
+
+/* ---- 4. Lapozás (kártya megfordul) ---------------------------------------------------------- */
+@keyframes dsFlip{ from{ transform:rotateY(-90deg); opacity:.4; } to{ transform:none; opacity:1; } }
+.ds-anim-flip{ animation:dsFlip var(--t-slow) var(--ease) both; backface-visibility:hidden; }
+
+/* ---- 5. Sorban érkezés: egy listán a ds-delay-1…4 lépcsőzi az elemeket ------------------------ */
+.ds-delay-1{ animation-delay:.08s; } .ds-delay-2{ animation-delay:.16s; } .ds-delay-3{ animation-delay:.24s; } .ds-delay-4{ animation-delay:.32s; }
+
+/* ---- 6. Röppenő darabkák (DS.motion.burst) – hatszögek és csillagok a jó válaszhoz ------------- */
+.ds-piece{ position:fixed; width:12px; height:13px; z-index:var(--z-alert); pointer-events:none;
+  clip-path:var(--hex); background:var(--accent); animation:dsPiece var(--t-xslow) var(--ease) forwards; }
+.ds-piece.is-leaf{ background:var(--leaf); } .ds-piece.is-blossom{ background:var(--blossom); } .ds-piece.is-sky{ background:var(--sky); }
+@keyframes dsPiece{ 0%{ transform:translate(0,0) scale(.6) rotate(0); opacity:1; }
+  100%{ transform:translate(var(--dx), var(--dy)) scale(1) rotate(var(--rot)); opacity:0; } }
+
+/* ---- 7. „Kevesebb mozgás" (beállítás vagy rendszerszintű kérés): minden áll --------------------- */
+@media (prefers-reduced-motion: reduce){
+  [class*="ds-anim-"], .ds-piece{ animation:none !important; }
+  .ds-anim-sweep::after{ animation:none !important; display:none; }
+}
+.reduce-motion [class*="ds-anim-"], .reduce-motion .ds-piece{ animation:none !important; }
+.reduce-motion .ds-anim-sweep::after{ display:none; }

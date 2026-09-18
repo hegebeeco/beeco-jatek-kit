@@ -1,0 +1,159 @@
+<!doctype html>
+<!-- ============================================================
+     Modell-néző: egy generált 3D modell (GLB) a játék fényeivel, cel-árnyalásával és méhsejt-szigetén.
+     Megnyitás: dupla kattintás a fájlra (böngészőben), majd húzd rá a .glb fájlt – vagy ?url=utvonal.glb
+     Felvételhez: &ui=0 (panelek nélkül) &spin=0 (álló kamera) &az=35&el=20 (nézőszög fokban) &dist=4 (távolság)
+     Mit mutat? háromszögszám, textúrák, keret szerinti ítélet (ugyanaz, mint: node tools/model-check.js),
+     és ha a fájlnév egy matrica neve (pl. mosogep.glb), mellé teszi a kódmatricát összevetésnek.
+     Fejlesztői eszköz – nem kerül ki a webre (a Three.js-bővítmények a jsDelivr-ről jönnek, a CSP élesben nem engedné).
+     ============================================================ -->
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>beeco modell-néző</title>
+<link rel="icon" type="image/png" href="../web/assets/brand/ikon-32.png">
+<link rel="stylesheet" href="../web/css/fonts.css">
+<link rel="stylesheet" href="../web/css/tokens.css">
+<link rel="stylesheet" href="../web/css/ds.css">
+<style>
+  html, body { margin:0; height:100%; font-family:var(--body); color:var(--ink); overflow:hidden;
+    background:linear-gradient(var(--sky-bg), var(--bg)); }
+  #view { position:fixed; inset:0; }
+  .side { position:fixed; top:var(--sp-3); left:var(--sp-3); width:min(340px, calc(100vw - 32px)); display:grid; gap:var(--sp-2); z-index:2; }
+  .side h1 { font:400 var(--fs-xl)/1 var(--display); margin:0; }
+  .ds-card { padding:var(--sp-3) var(--sp-4); }
+  .row { display:flex; gap:var(--sp-2); flex-wrap:wrap; align-items:center; }
+  .stat { font-size:var(--fs-s); line-height:1.5; margin:0; }
+  .stat li { margin:2px 0; }
+  .ok { color:var(--good-ink); } .bad { color:var(--bad-ink); font-weight:700; }
+  #drop { position:fixed; inset:0; display:none; place-items:center; background:var(--scrim); color:var(--cream); font:400 var(--fs-2xl) var(--display); z-index:5; }
+  body.dragging #drop { display:grid; }
+  #ref { position:fixed; right:var(--sp-3); top:var(--sp-3); width:150px; text-align:center; z-index:2; }
+  #ref img { width:130px; height:130px; }
+  #ref[hidden] { display:none; }
+</style>
+</head>
+<body>
+<div id="view"></div>
+<div class="side">
+  <div class="ds-card"><h1>Modell-néző</h1>
+    <p class="stat">Húzd ide a <b>.glb</b> fájlt, vagy válaszd ki. A játék fényeivel és cel-árnyalásával látod.</p>
+    <div class="row"><label class="ds-btn is-small" for="file">GLB kiválasztása</label><input id="file" type="file" accept=".glb" hidden>
+      <button class="ds-btn-sm" id="toon" type="button" aria-pressed="true">Játék-anyag</button>
+      <button class="ds-btn-sm" id="spin" type="button" aria-pressed="true">Forgás</button></div>
+  </div>
+  <div class="ds-card" id="info"><p class="stat">Még nincs betöltve modell – a szigeten egy kódból épített minta-kuka áll.</p></div>
+</div>
+<div class="ds-card" id="ref" hidden><img alt=""><p class="stat">a kódmatrica</p></div>
+<div id="drop">Engedd el a GLB-t</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="../web/js/ds.js"></script>
+<script>window.ART_DATA = '../web/data/';</script>
+<script src="../web/js/art/art.js"></script>
+<script>
+  // matrica-könyvtárak az összevetéshez (ugyanazok a fájlok, mint a játékban)
+  ['nature', 'home', 'office', 'food', 'huto', 'huto-kamra', 'things', 'waste', 'waste-b', 'waste-special', 'waste-special-b', 'pecset', 'gw', 'gw-b', 'gw-c', 'gw-d', 'imp', 'waste-special-b', 'devices', 'extra']
+    .forEach(n => document.write(`<script src="../web/js/art/art-${n}.js"><\/script>`));
+</script>
+<script>
+  // A keret: ugyanaz, mint a tools/model-check.js „normal” kerete (mobilon 30 fps, gyors betöltés – a mi döntésünk)
+  const BUDGET = { tris:5000, textures:2, texSize:1024, materials:8 };
+  const $ = s => document.querySelector(s);
+  const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.outputEncoding = THREE.sRGBEncoding; renderer.shadowMap.enabled = true;
+  $('#view').appendChild(renderer.domElement);
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(40, 1, 0.05, 200);
+  camera.position.set(3.2, 2.4, 4.2);
+  const controls = new THREE.OrbitControls(camera, renderer.domElement); controls.target.set(0, 0.8, 0); controls.enableDamping = true; controls.autoRotate = true;
+
+  // a játék fényei és cel-árnyalása (web/index.html: DS.light.outdoor, 3 fokozatú toon-átmenet)
+  const LO = DS.light.outdoor;
+  scene.add(new THREE.HemisphereLight(new THREE.Color(LO.hemiSky).convertSRGBToLinear(), new THREE.Color(LO.hemiGround).convertSRGBToLinear(), LO.hemi));
+  const sun = new THREE.DirectionalLight(LO.sunColor, LO.sun); sun.position.set(9, 16, 5); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024);
+  Object.assign(sun.shadow.camera, { left:-4, right:4, top:4, bottom:-4 }); scene.add(sun);
+  const GRAD = (() => { const c = document.createElement('canvas'); c.width = 3; c.height = 1; const x = c.getContext('2d');
+    ['#8a8a8a', '#cfcfcf', '#fff'].forEach((col, i) => { x.fillStyle = col; x.fillRect(i, 0, 1, 1); });
+    const t = new THREE.CanvasTexture(c); t.minFilter = t.magFilter = THREE.NearestFilter; return t; })();
+  const toon = (color, map) => new THREE.MeshToonMaterial({ color, map:map || null, gradientMap:GRAD });
+  // a design system hex-színei sRGB-ben vannak, a GLB színei lineárisak → a téma színeit lineárisra váltjuk, hogy egy térben legyenek
+  const lin = hex => new THREE.Color(hex).convertSRGBToLinear();
+
+  // méhsejt-sziget (mint a kertben, kicsiben)
+  const island = new THREE.Mesh(new THREE.CircleGeometry(2.2, 6), toon(lin(DS.world.grass))); island.rotation.x = -Math.PI / 2; island.rotation.z = Math.PI / 6; island.receiveShadow = true; scene.add(island);
+  const side = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 1.9, 0.5, 6, 1, true), toon(lin(DS.world.islandSide))); side.rotation.y = Math.PI / 6; side.position.y = -0.25; scene.add(side);
+
+  // minta: kódból épített low-poly kuka (amíg nincs betöltött modell)
+  let model = new THREE.Group();
+  (() => { const body = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.36, 1.1, 8), toon(lin(DS.world.grassTuft))); body.position.y = 0.55;
+    const lid = new THREE.Mesh(new THREE.CylinderGeometry(0.46, 0.46, 0.12, 8), toon(lin(DS.color.honey))); lid.position.y = 1.16;
+    [body, lid].forEach(m => { m.castShadow = true; model.add(m); }); scene.add(model); })();
+  let originals = new Map(), useToon = true;
+
+  function fit(obj){   // talppont y = 0, középre, ~1,6 egység magasra
+    const box = new THREE.Box3().setFromObject(obj), size = box.getSize(new THREE.Vector3()), k = 1.6 / Math.max(size.y, size.x * 0.8, size.z * 0.8, 1e-6);
+    obj.scale.multiplyScalar(k); const b2 = new THREE.Box3().setFromObject(obj), c = b2.getCenter(new THREE.Vector3());
+    obj.position.x -= c.x; obj.position.z -= c.z; obj.position.y -= b2.min.y;
+  }
+  function applyMaterials(){
+    model.traverse(o => { if(!o.isMesh) return;
+      if(!originals.has(o)) originals.set(o, o.material);
+      const src = originals.get(o), list = Array.isArray(src) ? src : [src];
+      const conv = list.map(m => toon(m.color ? m.color.clone() : new THREE.Color(1, 1, 1), m.map));
+      if(useToon) conv.forEach((m, i) => { if(list[i].vertexColors) m.vertexColors = true; });
+      o.material = useToon ? (Array.isArray(src) ? conv : conv[0]) : src; o.castShadow = true; });
+  }
+  function stats(gltf, name, bytes){
+    let tris = 0, mats = new Set(), tex = new Map();
+    gltf.scene.traverse(o => { if(!o.isMesh) return; const g = o.geometry;
+      tris += (g.index ? g.index.count : g.attributes.position.count) / 3;
+      (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { mats.add(m.uuid);
+        ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'emissiveMap', 'aoMap'].forEach(k => { if(m[k] && m[k].image) tex.set(m[k].uuid, m[k].image); }); }); });
+    const sizes = [...tex.values()].map(im => [im.width, im.height]);
+    const issues = [];
+    if(tris > BUDGET.tris) issues.push(`sok háromszög (keret: ${BUDGET.tris})`);
+    if(tex.size > BUDGET.textures) issues.push(`sok textúra (keret: ${BUDGET.textures})`);
+    if(sizes.some(s => Math.max(...s) > BUDGET.texSize)) issues.push(`túl nagy textúra (keret: ${BUDGET.texSize} px)`);
+    if(mats.size > BUDGET.materials) issues.push(`sok anyag (keret: ${BUDGET.materials})`);
+    $('#info').innerHTML = `<p class="stat"><b>${name}</b> · ${Math.round(bytes / 1024)} KB</p><ul class="stat">
+      <li>${Math.round(tris)} háromszög · ${mats.size} anyag</li>
+      <li>textúra: ${sizes.length ? sizes.map(s => s.join('×')).join(', ') : 'nincs (sima színek)'}</li>
+      <li class="${issues.length ? 'bad' : 'ok'}">${issues.length ? issues.join(' · ') : 'belefér a keretbe'}</li></ul>`;
+    const key = name.replace(/\.glb$/i, ''), src = window.ART && ART.src(key);
+    $('#ref').hidden = !src; if(src) $('#ref img').src = src;
+  }
+  function load(buffer, name){
+    new THREE.GLTFLoader().parse(buffer, '', gltf => {
+      stats(gltf, name, buffer.byteLength);   // az EREDETI anyagokon számolunk, a játék-anyagra cserélés előtt
+      scene.remove(model); model = gltf.scene; originals = new Map(); fit(model); applyMaterials(); scene.add(model);
+      window.lastModel = { name, ok:true };
+    }, err => { $('#info').innerHTML = `<p class="stat bad">Nem sikerült betölteni: ${String(err && err.message || err)}</p>
+      <p class="stat">Draco- vagy meshopt-tömörítéshez külön dekóder kellene – exportáld tömörítés nélkül.</p>`; window.lastModel = { name, ok:false }; });
+  }
+  const readFile = f => f && f.arrayBuffer().then(b => load(b, f.name));
+  $('#file').addEventListener('change', e => readFile(e.target.files[0]));
+  addEventListener('dragover', e => { e.preventDefault(); document.body.classList.add('dragging'); });
+  addEventListener('dragleave', e => { if(!e.relatedTarget) document.body.classList.remove('dragging'); });
+  addEventListener('drop', e => { e.preventDefault(); document.body.classList.remove('dragging'); readFile(e.dataTransfer.files[0]); });
+  const Q = new URLSearchParams(location.search), url = Q.get('url');
+  // a Three.js fájlbetöltője (XHR) helyi fájlból is olvas, ha a böngésző engedi – a fetch nem
+  if(url) new THREE.FileLoader().setResponseType('arraybuffer').load(url, b => load(b, url.split('/').pop()));
+  if(Q.get('ui') === '0') document.querySelectorAll('.side, #ref').forEach(el => el.style.display = 'none');
+  if(Q.get('spin') === '0'){ controls.autoRotate = false; $('#spin').setAttribute('aria-pressed', 'false'); }
+  if(Q.get('az') != null || Q.get('el') != null){   // nézőszög: vízszintes (az) és függőleges (el) fok, a sziget közepére nézve
+    const az = (+Q.get('az') || 35) * Math.PI / 180, el = (+Q.get('el') || 20) * Math.PI / 180, dist = +Q.get('dist') || camera.position.distanceTo(controls.target);
+    camera.position.set(Math.sin(az) * Math.cos(el) * dist, controls.target.y + Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist); controls.update();
+  }
+  const toggle = (btn, fn) => $(btn).addEventListener('click', e => { const on = e.currentTarget.getAttribute('aria-pressed') !== 'true'; e.currentTarget.setAttribute('aria-pressed', on); fn(on); });
+  toggle('#toon', on => { useToon = on; applyMaterials(); });
+  toggle('#spin', on => { controls.autoRotate = on; });
+
+  function resize(){ renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }
+  addEventListener('resize', resize); resize();
+  renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+</script>
+</body>
+</html>

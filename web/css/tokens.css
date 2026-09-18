@@ -1,0 +1,82 @@
+/* ============================================================
+   beeco JÁTÉK-ARCULAT — TOKENEK (az egyetlen igazságforrás)
+
+   Mi a token? Egy elnevezett tervezési érték (szín, betűméret, lekerekítés, árnyék…).
+   A felületek NEM írnak be nyers értéket (pl. #FECF39 vagy 18px sarok), hanem a nevét használják
+   (var(--honey), var(--r-m)). Így egy helyen átírva mindenhol változik, és minden játék egységes marad.
+
+   Szabály: új színt/méretet ide veszünk fel, a JS-párja a web/js/ds.js-ben van
+   (a tests/check-arculat.js ellenőrzi, hogy a kettő egyezik). Leírás: docs/arculat.md.
+   ============================================================ */
+:root{
+  /* ---- 1. Paletta: a beeco app színei (nyers színek) ---- */
+  --honey:#FECF39;      /* méz – fő szín, fő gomb, kiemelés */
+  --honey-deep:#D8A500; /* nyomott méz – méhsejt-minta, 3D sziget alja */
+  --butter:#FEEEBB;     /* vaj – halvány méz háttér */
+  --olive:#2F371E;      /* olíva – vonal és szöveg (a fekete helyett) */
+  --olive-soft:#596B39; /* halvány olíva – másodlagos szöveg */
+  --leaf:#6E8947;       /* levél – „bekapcsolva", siker jelölése */
+  --sage:#D3DDBB;       /* zsálya – sín, keret */
+  --sage-bg:#E3ECCD;    /* halvány zsálya – jó válasz háttere */
+  --cream:#FFF8E7;      /* krém – oldalháttér */
+  --paper:#FFFDF6;      /* papír – kártyák, panelek */
+  --blossom:#F5B4C7;    /* rózsa – sorozat, játékos kiemelés */
+  --blossom-bg:#FDE2E8; /* halvány rózsa – „próbáld újra" háttere */
+  --berry:#7A2E3F;      /* bogyó – „próbáld újra" szövege */
+  --sky:#B1DEFF;        /* égkék – víz, hűtő, hideg */
+  --sky-bg:#D6E8F7;     /* halvány égkék */
+  --ember:#EA580C;      /* parázs – meleg, figyelmeztetés (csak ikonban/díszben) */
+  --focus:#2656D9;      /* billentyűzet-fókusz és link (szándékosan kilóg a palettából, hogy látszódjon) */
+  --night:#1F2615;      /* éjszaka – sötét környezet alapja (éjszakai nézet, hőkamera, mozi-jelenet) */
+  --night-surface:#353F25; /* éjszakai kártya, panel */
+
+  /* ---- 2. Szerepek: MIRE való a szín (ezeket használd a felületeken) ---- */
+  --bg:var(--cream);  --surface:var(--paper);  --ink:var(--olive);  --ink-soft:var(--olive-soft);  --line:var(--olive);
+  --accent:var(--honey);  --on-accent:var(--olive);   /* szöveg a méz színen – sötét környezetben is olíva marad */
+  --good-bg:var(--sage-bg);   --good-ink:var(--olive);  --good:var(--leaf);
+  --bad-bg:var(--blossom-bg); --bad-ink:var(--berry);
+  --scrim:rgba(47,55,30,.45);  /* sötétítés a felugró ablak mögött */
+  --data-before:var(--blossom); --data-after:var(--leaf);   /* adat: „előtte" és „utána" oszlop, mérő */
+
+  /* ---- 3. Betűk ---- */
+  --display:"Lalezar", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;   /* címek, számok, fő gomb */
+  --body:"Open Sans", "Segoe UI", system-ui, -apple-system, sans-serif;                   /* minden szöveg */
+  --fs-xs:12px; --fs-s:14px; --fs-m:16px; --fs-l:20px; --fs-xl:26px; --fs-2xl:34px; --fs-3xl:46px;
+
+  /* ---- 4. Térköz (4 px-es rács) ---- */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+
+  /* ---- 5. Forma ---- */
+  --line-w:3px;                                  /* minden körvonal ilyen vastag */
+  --r-s:12px; --r-m:18px; --r-l:24px; --r-xl:32px; --r-pill:999px;
+  --hex:polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);   /* hatszög (játék- és jelvényikon) */
+
+  /* ---- 6. Árnyék: puha „matrica" – SOHA nem kemény, eltolt fekete ---- */
+  --soft:0 4px 0 rgba(47,55,30,.18), 0 10px 22px rgba(47,55,30,.10);   /* kártya, panel */
+  --soft-sm:0 3px 0 rgba(47,55,30,.18);                                   /* kis elem */
+  --press:0 4px 0 var(--olive);                                           /* nagy gomb „vastagsága" */
+
+  /* ---- 7. Mozgás ---- */
+  --t-fast:.12s; --t-base:.2s; --t-slow:.4s; --t-xslow:.8s;   /* xslow: felszálló pontszám, röppenő darabkák */
+  --ease:cubic-bezier(.2,.8,.2,1);        /* lágy megállás – beúszás, csúszka */
+  --bounce:cubic-bezier(.34,1.56,.64,1);  /* kis rugózás – felugró jelvény, pont */
+  --glow:rgba(254,207,57,.5); --glow-0:rgba(254,207,57,0);   /* mézes ragyogás (figyelemfelhívás) */
+  --shine:rgba(255,255,255,.55);                              /* fénycsík a matricán, gombon */
+
+  /* ---- 8. Érintés: legkisebb koppintható méret ---- */
+  --tap:44px;
+
+  /* ---- 9. Rétegek (mi takar mit) – alulról felfelé; köztes érték: calc(var(--z-…) + 1) ---- */
+  --z-world:8;     /* a 3D kép fölötti jelölők: célkereszt, névcímke, hőkamera-szűrő */
+  --z-hud:10;      /* játék közbeni kijelzők, 2D játéktábla */
+  --z-controls:12; /* rendszergombok, vezérlők, játékbeli értesítés */
+  --z-bubble:16;   /* méhecske-buborék, bemutató, részletek */
+  --z-panel:20;    /* panel: szint vége, főmenü, nyomozótábla */
+  --z-popup:22;    /* panel fölötti ablak: játékleíró */
+  --z-scene:30;    /* teljes képernyős jelenet, húzott elem */
+  --z-alert:40;    /* felvillanás, betöltés */
+  --z-top:46;      /* legfelül: megosztás, új jelvény */
+
+  /* ---- Régi nevek (neo-brutalista skin) → új tokenek. Új kódban NE használd; a check-arculat.js számolja. ---- */
+  --sarga:var(--honey); --fekete:var(--olive); --krem:var(--cream);
+}

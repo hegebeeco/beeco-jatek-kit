@@ -1,0 +1,28 @@
+# {{NEV}} – statikus játék, nincs build lépés; a publikált mappa a web/.
+[build]
+  publish = "web"
+  command = ""
+
+# Biztonsági fejlécek (ugyanaz, mint a beeco-szelektalj projektben). A frame-ancestors szabja meg, ki ágyazhatja be <iframe>-mel.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cdnjs.cloudflare.com; base-uri 'self'; form-action 'self'; frame-ancestors 'self' https://beeco.hu https://*.beeco.hu"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), fullscreen=(self)"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/sw-files.json"
+  [headers.values]
+    Cache-Control = "no-cache"

@@ -1,0 +1,42 @@
+name: Ellenőrzés és élesítés
+
+# Minden main-re pusholás után: ELLENŐRZÉS (tesztek, offline fájllista, smoke-teszt a játék tényleges elindításával),
+# és csak ha minden zöld, élesíti a web/ mappát a Netlify-ra. Pull requestnél csak az ellenőrzés fut.
+# Egyszeri teendő: két repo-titok – NETLIFY_AUTH_TOKEN és NETLIFY_SITE_ID (amíg nincsenek meg, az élesítés kimarad).
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Tesztek (tests/check-*.js)
+        run: |
+          set -e
+          for f in tests/check-*.js; do echo "::group::$f"; node "$f"; echo "::endgroup::"; done
+      - name: Offline fájllista naprakész?
+        run: node tools/sw-lista.js --check
+      - name: Smoke-teszt (online és offline)
+        run: node tools/smoke.js --offline
+
+  deploy:
+    needs: check
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    env:
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Élesítés a Netlify-ra
+        if: ${{ env.NETLIFY_AUTH_TOKEN != '' && env.NETLIFY_SITE_ID != '' }}
+        run: npx --yes netlify-cli@17 deploy --dir=web --prod --site="$NETLIFY_SITE_ID" --message "CI deploy ${{ github.sha }}"

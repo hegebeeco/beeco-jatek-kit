@@ -1,0 +1,3 @@
+{
+  "_readme": "Kész (MI-vel vagy illusztrátorral készült) matrica-képek a kódrajzok helyett. Kulcs: a matrica neve (web/js/art/*.js), érték: assets/art/<név>.webp. Kézzel ne szerkeszd: python3 tools/art-import.py <png-mappa> tölti ki. Útmutató: docs/grafika-spec.md 8. pont."
+}

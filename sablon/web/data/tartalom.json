@@ -1,0 +1,28 @@
+{
+ "_readme": "A játék TARTALMA – a beeco csapat szerkesztheti, nem fejlesztő. Szabály: konkrét számot, arányt, statisztikát forrás nélkül NEM írunk; a kártyák valódi kompromisszumot mutassanak (egyik gomb se legyen mindig az „erkölcsös”). Az értékek (-2…+2) a jelzőcsíkok elmozdulása, nem mért adat.",
+ "cim": "{{NEV}}",
+ "bevezeto": "Rövid helyzetek, két lehetőség – figyeld, mi változik!",
+ "ertekek": [
+  { "id":"termeszet", "nev":"Természet", "matrica":"lombfa" },
+  { "id":"viz", "nev":"Víz és hő", "matrica":"vizcsepp" },
+  { "id":"lakok", "nev":"Lakók", "matrica":"haz_kert" },
+  { "id":"penz", "nev":"Költségvetés", "matrica":"szamla" }
+ ],
+ "kartyak": [
+  { "id":"fotér", "matrica":"lombfa", "szoveg":"Nyáron nagyon felmelegszik a főtér burkolata. A parkolóhelyek egy részét fákra cserélnéd?",
+    "bal":{ "felirat":"Maradnak a parkolók", "hatas":{ "lakok":1, "viz":-1 } },
+    "jobb":{ "felirat":"Fák és esőkert", "hatas":{ "termeszet":2, "viz":1, "penz":-1, "lakok":-1 } } },
+  { "id":"kaszalas", "matrica":"kalasz", "szoveg":"A park füvét kéthetente nyírják. Egy sávot virágos rétnek hagynál?",
+    "bal":{ "felirat":"Rendezett gyep", "hatas":{ "lakok":1 } },
+    "jobb":{ "felirat":"Virágos sáv", "hatas":{ "termeszet":2, "penz":1, "lakok":-1 } } },
+  { "id":"bicikli", "matrica":"bicikli", "szoveg":"Egy forgalmas utcán bicikliutat lehetne festeni egy sáv helyére.",
+    "bal":{ "felirat":"Marad a sáv", "hatas":{ "lakok":1 } },
+    "jobb":{ "felirat":"Bicikliút", "hatas":{ "termeszet":1, "lakok":-1, "penz":-1 } } }
+ ],
+ "profilok": {
+  "termeszet": { "fel":"A városod zöldebb és élőbb lett.", "le":"A zöldfelület fogyott – kevesebb élőhely maradt." },
+  "viz": { "fel":"Jobban bírja a hőséget és a záporokat.", "le":"A hőség és a víz elvezetése gondot okoz." },
+  "lakok": { "fel":"A lakók elégedettek a változásokkal.", "le":"A lakók egy része elégedetlen – kevés idő jutott a meggyőzésükre." },
+  "penz": { "fel":"A költségvetés rendben maradt.", "le":"A kassza erősen megfogyott." }
+ }
+}

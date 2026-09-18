@@ -1,0 +1,140 @@
+/* ============================================================
+   beeco JÁTÉK-ARCULAT — ELEMKÉSZLET (komponensek)
+
+   Új felületen ezeket az osztályokat használd (ds- előtag), csak tokenekkel (css/tokens.css).
+   A régi osztálynevek (pl. .btn, .mnBtn, .mnSwitch) ÁLNÉVKÉNT ugyanezt a kinézetet kapják, így a
+   régi modulok is egységesek; átírásuk ds- névre ráér (docs/arculat.md → „Álnevek").
+   Élő bemutató: /arculat.html
+   ============================================================ */
+
+/* ---- Alap ---- */
+.ds-sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }   /* csak képernyőolvasónak */
+.ds-page{ background:var(--bg); color:var(--ink); font-family:var(--body); }
+.ds-title{ font:400 var(--fs-2xl)/1.05 var(--display); color:var(--ink); margin:0; text-wrap:balance; }
+.ds-h3{ font:400 var(--fs-l)/1.1 var(--display); color:var(--ink); margin:0; }
+.ds-lead{ font-size:var(--fs-m); line-height:1.5; color:var(--ink); margin:0; max-width:62ch; }   /* képernyőnként EGY mondat */
+.ds-muted{ font-size:var(--fs-s); line-height:1.45; color:var(--ink-soft); }
+.ds-num{ font-family:var(--display); font-variant-numeric:tabular-nums; }
+.pic{ width:1.15em; height:1.15em; display:inline-block; vertical-align:-.2em; flex:0 0 auto; }
+
+/* ---- Nagy gomb: a képernyő fő cselekvése (képernyőnként egy) ---- */
+.ds-btn, .btn{ display:inline-flex; align-items:center; justify-content:center; gap:var(--sp-2); min-height:var(--tap);
+  background:var(--accent); color:var(--on-accent); border:var(--line-w) solid var(--line); border-radius:var(--r-pill);
+  padding:12px 30px 9px; font:400 21px/1.1 var(--display); letter-spacing:.2px; cursor:pointer; text-decoration:none;
+  box-shadow:var(--press); transition:transform .08s, box-shadow .08s; }
+.ds-btn:active, .btn:active{ transform:translateY(3px); box-shadow:0 1px 0 var(--line); }
+.ds-btn.is-secondary{ background:var(--surface); color:var(--ink); }
+.ds-btn.is-small{ font-size:17px; padding:8px 18px 5px; }
+.ds-btn.is-block{ display:flex; width:100%; }
+.ds-btn[disabled], .btn[disabled]{ opacity:.5; cursor:progress; }
+
+/* ---- Kis gomb: másodlagos választás (szint, beállítás, „Mégse") ---- */
+.ds-btn-sm, .mnBtn{ display:inline-block; min-height:36px; font:700 var(--fs-s)/1.25 var(--body); cursor:pointer; color:var(--ink);
+  background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-pill); padding:8px 16px; box-shadow:var(--soft-sm); }
+.ds-btn-sm.is-primary, .mnBtn.primary{ background:var(--accent); color:var(--on-accent); }
+.ds-btn-sm:active, .mnBtn:active{ transform:translateY(2px); box-shadow:0 1px 0 rgba(47,55,30,.18); }
+.ds-btn-sm small, .mnBtn small{ display:block; font-weight:400; font-size:11.5px; color:var(--ink-soft); }
+.ds-btn-sm[disabled], .mnBtn[disabled]{ opacity:.5; cursor:not-allowed; }
+
+/* ---- Kerek ikon-gomb (menü, hang, bezárás) – mindig kap aria-label-t ---- */
+.ds-icon-btn{ width:var(--tap); height:var(--tap); border-radius:50%; display:grid; place-items:center; padding:0; cursor:pointer;
+  background:var(--surface); border:var(--line-w) solid var(--line); box-shadow:var(--soft-sm); color:var(--ink); }
+.ds-icon-btn .pic{ width:22px; height:22px; }
+.ds-icon-btn.is-accent{ background:var(--accent); color:var(--on-accent); }
+
+/* ---- Csipesz: szám + piktogram (pont, sorozat, élet, rekord) ---- */
+.ds-chip{ display:inline-flex; align-items:center; gap:6px; background:var(--surface); color:var(--ink);
+  border:var(--line-w) solid var(--line); border-radius:var(--r-pill); padding:5px 12px 3px 8px;
+  font:400 20px/1 var(--display); font-variant-numeric:tabular-nums; box-shadow:var(--soft-sm); white-space:nowrap; }
+.ds-chip .pic{ width:22px; height:22px; vertical-align:-3px; }
+.ds-chip.is-small{ font-size:16px; padding:3px 9px 1px 6px; border-width:2.5px; } .ds-chip.is-small .pic{ width:17px; height:17px; }
+.ds-chip.is-big{ font-size:26px; padding:6px 14px 3px 10px; } .ds-chip.is-big .pic{ width:26px; height:26px; }
+.ds-chip.is-honey{ background:var(--accent); color:var(--on-accent); } .ds-chip.is-blossom{ background:var(--blossom); }
+.ds-chip.is-good{ background:var(--good-bg); color:var(--good-ink); } .ds-chip.is-bad{ background:var(--bad-bg); color:var(--bad-ink); }
+
+/* ---- Kártya ---- */
+.ds-card{ background:var(--surface); color:var(--ink); border:var(--line-w) solid var(--line); border-radius:var(--r-l);
+  box-shadow:var(--soft); padding:var(--sp-4); }
+.ds-card.is-flat{ box-shadow:none; }
+.ds-card.is-interactive{ cursor:pointer; transition:transform var(--t-fast) ease, box-shadow var(--t-fast) ease; }
+.ds-card.is-interactive:hover{ transform:translateY(-3px); }
+.ds-card.is-interactive:active{ transform:translateY(2px); box-shadow:var(--soft-sm); }
+
+/* ---- Felugró panel + sötétítés ---- */
+.ds-scrim{ position:fixed; inset:0; background:var(--scrim); display:flex; align-items:flex-start; justify-content:center; overflow-y:auto;
+  padding:max(14px, env(safe-area-inset-top)) 12px max(14px, env(safe-area-inset-bottom)); }
+.ds-panel, .overlay .box{ position:relative; background:var(--bg); color:var(--ink); border:var(--line-w) solid var(--line);
+  border-radius:var(--r-xl); box-shadow:var(--soft); }
+.ds-panel{ margin:auto; width:min(620px, 100%); padding:22px 22px 18px; animation:dsIn var(--t-base) ease-out; }
+@keyframes dsIn{ from{ transform:translateY(14px) scale(.98); opacity:0; } to{ transform:none; opacity:1; } }
+
+/* ---- Hatszög: játék-, szerep- és jelvényikon (háttérszín: --acc) ---- */
+.ds-hex{ width:var(--size, 118px); aspect-ratio:1/1.1; clip-path:var(--hex); background:var(--acc, var(--butter));
+  display:grid; place-items:center; flex:0 0 auto; }
+.ds-hex img{ width:78%; height:auto; transition:transform .25s ease; }
+.ds-hex > .pic{ width:44%; height:44%; }
+.ds-hex .ds-hex-ico{ font-size:calc(var(--size, 118px) * .4); }
+.ds-hex img.art{ width:62%; height:auto; }
+
+/* ---- Illusztráció (matrica) a szövegben – artIcon() adja: a betűmérethez igazodik, mint egy emoji ---- */
+img.art{ display:inline-block; width:1.35em; height:1.35em; object-fit:contain; vertical-align:-.32em; -webkit-user-drag:none; user-select:none; }
+
+/* ---- Lenyitható rész: minden, ami nem fér az „egy mondatba" ---- */
+.ds-details{ margin-top:10px; background:var(--surface); border:2.5px solid var(--sage); border-radius:var(--r-m); padding:2px 14px; }
+.ds-details summary{ display:flex; align-items:center; gap:8px; min-height:var(--tap); cursor:pointer; list-style:none; font-weight:700; font-size:15px; }
+.ds-details summary::-webkit-details-marker{ display:none; }
+.ds-details summary::after{ content:"+"; margin-left:auto; font:400 24px/1 var(--display); }
+.ds-details[open] summary::after{ content:"–"; }
+.ds-details summary .pic{ width:22px; height:22px; }
+.ds-details ul, .ds-details ol{ margin:0 0 12px 20px; padding:0; font-size:var(--fs-s); line-height:1.5; }
+.ds-details li{ margin:3px 0; }
+.ds-details > p, .ds-details > div{ margin:0 0 12px; font-size:var(--fs-s); line-height:1.55; }
+
+/* ---- Kapcsoló (be/ki) – button role="switch" aria-checked ---- */
+.ds-switch, .mnSwitch{ position:relative; flex:0 0 auto; width:58px; height:32px; border-radius:20px; border:var(--line-w) solid var(--line);
+  background:var(--sage); cursor:pointer; padding:0; }
+.ds-switch::after, .mnSwitch::after{ content:""; position:absolute; top:2px; left:2px; width:22px; height:22px; border-radius:50%;
+  background:var(--surface); border:2px solid var(--line); transition:left .15s; }
+.ds-switch[aria-checked="true"], .mnSwitch[aria-checked="true"]{ background:var(--good); }
+.ds-switch[aria-checked="true"]::after, .mnSwitch[aria-checked="true"]::after{ left:28px; background:var(--accent); }
+.ds-switch[disabled], .mnSwitch[disabled]{ opacity:.4; cursor:not-allowed; }
+
+/* ---- Fülek (pirula-sáv) ---- */
+.ds-tabs{ display:flex; gap:4px; background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-pill); padding:4px; box-shadow:var(--soft-sm); }
+.ds-tab{ display:flex; align-items:center; gap:7px; min-height:38px; font:700 15px/1 var(--body); cursor:pointer; border:none;
+  border-radius:var(--r-pill); padding:8px 14px; background:none; color:var(--ink); }
+.ds-tab .pic{ width:22px; height:22px; }
+.ds-tab.on, .ds-tab[aria-selected="true"]{ background:var(--accent); color:var(--on-accent); }
+
+/* ---- Szegmens-választó (egy a több közül, pl. Könnyű / Normál / Nyomozó) – role="radiogroup" ---- */
+.ds-seg{ display:flex; gap:4px; background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-s); padding:3px; flex:0 0 auto; }
+.ds-seg button{ min-height:34px; font:700 13px/1 var(--body); border:none; background:none; border-radius:9px; padding:6px 10px; cursor:pointer; color:var(--ink); }
+.ds-seg button.on, .ds-seg button[aria-checked="true"]{ background:var(--accent); color:var(--on-accent); }
+
+/* ---- Visszajelzés: jó / próbáld újra (mindig ikonnal is, ne csak színnel) ---- */
+.ds-feedback{ display:inline-flex; align-items:center; gap:10px; border:var(--line-w) solid var(--line); border-radius:var(--r-l);
+  box-shadow:var(--soft); padding:10px 18px 8px; font:400 24px/1.1 var(--display); background:var(--surface); color:var(--ink); }
+.ds-feedback .pic{ width:28px; height:28px; }
+.ds-feedback.is-good{ background:var(--good-bg); color:var(--good-ink); }
+.ds-feedback.is-bad{ background:var(--bad-bg); color:var(--bad-ink); }
+
+/* ---- Mérő (haladás, jövő-mérő, csillag-sáv) ---- */
+.ds-meter{ height:16px; border:var(--line-w) solid var(--line); border-radius:var(--r-pill); background:var(--sage-bg); overflow:hidden; }
+.ds-meter > i{ display:block; height:100%; width:var(--v, 0%); background:var(--accent); border-right:var(--line-w) solid var(--line);
+  transition:width var(--t-base) var(--ease); }
+.ds-meter.is-good > i{ background:var(--good); }
+
+/* ---- Kiemelt sáv (pl. „Töltsd le a beeco appot") ---- */
+.ds-banner{ display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; background:var(--accent); color:var(--on-accent);
+  border:var(--line-w) solid var(--line); border-radius:var(--r-l); box-shadow:var(--soft); padding:12px 16px; }
+
+/* ---- Billentyű-jel ---- */
+.ds-key, .key{ display:inline-block; background:var(--butter); border:2px solid var(--line); border-radius:8px; padding:0 6px; font:700 12px/1.6 var(--body); }
+
+/* ---- Hozzáférhetőség ---- */
+.ds-btn:focus-visible, .btn:focus-visible, .ds-btn-sm:focus-visible, .mnBtn:focus-visible, .ds-icon-btn:focus-visible, .ds-switch:focus-visible,
+.mnSwitch:focus-visible, .ds-tab:focus-visible, .ds-seg button:focus-visible, .ds-details summary:focus-visible, .ds-card.is-interactive:focus-visible, .ds-dots button:focus-visible{
+  outline:3px solid var(--focus); outline-offset:3px; }
+@media (prefers-reduced-motion: reduce){
+  .ds-panel{ animation:none; } .ds-card.is-interactive, .ds-hex img, .ds-meter > i{ transition:none; }
+}

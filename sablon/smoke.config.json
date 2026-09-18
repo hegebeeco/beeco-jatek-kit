@@ -1,0 +1,18 @@
+{
+ "_readme": "A tools/smoke.js ezeket indítja el sorban (a CI minden élesítés előtt). Új játékmódnál vedd fel ide.",
+ "pages": [
+  [
+   "Kezdőlap",
+   "/"
+  ]
+ ],
+ "games": [
+  [
+   "{{NEV}}",
+   "jatekStart()",
+   1500
+  ]
+ ],
+ "between": "",
+ "ready": "typeof jatekStart === 'function'"
+}

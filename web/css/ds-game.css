@@ -1,0 +1,136 @@
+/* ============================================================
+   beeco JÁTÉK-ARCULAT — JÁTÉK-MINTÁK (a ds.css kiegészítése)
+
+   Olyan elemek, amelyeket több játék is használ: beszédbuborék, csillagok, eredmény-panel, beviteli mező,
+   jelvény, betöltés, lapozó, címke, pipálós lista, értesítés, adat-oszlop, sötét környezet, mozgás-készlet.
+   Csak tokenekkel (css/tokens.css). JS-segédek: web/js/ds.js (dsStarsHTML, dsResultHTML, dsFeedback…).
+   Élő bemutató: /arculat.html · leírás: docs/arculat.md
+   ============================================================ */
+
+/* ---- Beszédbuborék + arckép: méhecske, család-chat, bemutató-tipp ---- */
+.ds-say{ display:flex; align-items:flex-end; gap:var(--sp-2); }
+.ds-say.is-me{ flex-direction:row-reverse; }
+.ds-avatar{ width:var(--size, 44px); height:var(--size, 44px); flex:0 0 auto; border-radius:50%; overflow:hidden; display:grid; place-items:center;
+  background:var(--acc, var(--butter)); border:var(--line-w) solid var(--line); }
+.ds-avatar img, .ds-avatar svg{ width:100%; height:100%; object-fit:cover; }
+.ds-avatar.is-bee{ border:none; background:none; overflow:visible; border-radius:0; }   /* méhecske-figura: keret nélkül */
+.ds-avatar.is-bee img{ object-fit:contain; }
+.ds-bubble{ position:relative; background:var(--surface); color:var(--ink); border:var(--line-w) solid var(--line); border-radius:var(--r-l);
+  box-shadow:var(--soft-sm); padding:10px 14px; font-size:var(--fs-s); line-height:1.45; max-width:min(100%, 46ch); }
+.ds-bubble b.ds-who{ display:block; font-size:var(--fs-xs); color:var(--ink-soft); margin-bottom:2px; }
+.ds-bubble::after{ content:""; position:absolute; left:-9px; bottom:12px; width:14px; height:14px; background:inherit;
+  border-left:var(--line-w) solid var(--line); border-bottom:var(--line-w) solid var(--line); transform:rotate(45deg); border-radius:0 0 0 4px; }
+.ds-say.is-me .ds-bubble{ background:var(--butter); color:var(--ink); }
+.ds-say.is-me .ds-bubble::after{ left:auto; right:-9px; transform:rotate(-135deg); }
+.ds-bubble.is-plain::after{ display:none; }
+
+/* ---- Csillagok (0–3) – dsStarsHTML(n) ---- */
+.ds-stars{ display:inline-flex; gap:4px; align-items:center; }
+.ds-stars .pic{ width:var(--size, 28px); height:var(--size, 28px); }
+.ds-stars.is-big{ --size:48px; gap:8px; }
+.ds-stars.is-big .pic-star{ animation:dsPop var(--t-slow) var(--bounce) both; }
+.ds-stars.is-big .pic-star:nth-child(2){ animation-delay:.12s; } .ds-stars.is-big .pic-star:nth-child(3){ animation-delay:.24s; }
+
+/* ---- Eredmény-panel (szint vége, kör vége) – dsResultHTML({...}) ---- */
+.ds-result{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:var(--sp-3); }
+.ds-result-bee{ width:var(--size, 104px); height:auto; animation:dsPop var(--t-slow) var(--bounce) both; }
+.ds-result-title{ font:400 var(--fs-2xl)/1.05 var(--display); margin:0; text-wrap:balance; }
+.ds-result-lead{ margin:0; font-size:var(--fs-m); line-height:1.45; max-width:40ch; }
+.ds-result-score{ font:400 var(--fs-3xl)/1 var(--display); font-variant-numeric:tabular-nums; }
+.ds-result-score small{ display:block; font:600 var(--fs-xs)/1.2 var(--body); color:var(--ink-soft); }
+.ds-result-stats{ display:flex; flex-wrap:wrap; gap:var(--sp-2); justify-content:center; }
+.ds-result-actions{ display:flex; flex-direction:column; gap:var(--sp-2); width:100%; }
+.ds-result-actions .ds-row{ display:flex; flex-wrap:wrap; gap:var(--sp-2); justify-content:center; }
+.ds-result-lb{ width:100%; display:grid; gap:var(--sp-2); text-align:left; }
+.ds-result-lb-row{ display:flex; gap:var(--sp-2); align-items:center; }
+.ds-result-lb-row .ds-input{ flex:1; min-width:0; }
+.ds-result-lb-list{ margin:0 0 12px 22px; padding:0; font-size:var(--fs-s); line-height:1.7; font-variant-numeric:tabular-nums; }
+.ds-result-more{ width:100%; text-align:left; margin-top:0; }
+.ds-result-more p{ margin:0 0 10px; }
+.ds-result-more a{ color:var(--focus); }
+.ds-result + .ds-banner{ margin-top:var(--sp-4); }
+
+/* ---- Beviteli mező, kódzár ---- */
+.ds-input{ min-height:var(--tap); width:100%; font:600 var(--fs-m)/1.2 var(--body); color:var(--ink); background:var(--surface);
+  border:var(--line-w) solid var(--line); border-radius:var(--r-m); padding:8px 14px; user-select:text; -webkit-user-select:text; }
+.ds-input::placeholder{ color:var(--ink-soft); opacity:.8; }
+.ds-input:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+.ds-code{ display:inline-flex; gap:var(--sp-2); }
+.ds-code .ds-input{ width:52px; text-align:center; font:400 var(--fs-xl)/1 var(--display); padding:8px 0 4px; }
+
+/* ---- Jelvény: hatszög + név; zárolt és új állapot ---- */
+.ds-badge{ display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center; font:700 var(--fs-xs)/1.25 var(--body); color:var(--ink); }
+.ds-badge .ds-hex{ --size:72px; position:relative; }
+.ds-badge .ds-hex span:not([class]){ font-size:30px; line-height:1; }
+.ds-badge.is-locked .ds-hex{ --acc:var(--sage-bg); }
+.ds-badge.is-locked .ds-hex > *{ filter:grayscale(1); opacity:.45; }
+.ds-badge.is-locked{ color:var(--ink-soft); }
+.ds-badge.is-new .ds-hex{ animation:dsPop var(--t-slow) var(--bounce) both; }
+
+/* ---- Betöltés: három pattogó méhsejt · csontváz-helyőrző ---- */
+.ds-loader{ display:inline-flex; gap:6px; align-items:center; }
+.ds-loader i{ width:14px; height:15px; clip-path:var(--hex); background:var(--accent); animation:dsBob .9s var(--ease) infinite; }
+.ds-loader i:nth-child(2){ animation-delay:.15s; background:var(--honey-deep); } .ds-loader i:nth-child(3){ animation-delay:.3s; background:var(--leaf); }
+.ds-skeleton{ background:linear-gradient(90deg, var(--sage-bg) 25%, var(--surface) 50%, var(--sage-bg) 75%); background-size:200% 100%;
+  border-radius:var(--r-s); min-height:1em; animation:dsShimmer 1.4s linear infinite; }
+
+/* ---- Lapozó pöttyök (jelenet, bemutató) ---- */
+.ds-dots{ display:inline-flex; gap:6px; align-items:center; }
+.ds-dots i{ width:10px; height:10px; border-radius:50%; border:2px solid var(--line); background:var(--surface); }
+.ds-dots i.on{ background:var(--accent); width:22px; border-radius:var(--r-pill); }
+
+/* ---- Címke (névcímke, kis jelölés) ---- */
+.ds-tag{ display:inline-flex; align-items:center; gap:5px; font:700 var(--fs-xs)/1 var(--body); padding:5px 10px 4px; border-radius:var(--r-pill);
+  background:var(--surface); color:var(--ink); border:2px solid var(--line); white-space:nowrap; }
+.ds-tag .pic{ width:15px; height:15px; }
+.ds-tag.is-accent{ background:var(--accent); color:var(--on-accent); }
+.ds-tag.is-good{ background:var(--good-bg); color:var(--good-ink); } .ds-tag.is-bad{ background:var(--bad-bg); color:var(--bad-ink); }
+.ds-tag.is-dark{ background:var(--night); color:var(--cream); border-color:var(--night); }
+
+/* ---- Pipálós lista (feladatok, nyomok) ---- */
+.ds-checklist{ list-style:none; margin:0; padding:0; display:grid; gap:6px; }
+.ds-checklist li{ display:flex; gap:8px; align-items:flex-start; font-size:var(--fs-s); line-height:1.4; }
+.ds-checklist li > .pic:first-child{ width:22px; height:22px; flex:0 0 auto; margin-top:-1px; }
+.ds-checklist li.is-done{ color:var(--ink-soft); }
+
+/* ---- Értesítés (rövid, magától eltűnő) ---- */
+.ds-toast{ position:fixed; left:50%; top:max(16px, env(safe-area-inset-top)); z-index:var(--z-alert); transform:translate(-50%, -140%);
+  transition:transform var(--t-base) var(--ease); max-width:min(92vw, 420px); pointer-events:none; }
+.ds-toast.show{ transform:translate(-50%, 0); pointer-events:auto; }
+
+/* ---- Adat-oszlop: előtte / utána ---- */
+.ds-bars{ display:grid; gap:6px; }
+.ds-bar{ display:grid; grid-template-columns:auto 1fr auto; gap:8px; align-items:center; font-size:var(--fs-xs); }
+.ds-bar > i{ height:18px; border:2px solid var(--line); border-radius:var(--r-pill); background:var(--sage-bg); overflow:hidden; }
+.ds-bar > i::before{ content:""; display:block; height:100%; width:var(--v, 0%); background:var(--data-before); transition:width var(--t-slow) var(--ease); }
+.ds-bar.is-after > i::before{ background:var(--data-after); }
+
+/* ---- Sötét környezet: éjszakai nézet, hőkamera, mozi-jelenet – a szerep-tokenek átfordulnak ---- */
+.ds-dark{ --bg:var(--night); --surface:var(--night-surface); --ink:var(--cream); --ink-soft:var(--sage); --line:var(--sage);
+  --soft:0 4px 0 rgba(0,0,0,.35), 0 10px 22px rgba(0,0,0,.25); --soft-sm:0 3px 0 rgba(0,0,0,.35); --press:0 4px 0 var(--night);
+  --scrim:rgba(10,12,6,.6); color:var(--ink); }
+
+/* ---- Mozgás-készlet: egy helyen, a „Kevesebb mozgás" mindet kikapcsolja ---- */
+@keyframes dsPop{ 0%{ transform:scale(.6); opacity:0; } 70%{ transform:scale(1.08); opacity:1; } 100%{ transform:scale(1); } }
+@keyframes dsShake{ 0%,100%{ transform:translateX(0); } 20%{ transform:translateX(-6px); } 40%{ transform:translateX(5px); } 60%{ transform:translateX(-3px); } 80%{ transform:translateX(2px); } }
+@keyframes dsBob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-5px); } }
+@keyframes dsSpin{ to{ transform:rotate(360deg); } }
+@keyframes dsFadeUp{ from{ transform:translateY(10px); opacity:0; } to{ transform:none; opacity:1; } }
+@keyframes dsShimmer{ to{ background-position:-200% 0; } }
+.ds-anim-pop{ animation:dsPop var(--t-slow) var(--bounce) both; }
+.ds-anim-shake{ animation:dsShake var(--t-slow) var(--ease); }     /* „majdnem" – finom, nem ijesztő */
+.ds-anim-float{ animation:dsBob 2.4s var(--ease) infinite; }
+.ds-anim-spin{ animation:dsSpin 1s linear infinite; }
+.ds-anim-in{ animation:dsFadeUp var(--t-base) var(--ease) both; }
+
+/* ---- Kevesebb mozgás: a rendszer-beállítás ÉS a játék saját kapcsolója (body.reduce-motion) ---- */
+@media (prefers-reduced-motion: reduce){
+  .ds-panel, [class*="ds-anim-"], .ds-stars .pic, .ds-result-bee, .ds-badge .ds-hex, .ds-loader i, .ds-skeleton{ animation:none !important; }
+  .ds-card.is-interactive, .ds-hex img, .ds-meter > i, .ds-bar > i::before, .ds-toast{ transition:none; }
+}
+.reduce-motion [class*="ds-anim-"], .reduce-motion .ds-loader i, .reduce-motion .ds-skeleton{ animation:none !important; }
+/* QR-kód (js/qr.js: qrHTML + qrFill) – az app letöltéséhez kioszkban; olíva modulok krém alapon, matricás keret */
+.ds-qr{ display:inline-block; flex:0 0 auto; width:var(--qr, 140px); height:var(--qr, 140px); background:var(--surface); border:var(--line-w) solid var(--line);
+  border-radius:var(--r-m); box-shadow:var(--soft-sm); overflow:hidden; }
+.ds-qr svg{ display:block; width:100%; height:100%; }
+.ds-qr.fail{ display:flex; align-items:center; justify-content:center; padding:6px; text-align:center; font:700 var(--fs-xs)/1.2 var(--body); color:var(--ink); }

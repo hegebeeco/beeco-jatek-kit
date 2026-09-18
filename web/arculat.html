@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>beeco játék-arculat</title>
+  <meta name="theme-color" content="#FECF39">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/ikon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/brand/ikon-512.png">
+  <link rel="apple-touch-icon" href="assets/brand/ikon-180.png">
+  <!--
+    ÉLŐ STÍLUS-KALAUZ: a design system minden eleme egy oldalon, a VALÓDI fájlokból
+    (css/tokens.css, css/ds.css, js/pics.js, js/ds.js) – ha ott változik valami, itt is látszik.
+    Kinek: beeco-csapat, illusztrátor, fejlesztő (Bence). Szabályok és döntések: docs/arculat.md
+  -->
+  <link rel="preload" href="assets/fonts/lalezar-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/ds.css">
+  <link rel="stylesheet" href="css/ds-game.css">
+  <link rel="stylesheet" href="css/ds-motion.css">
+  <style>
+    /* csak a kalauz elrendezése – tokenekkel */
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--body); font-size:var(--fs-m); line-height:1.5; }
+    .wrap{ max-width:1060px; margin:0 auto; padding-inline:var(--sp-4); padding-block:var(--sp-5) 64px; }
+    header.top{ display:flex; align-items:center; gap:var(--sp-4); flex-wrap:wrap; }
+    header.top .logo{ height:52px; }
+    header.top .hello{ display:flex; align-items:center; gap:var(--sp-3); }
+    header.top .hello img{ width:84px; }
+    header.top h1{ font:400 clamp(34px, 6vw, var(--fs-3xl))/1 var(--display); margin:0; }
+    nav.toc{ display:flex; flex-wrap:wrap; gap:var(--sp-2); margin:var(--sp-4) 0 0; }
+    nav.toc a{ color:var(--ink); text-decoration:none; }
+    section{ margin-top:var(--sp-6); scroll-margin-top:16px; }
+    section > h2{ font:400 var(--fs-2xl)/1.05 var(--display); margin:0 0 var(--sp-1); }
+    section > .ds-lead{ margin-bottom:var(--sp-4); }
+    .grid{ display:grid; gap:var(--sp-3); grid-template-columns:repeat(auto-fill, minmax(var(--min, 220px), 1fr)); }
+    .row{ display:flex; flex-wrap:wrap; gap:var(--sp-3); align-items:center; }
+    .label{ font-size:var(--fs-xs); color:var(--ink-soft); font-family:ui-monospace, "SFMono-Regular", Menlo, monospace; }
+    .principles{ display:flex; flex-wrap:wrap; gap:var(--sp-3); }   /* a maradék kártya kitölti a sort */
+    .principles > *{ flex:1 1 150px; }
+    .principle b{ display:block; font:400 var(--fs-l)/1.1 var(--display); margin:var(--sp-2) 0 var(--sp-1); }
+    .principle .pic{ width:34px; height:34px; }
+    .swatch{ border:var(--line-w) solid var(--line); border-radius:var(--r-m); overflow:hidden; background:var(--surface); }
+    .swatch .chip{ height:74px; display:flex; align-items:flex-end; padding:var(--sp-2); font:400 var(--fs-l)/1 var(--display); }
+    .swatch .meta{ padding:var(--sp-2) var(--sp-3); border-top:var(--line-w) solid var(--line); }
+    .swatch .meta b{ display:block; font-size:var(--fs-s); }
+    .type-row{ display:flex; align-items:baseline; gap:var(--sp-4); border-bottom:2px dashed var(--sage); padding:var(--sp-2) 0; flex-wrap:wrap; }
+    .type-row .label{ width:120px; flex:0 0 auto; }
+    .bar{ height:18px; background:var(--accent); border:2px solid var(--line); border-radius:4px; }
+    .radius-demo{ width:92px; height:64px; background:var(--butter); border:var(--line-w) solid var(--line); }
+    .shadow-demo{ width:140px; height:72px; background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-m); }
+    .pic-cell{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:var(--sp-3) var(--sp-2); background:var(--surface);
+      border:2.5px solid var(--sage); border-radius:var(--r-m); }
+    .pic-cell .pic{ width:36px; height:36px; }
+    .demo{ background:var(--surface); border:2.5px dashed var(--sage); border-radius:var(--r-l); padding:var(--sp-4); }
+    .demo + .label{ display:block; margin-top:6px; }
+    .grid > div:has(> .demo){ display:flex; flex-direction:column; } .grid > div > .demo{ flex:1; }   /* egy sorban egyforma magas minták */
+    .game-card{ text-align:center; display:flex; flex-direction:column; align-items:center; gap:6px; }
+    .game-card b{ font:400 var(--fs-xl)/1 var(--display); }
+    .canvas-box canvas{ max-width:100%; height:auto; display:block; }
+    .dodont{ display:grid; gap:var(--sp-3); grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); }
+    .dodont .ds-card h3{ display:flex; align-items:center; gap:var(--sp-2); font:400 var(--fs-l)/1.1 var(--display); margin:0 0 var(--sp-2); }
+    .dodont ul{ margin:0; padding-left:20px; }
+    .dodont li{ margin:4px 0; }
+    .checklist li{ margin:6px 0; }
+    .pic-cell img.art-demo{ width:72px; height:72px; }
+    #dlgDemo{ position:fixed; inset:0; z-index:var(--z-popup); display:grid; place-items:center; padding:var(--sp-4); }
+    #dlgDemo[hidden]{ display:none; }
+    code{ font-family:ui-monospace, "SFMono-Regular", Menlo, monospace; font-size:.88em; background:var(--butter); padding:0 4px; border-radius:4px; }
+    table{ border-collapse:collapse; width:100%; background:var(--surface); }
+    .table-wrap{ overflow-x:auto; border:var(--line-w) solid var(--line); border-radius:var(--r-m); }
+    th, td{ text-align:left; padding:8px 12px; border-bottom:2px solid var(--sage); font-size:var(--fs-s); vertical-align:top; }
+    th{ font-weight:700; background:var(--butter); }
+    td code{ white-space:nowrap; }
+    footer{ margin-top:var(--sp-6); color:var(--ink-soft); font-size:var(--fs-s); }
+  </style>
+</head>
+<body class="ds-page">
+<div class="wrap">
+  <header class="top">
+    <div class="hello"><img src="assets/brand/roles/kacsint.webp" alt=""><div>
+      <h1>Játék-arculat</h1>
+      <p class="ds-muted" style="margin:4px 0 0">„Méhsejt-diorama” – a beeco játékok közös design systemje</p></div></div>
+  </header>
+  <nav class="toc" aria-label="Tartalom">
+    <a class="ds-btn-sm" href="#elvek">Alapelvek</a><a class="ds-btn-sm" href="#szinek">Színek</a><a class="ds-btn-sm" href="#betuk">Betűk</a>
+    <a class="ds-btn-sm" href="#forma">Forma</a><a class="ds-btn-sm" href="#ikonok">Piktogramok</a><a class="ds-btn-sm" href="#elemek">Elemek</a>
+    <a class="ds-btn-sm" href="#mintak">Játék-minták</a><a class="ds-btn-sm" href="#hangulat">Hangulatok</a>
+    <a class="ds-btn-sm" href="#visszajelzes">Visszajelzés</a><a class="ds-btn-sm" href="#sotet">Sötét</a><a class="ds-btn-sm" href="#mozgas">Mozgás</a>
+    <a class="ds-btn-sm" href="#szereplok">Szereplők</a><a class="ds-btn-sm" href="#illusztraciok">Illusztrációk</a>
+    <a class="ds-btn-sm" href="#parbeszed">Párbeszédablak</a><a class="ds-btn-sm" href="#markakepek">Márka-képek</a><a class="ds-btn-sm" href="#vilag">3D világ</a><a class="ds-btn-sm" href="#szoveg">Szöveg</a>
+    <a class="ds-btn-sm" href="#ellenorzes">Ellenőrzőlista</a>
+  </nav>
+
+  <section id="elvek">
+    <h2>Alapelvek</h2>
+    <p class="ds-lead">Öt szabály, ami minden képernyőre igaz.</p>
+    <div class="principles">
+      <div class="ds-card principle"><span data-pic="bee"></span><b>Felismerhetően beeco</b><span class="ds-muted">Az app színei, betűi és méhecskéi.</span></div>
+      <div class="ds-card principle"><span data-pic="heart"></span><b>Cuki és barátságos</b><span class="ds-muted">Kerek formák, puha árnyék, soha nem szid.</span></div>
+      <div class="ds-card principle"><span data-pic="tip"></span><b>3 másodperc</b><span class="ds-muted">Képernyőnként egy mondat, a többi lenyitható.</span></div>
+      <div class="ds-card principle"><span data-pic="games"></span><b>Méhsejt-diorama</b><span class="ds-muted">Hatszög, low-poly világ, meleg napfény.</span></div>
+      <div class="ds-card principle"><span data-pic="people"></span><b>Mindenkinek</b><span class="ds-muted">Olvasható kontraszt, nagy koppintási felület, ikon + szín.</span></div>
+    </div>
+  </section>
+
+  <section id="szinek">
+    <h2>Színek</h2>
+    <p class="ds-lead">A felületen a szerepnevet használd (<code>--ink</code>, <code>--surface</code>), ne a nyers színt.</p>
+    <div id="swatches"></div>
+    <h3 class="ds-h3" style="margin:var(--sp-5) 0 var(--sp-3)">Szerepek</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Token</th><th>Mire való</th><th>Érték</th></tr></thead>
+      <tbody id="roles"></tbody>
+    </table></div>
+  </section>
+
+  <section id="betuk">
+    <h2>Betűk</h2>
+    <p class="ds-lead">Lalezar a címekre és számokra, Open Sans minden szövegre.</p>
+    <div id="typescale"></div>
+  </section>
+
+  <section id="forma">
+    <h2>Térköz, sarok, árnyék</h2>
+    <p class="ds-lead">4 px-es rács, 3 px olívavonal, puha árnyék – kemény eltolt árnyék soha.</p>
+    <div class="grid" style="--min:300px">
+      <div class="demo"><div id="spacing" style="display:grid;gap:8px"></div></div>
+      <div class="demo"><div class="row" id="radii"></div></div>
+      <div class="demo"><div class="row">
+        <div><div class="shadow-demo" style="box-shadow:var(--soft)"></div><span class="label">--soft</span></div>
+        <div><div class="shadow-demo" style="box-shadow:var(--soft-sm)"></div><span class="label">--soft-sm</span></div>
+        <div><div class="shadow-demo" style="box-shadow:var(--press); background:var(--accent)"></div><span class="label">--press</span></div>
+      </div></div>
+    </div>
+  </section>
+
+  <section id="ikonok">
+    <h2>Piktogramok</h2>
+    <p class="ds-lead">Emoji helyett ezek: minden eszközön ugyanúgy néznek ki. Használat: <code>pic('star')</code>.</p>
+    <div class="grid" id="pics" style="--min:96px"></div>
+  </section>
+
+  <section id="elemek">
+    <h2>Elemek</h2>
+    <p class="ds-lead">Új felület ezekből épül; az osztálynév a kártya alatt.</p>
+    <div class="grid" style="--min:300px">
+      <div><div class="demo" style="display:grid;gap:12px">
+        <button class="ds-btn is-block" type="button">Játszom <span data-pic="play"></span></button>
+        <div class="row"><button class="ds-btn is-secondary is-small" type="button">Újra</button><button class="ds-btn is-small" type="button">Tovább <span data-pic="next"></span></button></div>
+      </div><span class="label">.ds-btn · is-secondary · is-small · is-block – képernyőnként EGY nagy gomb</span></div>
+
+      <div><div class="demo"><div class="row">
+        <button class="ds-btn-sm" type="button">1. Kert<small>séta</small></button>
+        <button class="ds-btn-sm is-primary" type="button">Visszaállítás</button>
+        <button class="ds-icon-btn" type="button" aria-label="Kezdőlap"><span data-pic="home"></span></button>
+        <button class="ds-icon-btn is-accent" type="button" aria-label="Hang"><span data-pic="sound"></span></button>
+      </div></div><span class="label">.ds-btn-sm · is-primary · .ds-icon-btn (mindig aria-label)</span></div>
+
+      <div><div class="demo"><div class="row">
+        <span class="ds-chip is-big is-honey"><span data-pic="star"></span>1 240</span>
+        <span class="ds-chip"><span data-pic="flame"></span>5</span>
+        <span class="ds-chip is-blossom"><span data-pic="flame"></span>2×</span>
+        <span class="ds-chip"><span data-pic="heart"></span>3</span>
+        <span class="ds-chip is-small is-honey"><span data-pic="trophy"></span>23 392</span>
+      </div></div><span class="label">.ds-chip · is-big · is-small · is-honey · is-blossom · is-good · is-bad</span></div>
+
+      <div><div class="demo"><div class="row" style="flex-direction:column;align-items:flex-start;gap:10px">
+        <span class="ds-feedback is-good"><span data-pic="check"></span>Szuper, ez a papírba megy!</span>
+        <span class="ds-feedback is-bad"><span data-pic="refresh"></span>Majdnem! Próbáld újra.</span>
+      </div></div><span class="label">.ds-feedback · is-good · is-bad – szín + ikon együtt, soha csak szín</span></div>
+
+      <div><div class="demo">
+        <button class="ds-card is-interactive game-card" type="button" style="width:100%;font:inherit;color:inherit">
+          <span class="ds-hex" style="--acc:var(--sage);--size:96px"><img src="assets/brand/roles/szelektalj.webp" alt=""></span>
+          <b>Szelektálj!</b><span class="ds-muted">4 pálya, 12 kuka</span>
+        </button>
+      </div><span class="label">.ds-card is-interactive + .ds-hex (--acc, --size)</span></div>
+
+      <div><div class="demo">
+        <details class="ds-details" open><summary><span data-pic="info"></span>Miről szól?</summary><p>Minden, ami nem fér bele az egy mondatba, ide kerül.</p></details>
+        <details class="ds-details"><summary><span data-pic="star"></span>Szabályok és pontozás</summary><ul><li>Jó helyre: pont + tény.</li><li>Rossz helyre: tanulunk, nem büntetünk.</li></ul></details>
+      </div><span class="label">.ds-details</span></div>
+
+      <div><div class="demo" style="display:grid;gap:14px">
+        <div class="row" style="justify-content:space-between"><b style="display:flex;gap:8px;align-items:center"><span data-pic="music"></span>Háttérzene</b>
+          <button class="ds-switch" type="button" role="switch" aria-checked="true" aria-label="Háttérzene" id="demoSwitch"></button></div>
+        <div class="ds-seg" role="radiogroup" aria-label="Segítség szintje" id="demoSeg">
+          <button type="button" role="radio" aria-checked="false">Könnyű</button><button type="button" role="radio" aria-checked="true" class="on">Normál</button><button type="button" role="radio" aria-checked="false">Nyomozó</button></div>
+        <div class="ds-tabs" role="tablist" style="width:max-content;max-width:100%">
+          <button class="ds-tab on" type="button" role="tab" aria-selected="true"><span data-pic="games"></span>Játékok</button>
+          <button class="ds-tab" type="button" role="tab" aria-selected="false"><span data-pic="gear"></span>Beállítások</button></div>
+      </div><span class="label">.ds-switch · .ds-seg · .ds-tabs / .ds-tab</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px">
+        <div class="ds-meter" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-label="Jövő-mérő"><i style="--v:62%"></i></div>
+        <div class="ds-meter is-good" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" aria-label="Haladás"><i style="--v:35%"></i></div>
+        <p class="ds-muted" style="margin:0">Billentyű: <span class="ds-key">E</span> felvesz · <span class="ds-key">I</span> info</p>
+      </div><span class="label">.ds-meter (--v) · is-good · .ds-key</span></div>
+
+      <div style="grid-column:1/-1"><div class="demo">
+        <div class="ds-banner"><div><b style="font:400 22px/1.05 var(--display)">Töltsd le a beeco appot</b><div class="ds-muted" style="color:var(--ink)">A játékban tanultakat váltsd valódi tettekre.</div></div>
+          <a class="ds-btn is-secondary is-small" href="#szinek">Letöltöm <span data-pic="next"></span></a></div>
+      </div><span class="label">.ds-banner</span></div>
+
+      <div style="grid-column:1/-1"><div class="demo" style="background:var(--scrim)">
+        <div class="ds-panel" style="animation:none">
+          <button class="ds-icon-btn" type="button" aria-label="Bezárás" style="position:absolute;top:12px;right:12px"><span data-pic="close"></span></button>
+          <h3 class="ds-title" style="padding-right:52px">Szint vége!</h3>
+          <p class="ds-lead" style="margin:8px 0 16px">8 darabból 7 ment jó helyre.</p>
+          <button class="ds-btn is-block" type="button">Következő pálya <span data-pic="next"></span></button>
+        </div>
+      </div><span class="label">.ds-scrim + .ds-panel – felugró ablak: cím, egy mondat, egy nagy gomb</span></div>
+    </div>
+  </section>
+
+  <section id="mintak">
+    <h2>Játék-minták</h2>
+    <p class="ds-lead">Ami minden játékban visszatér: buborék, csillag, eredmény, jelvény, lista.</p>
+    <div class="grid" style="--min:300px">
+      <div><div class="demo" style="display:grid;gap:12px">
+        <div class="ds-say"><span class="ds-avatar is-bee" style="--size:52px"><img src="assets/brand/roles/kacsint.webp" alt=""></span>
+          <div class="ds-bubble"><b class="ds-who">Méhecske</b>Nézd meg a villanyórát!</div></div>
+        <div class="ds-say is-me"><span class="ds-avatar" style="--acc:var(--sky)"><span data-pic="people"></span></span>
+          <div class="ds-bubble">Megyek, már nézem is.</div></div>
+      </div><span class="label">.ds-say (+ is-me) · .ds-avatar (is-bee, --acc, --size) · .ds-bubble · .ds-who</span></div>
+
+      <div><div class="demo" style="display:grid;gap:14px;justify-items:start">
+        <span id="starsSmall"></span><span id="starsBig"></span>
+        <div class="ds-dots" aria-hidden="true"><i></i><i class="on"></i><i></i><i></i></div>
+      </div><span class="label">dsStarsHTML(n, max, big) · .ds-stars (is-big) · .ds-dots</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px">
+        <label class="ds-muted" for="demoName">Neved a ranglistán</label>
+        <input class="ds-input" id="demoName" placeholder="pl. Méhész Marci" maxlength="16">
+        <div class="ds-code" aria-label="Kódzár"><input class="ds-input" id="demoCode1" inputmode="numeric" maxlength="1" value="4" aria-label="1. számjegy"><input class="ds-input" id="demoCode2" inputmode="numeric" maxlength="1" value="2" aria-label="2. számjegy"><input class="ds-input" id="demoCode3" inputmode="numeric" maxlength="1" aria-label="3. számjegy"></div>
+      </div><span class="label">.ds-input · .ds-code</span></div>
+
+      <div><div class="demo"><div class="row" style="justify-content:space-around">
+        <div class="ds-badge"><span class="ds-hex" style="--acc:var(--butter)"><span data-pic="bolt"></span></span>Áramfaló-vadász</div>
+        <div class="ds-badge is-new"><span class="ds-hex" style="--acc:var(--sky)"><span data-pic="drop"></span></span>Csöpp-detektív</div>
+        <div class="ds-badge is-locked"><span class="ds-hex"><span data-pic="fire"></span></span>Még zárva</div>
+      </div></div><span class="label">.ds-badge (is-new, is-locked) + .ds-hex + piktogram</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px">
+        <ul class="ds-checklist">
+          <li class="is-done"><span data-pic="done"></span>Nézd meg a villanyszámlát</li>
+          <li><span data-pic="todo"></span>Keresd meg, mi fogyaszt éjjel</li>
+        </ul>
+        <div class="row"><span class="ds-tag is-accent"><span data-pic="pin"></span>Konyha</span><span class="ds-tag is-good">megvan</span><span class="ds-tag is-bad">feltételezés</span><span class="ds-tag is-dark">éjszaka</span></div>
+      </div><span class="label">.ds-checklist (is-done + pic done/todo) · .ds-tag (is-accent, is-good, is-bad, is-dark)</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px">
+        <div class="ds-bars">
+          <div class="ds-bar"><span data-pic="bolt"></span><i style="--v:82%"></i><b class="ds-num">3 100 kWh</b></div>
+          <div class="ds-bar is-after"><span data-pic="bolt"></span><i style="--v:55%"></i><b class="ds-num">2 080 kWh</b></div>
+        </div>
+        <div class="row"><span class="ds-loader" role="status" aria-label="Töltés"><i></i><i></i><i></i></span><div class="ds-skeleton" style="flex:1;height:18px"></div></div>
+        <p class="ds-muted" style="margin:0">Mintaszámok – csak a megjelenés bemutatására.</p>
+      </div><span class="label">.ds-bars / .ds-bar (is-after, --v) · .ds-loader · .ds-skeleton</span></div>
+
+      <div style="grid-column:1/-1"><div class="demo" style="background:var(--scrim)">
+        <div class="ds-panel" style="animation:none" id="resultDemo"></div>
+      </div><span class="label">.ds-panel + dsResultHTML({ mood, title, stars, score, scoreLabel, lead, stats, actions }) – minden játék szint/kör vége</span></div>
+    </div>
+  </section>
+
+  <section id="hangulat">
+    <h2>Méhecske-hangulatok</h2>
+    <p class="ds-lead">Helyzethez illő figura – a mérges méhecske soha nem reagál a játékosra.</p>
+    <div class="grid" id="moods" style="--min:130px"></div>
+  </section>
+
+  <section id="visszajelzes">
+    <h2>Visszajelzés-recept</h2>
+    <p class="ds-lead">Jó vagy rossz válasz: szín, ikon, hang, rezgés és méhecske – mindig együtt.</p>
+    <div class="grid" style="--min:260px">
+      <div class="ds-card is-flat" style="display:grid;gap:10px;justify-items:start">
+        <span class="ds-feedback is-good"><span data-pic="check"></span>Szuper!</span>
+        <button class="ds-btn-sm" type="button" data-fb="good"><span data-pic="sound"></span> Hallgasd meg</button>
+        <span class="label">dsFeedback('good') · méhecske: good · rezgés: rövid</span></div>
+      <div class="ds-card is-flat" style="display:grid;gap:10px;justify-items:start">
+        <span class="ds-feedback is-good"><span data-pic="star"></span>Rekord!</span>
+        <button class="ds-btn-sm" type="button" data-fb="great"><span data-pic="sound"></span> Hallgasd meg</button>
+        <span class="label">dsFeedback('great') · méhecske: great · rezgés: kettős</span></div>
+      <div class="ds-card is-flat" style="display:grid;gap:10px;justify-items:start">
+        <span class="ds-feedback is-bad ds-anim-shake" id="tryDemo"><span data-pic="refresh"></span>Majdnem!</span>
+        <button class="ds-btn-sm" type="button" data-fb="try"><span data-pic="sound"></span> Hallgasd meg</button>
+        <span class="label">dsFeedback('try') · méhecske: think · lágy, lefelé ívelő hang</span></div>
+    </div>
+  </section>
+
+  <section id="sotet">
+    <h2>Sötét környezet</h2>
+    <p class="ds-lead">Éjszakai nézet, hőkamera, mozi-jelenet: a <code>.ds-dark</code> átfordítja a szerep-színeket.</p>
+    <div class="ds-dark" style="background:var(--bg);border-radius:var(--r-l);padding:var(--sp-4)">
+      <div class="grid" style="grid-template-columns:repeat(auto-fit, minmax(240px, 1fr))">
+        <div class="ds-card" style="display:grid;gap:10px"><b class="ds-h3" style="color:var(--ink)">Éjszakai teszt</b>
+          <p class="ds-muted" style="margin:0">Minden lekapcsolva – mi pörgeti még az órát?</p>
+          <div class="row"><span class="ds-chip"><span data-pic="moon"></span>23:40</span><span class="ds-chip is-honey"><span data-pic="bolt"></span>48 W</span></div></div>
+        <div class="ds-card" style="display:grid;gap:10px;align-content:start">
+          <div class="ds-say"><span class="ds-avatar is-bee"><img src="assets/brand/moods/help.webp" alt=""></span><div class="ds-bubble">Kapcsold be a hőkamerát!</div></div>
+          <button class="ds-btn is-small" type="button"><span data-pic="thermo"></span> Hőkamera</button></div>
+      </div>
+    </div>
+    <p class="ds-muted" style="margin-top:8px">A „48 W” és a „23:40” csak megjelenési minta.</p>
+  </section>
+
+  <section id="mozgas">
+    <h2>Mozgás és rétegek</h2>
+    <p class="ds-lead">Egy közös mozgás-készlet – a „Kevesebb mozgás” beállítás mindet leállítja.</p>
+    <div class="grid" style="--min:340px;align-items:start">
+      <div><div class="demo"><div class="row" style="justify-content:space-around">
+        <span class="ds-hex ds-anim-float" style="--size:64px;--acc:var(--butter)"><span data-pic="bee"></span></span>
+        <span class="ds-loader"><i></i><i></i><i></i></span>
+        <button class="ds-btn-sm" type="button" id="replayAnim">Mutasd újra</button>
+      </div><div class="row" id="animRow" style="justify-content:space-around;margin-top:12px;flex-wrap:wrap;gap:10px">
+        <span class="ds-chip is-honey ds-anim-pop"><span data-pic="star"></span>+120</span>
+        <span class="ds-feedback is-bad ds-anim-shake" style="font-size:18px"><span data-pic="refresh"></span>Majdnem</span>
+        <span class="ds-chip ds-anim-drop"><span data-pic="box"></span>Érkezik</span>
+        <span class="ds-chip is-good ds-anim-tick"><span data-pic="check"></span>Talált</span>
+        <span class="ds-tag is-dark ds-anim-stamp" style="--stamp-rot:-8deg">ÍTÉLET</span>
+        <span class="ds-hex ds-anim-buzz" style="--size:48px;--acc:var(--honey)"><span data-pic="bee"></span></span>
+        <button class="ds-btn-sm ds-anim-glow" type="button" id="burstDemo">Röppentsd</button>
+        <span class="ds-chip ds-anim-sweep"><span data-pic="star"></span><b id="countDemo">0</b> pont</span>
+      </div></div><span class="label">.ds-anim-pop · -shake · -float · -spin · -in · -drop · -tick · -stamp · -rise · -buzz · -glow · -pulse · -sweep · -flip · -slide-l/-r · -out · .ds-delay-1…4<br>
+        JS: DS.motion.play(el,'stamp') · .rise('+120',x,y) · .burst(el) · .countUp(el, 1240) · tokenek: --t-fast/base/slow/xslow, --ease, --bounce</span></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Réteg</th><th>Mire</th></tr></thead>
+        <tbody id="layers"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section id="szereplok">
+    <h2>Szereplők</h2>
+    <p class="ds-lead">Minden játéknak saját szerepes méhecskéje van, hatszögben, a palettából vett háttérrel.</p>
+    <div class="grid" id="roles-grid" style="--min:150px"></div>
+    <p class="ds-muted">A figurák a beeco app illusztrációi. Új szerep (pl. kertész, vízvezeték-szerelő) csak a beeco illusztrátorával egyeztetve; külső anyagban a beeco jóváhagyása kell.</p>
+  </section>
+
+  <section id="illusztraciok">
+    <h2>Illusztrációk</h2>
+    <p class="ds-lead">Egy tárgy = egy lapokra tört árnyalású matrica fehér peremmel és puha olívazöld árnyékkal. Emoji és régi kódrajz helyett.
+      Használat: <code>artIcon('🧊')</code> (HTML) · <code>ART.image('i_tukor')</code> (vászon, 3D). Szabályok: <code>docs/grafika-spec.md</code>.</p>
+    <div class="demo" style="margin-bottom:var(--sp-4)">
+      <div class="row" id="artSizes" style="align-items:flex-end"></div>
+      <span class="label" style="display:block;margin-top:8px">Ugyanaz a matrica 120 · 72 · 40 · 24 px-en – kicsiben is felismerhető kell legyen.</span>
+    </div>
+    <div class="ds-tabs" id="artTabs" role="tablist" aria-label="Illusztráció-csoportok" style="flex-wrap:wrap"></div>
+    <p class="label" id="artCount" style="margin:10px 0"></p>
+    <div class="grid" id="artGrid" style="--min:112px"></div>
+    <details class="ds-details"><summary>Csere szebb képre (MI-képgenerátor vagy illusztrátor)</summary>
+      <p>Bármelyik matrica lecserélhető kész képre a játék kódjának módosítása nélkül: a promptok a <code>docs/illusztracio-promptok.csv</code>-ben,
+        a kész 512 × 512-es, átlátszó hátterű PNG-ket a <code>python3 tools/art-import.py &lt;mappa&gt;</code> tömöríti és köti be.</p></details>
+  </section>
+
+  <section id="parbeszed">
+    <h2>Párbeszédablak</h2>
+    <p class="ds-lead">Minden felugró panel <code>role="dialog"</code> + <code>aria-modal="true"</code>. A <code>ds.js</code> őre gondoskodik a többiről:
+      a Tab a panelen belül körbejár, az Esc a <code>data-ds-close</code> (vagy „Bezárás”) gombot nyomja, bezárás után a fókusz visszaáll.</p>
+    <div class="row"><button class="ds-btn is-small" type="button" id="dlgOpen">Próbáld ki billentyűzettel</button></div>
+    <div id="dlgDemo" class="ds-scrim" hidden>
+      <div class="ds-panel" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" style="max-width:420px;position:relative">
+        <button class="ds-icon-btn" data-ds-close aria-label="Bezárás" style="position:absolute;top:12px;right:12px" data-pic-close></button>
+        <h3 class="ds-title" id="dlgTitle">Nyomd a Tabot!</h3>
+        <p class="ds-lead">A fókusz nem szökik ki a panelből. Az Esc bezárja.</p>
+        <div class="ds-row"><button class="ds-btn-sm" type="button">Egy</button><button class="ds-btn-sm" type="button">Kettő</button></div>
+        <button class="ds-btn is-block" type="button" data-ds-close style="margin-top:var(--sp-3)">Rendben</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="markakepek">
+    <h2>Márka-képek</h2>
+    <p class="ds-lead">Megosztási előkép és böngésző-ikon – a design system elemeiből készülnek (<code>tools/og-kep.html</code>, <code>tools/ikon.html</code>),
+      újrakészítés: <code>node tools/brand-kepek.js</code>.</p>
+    <div class="grid" style="--min:260px">
+      <div><div class="demo" style="padding:var(--sp-2)"><img src="assets/brand/og-kep.png" alt="Megosztási előkép: a hat játék méhecskéi egy méhsejtben" style="width:100%;height:auto;border-radius:var(--r-s);display:block"></div>
+        <span class="label">og-kep.png · 1200 × 630 · Facebook, Messenger, LinkedIn</span></div>
+      <div><div class="demo row" style="justify-content:center;gap:var(--sp-4)"><img src="assets/brand/ikon-512.png" alt="" width="120" height="120">
+        <img src="assets/brand/ikon-180.png" alt="" width="60" height="60" style="border-radius:14px"><img src="assets/brand/ikon-32.png" alt="" width="32" height="32"></div>
+        <span class="label">ikon-512 · ikon-180 (iPhone kezdőképernyő) · ikon-32 (böngészőfül)</span></div>
+    </div>
+  </section>
+
+  <section id="vilag">
+    <h2>3D világ</h2>
+    <p class="ds-lead">A díszlet a <code>DS.world</code> (kint) és <code>DS.interior</code> (bent) palettából színez, a táblákat a <code>DS.signCanvas</code> rajzolja.</p>
+    <div class="grid" id="world" style="--min:130px"></div>
+    <div class="grid" style="--min:260px;margin-top:var(--sp-4)">
+      <div><div class="demo canvas-box" id="signDemo"></div><span class="label">DS.signCanvas('MŰANYAG ÉS FÉM') – kuka-tábla</span></div>
+      <div><div class="demo canvas-box" id="pillDemo"></div><span class="label">DS.pillCanvas('Pizzásdoboz') – hulladék neve</span></div>
+    </div>
+    <div class="dodont" style="margin-top:var(--sp-4)">
+      <div class="ds-card is-flat"><h3><span data-pic="check"></span>Így</h3><ul>
+        <li>Low-poly formák (kevés oldalú henger, ikozaéder), lapos tónusok.</li>
+        <li>Meleg napfény: <code>DS.light.outdoor</code>; meleg köd a háttérben.</li>
+        <li>Matricák fehér kontúrral, a táblák méz–olíva színben.</li>
+        <li>Kevés anyag, összevont geometria – mobilon is folyamatos.</li></ul></div>
+      <div class="ds-card is-flat"><h3><span data-pic="close"></span>Ne így</h3><ul>
+        <li>Fotórealista textúra, csillogó fém, erős tükröződés.</li>
+        <li>Tiszta fekete vagy a régi, harsány citromsárga.</li>
+        <li>Új, a palettán kívüli szín név nélkül a kódban.</li>
+        <li>Szöveg a 3D térben ott, ahol egy ikon is elég.</li></ul></div>
+    </div>
+  </section>
+
+  <section id="szoveg">
+    <h2>Szöveg és hangnem</h2>
+    <p class="ds-lead">Tegeződünk, röviden, bátorítóan – tanítunk, nem szidunk.</p>
+    <div class="dodont">
+      <div class="ds-card is-flat"><h3><span data-pic="check"></span>Így</h3><ul>
+        <li>„Majdnem! A tükör nem üveg – próbáld a kommunálist.”</li>
+        <li>„Szuper, ez a papírba megy!”</li>
+        <li>Számot csak hiteles forrással; ha nincs: „megtakarít, de nincs rá igazolt szám”.</li></ul></div>
+      <div class="ds-card is-flat"><h3><span data-pic="close"></span>Ne így</h3><ul>
+        <li>„Rossz válasz! Ezt illett volna tudni.”</li>
+        <li>Három mondat egy felugró ablakban.</li>
+        <li>Kitalált százalék a hatás érzékeltetésére.</li></ul></div>
+    </div>
+  </section>
+
+  <section id="ellenorzes">
+    <h2>Ellenőrzőlista új képernyőhöz</h2>
+    <p class="ds-lead">Mielőtt élesre megy – ezt nézzük meg.</p>
+    <div class="ds-card"><ol class="checklist">
+      <li>Csak tokenek (<code>var(--…)</code>) és <code>ds-</code> elemek; új szín/méret a <code>tokens.css</code>-be és a <code>ds.js</code>-be kerül.</li>
+      <li>Egy mondat látszik, a többi <code>.ds-details</code>-ben; egy nagy gomb.</li>
+      <li>Emoji helyett <code>pic()</code>; minden ikon-gombnak van <code>aria-label</code>-je.</li>
+      <li>Jó/rossz visszajelzés színnel ÉS ikonnal; koppintási felület legalább 44 px.</li>
+      <li>Megnézve: asztali, 375 × 812 álló telefon, 812 × 375 fekvő telefon; „Kevesebb mozgás” mellett is.</li>
+      <li>Felugró panel: <code>role="dialog"</code> + <code>aria-modal="true"</code>, a bezáró gombon <code>data-ds-close</code>.</li>
+      <li>Tárgy, étel, készülék képe: <code>artIcon()</code> matrica, nem emoji; új matrica a <code>docs/grafika-spec.md</code> szerint.</li>
+      <li><code>node tests/check-arculat.js</code> és <code>node tests/check-art.js</code> zöld.</li>
+    </ol></div>
+  </section>
+
+  <footer>Forrásfájlok: <code>css/tokens.css</code> · <code>css/ds.css</code> · <code>js/pics.js</code> · <code>js/ds.js</code> · szabályok: <code>docs/arculat.md</code></footer>
+</div>
+
+<script src="js/pics.js"></script>
+<script src="js/ds.js"></script>
+<script src="js/art/art.js"></script>
+<script src="js/art/art-nature.js"></script>
+<script src="js/art/art-nature-b.js"></script>
+<script src="js/art/art-home.js"></script>
+<script src="js/art/art-office.js"></script>
+<script src="js/art/art-food.js"></script>
+<script src="js/art/art-huto.js"></script>
+<script src="js/art/art-huto-kamra.js"></script>
+<script src="js/art/art-things.js"></script>
+<script src="js/art/art-things-b.js"></script>
+<script src="js/art/art-waste.js"></script>
+<script src="js/art/art-waste-b.js"></script>
+<script src="js/art/art-waste-special.js"></script>
+<script src="js/art/art-waste-special-b.js"></script>
+<script src="js/art/art-pecset.js"></script>
+<script src="js/art/art-gw.js"></script>
+<script src="js/art/art-gw-b.js"></script>
+<script src="js/art/art-gw-c.js"></script>
+<script src="js/art/art-gw-d.js"></script>
+<script src="js/art/art-imp.js"></script>
+<script src="js/art/art-devices.js"></script>
+<script src="js/art/art-extra.js"></script>
+<script>
+  // a kalauz tartalma a VALÓDI design system fájlokból épül (nem másolat)
+  const $ = (s) => document.querySelector(s);
+  document.querySelectorAll('[data-pic]').forEach(el => { el.outerHTML = pic(el.dataset.pic); });
+
+  const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue('--' + n).trim();
+  const lum = (hex) => { const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(x => x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+  const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+  const NAMES = { honey:'Méz', 'honey-deep':'Nyomott méz', butter:'Vaj', olive:'Olíva', 'olive-soft':'Halvány olíva', leaf:'Levél', sage:'Zsálya',
+    'sage-bg':'Halvány zsálya', cream:'Krém', paper:'Papír', blossom:'Rózsa', 'blossom-bg':'Halvány rózsa', berry:'Bogyó', sky:'Égkék', 'sky-bg':'Halvány égkék', ember:'Parázs', focus:'Fókusz' };
+  // a paletta családokba rendezve; a mintán az olvashatóbb szövegszín (olíva vagy krém) és a kontrasztja
+  const FAMILIES = [['Méz', ['honey', 'honey-deep', 'butter']], ['Olíva és levél', ['olive', 'olive-soft', 'leaf', 'sage', 'sage-bg']],
+    ['Alap', ['cream', 'paper']], ['Kiegészítők', ['blossom', 'blossom-bg', 'berry', 'sky', 'sky-bg', 'ember']], ['Rendszer', ['focus']]];
+  const swatch = (k) => { const v = DS.color[k];
+    const [ink, r] = [DS.color.olive, DS.color.cream].map(i => [i, contrast(v, i)]).sort((a, b) => b[1] - a[1])[0];
+    return `<div class="swatch"><div class="chip" style="background:${v};color:${ink}">Aa <span style="font:600 12px var(--body);margin-left:auto">${r.toFixed(1)}:1</span></div>
+      <div class="meta"><b>${NAMES[k] || k}</b><span class="label">--${k} · ${v}</span></div></div>`; };
+  $('#swatches').innerHTML = FAMILIES.map(([name, keys]) => `<h3 class="label" style="margin:14px 0 6px;font-size:var(--fs-s)">${name}</h3>
+    <div class="grid" style="--min:160px">${keys.map(swatch).join('')}</div>`).join('');
+  const ROLES = [['--bg', 'oldalháttér'], ['--surface', 'kártya, panel, gomb'], ['--ink', 'szöveg'], ['--ink-soft', 'másodlagos szöveg'], ['--line', 'körvonal'],
+    ['--accent', 'fő gomb, kiemelés'], ['--good-bg / --good-ink', 'jó válasz'], ['--good', 'bekapcsolt, kész'], ['--bad-bg / --bad-ink', 'próbáld újra'], ['--scrim', 'sötétítés felugró ablak mögött'], ['--focus', 'billentyűzet-fókusz, link']];
+  $('#roles').innerHTML = ROLES.map(([t, d]) => `<tr><td><code>${t}</code></td><td>${d}</td><td class="label">${t.split(' / ').map(x => cssVar(x.slice(2))).join(' / ')}</td></tr>`).join('');
+
+  $('#typescale').innerHTML = [['--fs-3xl', 'display', 'Mit játszunk ma?'], ['--fs-2xl', 'display', 'Hűtő-mester'], ['--fs-xl', 'display', '2075 – Vágod a zöld jövőt?'],
+    ['--fs-l', 'display', 'Szint vége · 1 240 pont'], ['--fs-m', 'body', 'A tükör nem üveg: bevonatos, ezért a kommunálisba megy.'],
+    ['--fs-s', 'body', 'Másodlagos szöveg, leírás, beállítás magyarázata.'], ['--fs-xs', 'body', 'Apró jelölés, forrás, lábjegyzet.']]
+    .map(([t, f, txt]) => `<div class="type-row"><span class="label">${t} · ${cssVar(t.slice(2))}<br>${f === 'display' ? 'Lalezar' : 'Open Sans'}</span>
+      <span style="font-family:var(--${f});font-size:var(${t});line-height:1.15">${txt}</span></div>`).join('');
+
+  $('#spacing').innerHTML = [1, 2, 3, 4, 5, 6].map(i => `<div class="row" style="gap:10px"><span class="label" style="width:84px">--sp-${i} · ${cssVar('sp-' + i)}</span><div class="bar" style="width:var(--sp-${i})"></div></div>`).join('');
+  $('#radii').innerHTML = ['r-s', 'r-m', 'r-l', 'r-xl', 'r-pill'].map(r => `<div><div class="radius-demo" style="border-radius:var(--${r})"></div><span class="label">--${r}</span></div>`).join('');
+
+  $('#pics').innerHTML = Object.keys(PIC_DEFS).map(k => `<div class="pic-cell">${pic(k)}<span class="label">${k}</span></div>`).join('');
+
+  fetch('data/jatekok.json').then(r => r.json()).then(d => {
+    const accName = Object.fromEntries(Object.entries(DS.color).map(([k, v]) => [v.toUpperCase(), k]));
+    $('#roles-grid').innerHTML = d.games.filter(g => g.role).map(g => `<div class="ds-card is-flat game-card">
+      <span class="ds-hex" style="--acc:${g.accent};--size:100px"><img src="${g.role}" alt=""></span>
+      <b style="font-size:var(--fs-l)">${g.title}</b><span class="label">--${accName[(g.accent || '').toUpperCase()] || '?'}</span></div>`).join('');
+  }).catch(() => {});
+
+  $('#world').innerHTML = Object.entries(Object.assign({}, DS.world, Object.fromEntries(Object.entries(DS.interior).map(([k, v]) => ['beltér: ' + k, v])))).filter(([, v]) => typeof v === 'number')
+    .map(([k, v]) => `<div class="swatch"><div class="chip" style="background:${DS.toCss(v)};height:52px"></div><div class="meta"><span class="label">${k}<br>${DS.toCss(v)}</span></div></div>`).join('')
+    + `<div class="swatch"><div class="chip" style="height:52px;padding:0">${DS.world.flowers.map(v => `<span style="flex:1;align-self:stretch;background:${DS.toCss(v)}"></span>`).join('')}</div><div class="meta"><span class="label">flowers</span></div></div>`;
+
+  // második kör: csillagok, eredmény, hangulatok, visszajelzés, rétegek
+  $('#starsSmall').innerHTML = dsStarsHTML(2);
+  $('#starsBig').innerHTML = dsStarsHTML(3, 3, true);
+  $('#resultDemo').innerHTML = dsResultHTML({ mood:'great', title:'Szint vége!', stars:3, score:'1 240', scoreLabel:'pont',
+    lead:'8 darabból 7 ment jó helyre.', stats:[{ icon:'check', value:'7/8', label:'Jó helyre', tone:'is-good' }, { icon:'flame', value:'5', label:'Leghosszabb sorozat' }, { icon:'timer', value:'1:12', label:'Idő' }],
+    actions:`<button class="ds-btn is-block" type="button">Következő pálya ${pic('next')}</button><div class="ds-row"><button class="ds-btn-sm" type="button">${pic('refresh')} Újra</button><button class="ds-btn-sm" type="button">${pic('home')} Menü</button></div>` });
+  const MOOD_TXT = { hello:'köszönés, menü', good:'jó válasz', great:'rekord, 3 csillag', think:'rossz válasz – „gondoljuk át!”', harm:'környezeti kár a tartalomban',
+    love:'köszönet, gyűjtemény', rank:'rangemelés, új jelvény', rest:'szünet, üres állapot', help:'tipp, útmutatás', action:'valódi tett otthon', app:'app letöltése' };
+  $('#moods').innerHTML = Object.entries(DS.moods).map(([k, src]) => `<div class="ds-card is-flat game-card"><img src="${src}" alt="" style="height:84px;width:auto">
+    <b style="font-size:var(--fs-l)">${k}</b><span class="ds-muted" style="font-size:var(--fs-xs)">${MOOD_TXT[k] || ''}</span></div>`).join('');
+  document.querySelectorAll('[data-fb]').forEach(b => b.addEventListener('click', () => { dsFeedback(b.dataset.fb);
+    if(b.dataset.fb === 'try'){ const t = $('#tryDemo'); t.classList.remove('ds-anim-shake'); void t.offsetWidth; t.classList.add('ds-anim-shake'); } }));
+  $('#burstDemo').addEventListener('click', e => { DS.motion.burst(e.currentTarget, 12);
+    DS.motion.rise('+120', e.currentTarget.getBoundingClientRect().left + 40, e.currentTarget.getBoundingClientRect().top, 'is-honey');
+    DS.motion.countUp($('#countDemo'), 1240); });
+  $('#replayAnim').addEventListener('click', () => $('#animRow').querySelectorAll('[class*="ds-anim-"]').forEach(el => {
+    const c = [...el.classList].find(x => x.startsWith('ds-anim-')); el.classList.remove(c); void el.offsetWidth; el.classList.add(c); }));
+  const LAYER_TXT = { world:'3D fölötti jelölők', hud:'játék közbeni kijelzők, 2D tábla', controls:'rendszergombok, vezérlők', bubble:'méhecske-buborék, bemutató',
+    panel:'szint vége, főmenü, nyomozótábla', popup:'panel fölötti ablak', scene:'teljes képernyős jelenet', alert:'felvillanás, betöltés', top:'megosztás, új jelvény' };
+  $('#layers').innerHTML = Object.entries(LAYER_TXT).map(([k, d]) => `<tr><td><code>--z-${k}</code> <span class="label">${cssVar('z-' + k)}</span></td><td>${d}</td></tr>`).join('');
+
+  // a táblákat a betű betöltése után rajzoljuk (különben tartalék betűvel készülne)
+  (document.fonts ? document.fonts.load('40px Lalezar') : Promise.resolve()).then(() => {
+    $('#signDemo').appendChild(DS.signCanvas('MŰANYAG ÉS FÉM'));
+    $('#pillDemo').appendChild(DS.pillCanvas('Pizzásdoboz'));
+  });
+
+  // illusztrációk: csoport-fülek + rács; a méret-sor egy jellemző matricával
+  const ART_GROUPS = [['', 'Mind'], ['nature', 'Természet'], ['home', 'Otthon'], ['office', 'Iroda'], ['food', 'Ételek'], ['huto', 'Hűtő-mester'], ['things', 'Tárgyak'], ['devices', 'Gépek'], ['extra', 'Egyéb'], ['waste', 'Hulladékok']];
+  const artCell = (n) => { const A = ART.LIB[n];
+    return `<div class="pic-cell" title="${A.en}">${artIcon(n, A.hu, 'art-demo')}<b style="font-size:var(--fs-xs);text-align:center">${A.hu}</b><span class="label">${n} ${(A.emoji || []).join(' ')}</span></div>`; };
+  function artShow(lib){
+    const names = ART.names().filter(n => !lib || (ART.LIB[n].lib || '').startsWith(lib));   // waste = waste + waste-special
+    $('#artGrid').innerHTML = names.map(artCell).join('');
+    $('#artCount').textContent = `${names.length} matrica`;
+    $('#artTabs').querySelectorAll('button').forEach(b => { const on = b.dataset.lib === lib; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+  }
+  $('#artTabs').innerHTML = ART_GROUPS.map(([k, t]) => `<button class="ds-tab" role="tab" type="button" data-lib="${k}">${t} <small class="label">${ART.names().filter(n => !k || (ART.LIB[n].lib || '').startsWith(k)).length}</small></button>`).join('');
+  $('#artTabs').addEventListener('click', e => { const b = e.target.closest('button'); if(b) artShow(b.dataset.lib); });
+  artShow('');
+  const sizeKey = ART.has('izzo') ? 'izzo' : ART.names()[0];
+  $('#artSizes').innerHTML = [120, 72, 40, 24].map(px => `<img src="${ART.src(sizeKey)}" alt="" width="${px}" height="${px}">`).join('');
+
+  // párbeszéd-minta (a fókusz-őr a ds.js-ben van)
+  document.querySelector('[data-pic-close]').innerHTML = pic('close');
+  const dlg = $('#dlgDemo');
+  $('#dlgOpen').innerHTML = pic('info') + ' Próbáld ki billentyűzettel';
+  $('#dlgOpen').addEventListener('click', () => { dlg.hidden = false; dlg.querySelector('.ds-btn-sm').focus(); });
+  dlg.addEventListener('click', e => { if(e.target === dlg || e.target.closest('[data-ds-close]')) dlg.hidden = true; });
+
+  // interaktív minták
+  $('#demoSwitch').addEventListener('click', e => { const b = e.currentTarget; b.setAttribute('aria-checked', b.getAttribute('aria-checked') !== 'true'); });
+  $('#demoSeg').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return;
+    e.currentTarget.querySelectorAll('button').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); });
+</script>
+</body>
+</html>
