@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="css/ds.css">
   <link rel="stylesheet" href="css/ds-game.css">
   <link rel="stylesheet" href="css/ds-motion.css">
+  <link rel="stylesheet" href="css/ds-ext.css">
   <style>
     /* csak a kalauz elrendezése – tokenekkel */
     *{ box-sizing:border-box; }
@@ -92,7 +93,7 @@
     <a class="ds-btn-sm" href="#visszajelzes">Visszajelzés</a><a class="ds-btn-sm" href="#sotet">Sötét</a><a class="ds-btn-sm" href="#mozgas">Mozgás</a>
     <a class="ds-btn-sm" href="#szereplok">Szereplők</a><a class="ds-btn-sm" href="#illusztraciok">Illusztrációk</a>
     <a class="ds-btn-sm" href="#parbeszed">Párbeszédablak</a><a class="ds-btn-sm" href="#markakepek">Márka-képek</a><a class="ds-btn-sm" href="#vilag">3D világ</a><a class="ds-btn-sm" href="#szoveg">Szöveg</a>
-    <a class="ds-btn-sm" href="#ellenorzes">Ellenőrzőlista</a>
+    <a class="ds-btn-sm" href="#uj-elemek">Új elemek (1.2)</a><a class="ds-btn-sm" href="#ellenorzes">Ellenőrzőlista</a>
   </nav>
 
   <section id="elvek">
@@ -424,6 +425,68 @@
     </div>
   </section>
 
+  <section id="uj-elemek">
+    <h2>Új elemek (1.2)</h2>
+    <p class="ds-lead">Változás, profil, forrás, tanító, időzítő, tippelés, magyarázat, alsó lap, képernyő-váz és nagy betű – <code>css/ds-ext.css</code> + <code>js/ds-ext.js</code>.</p>
+    <div class="grid" style="--min:320px;align-items:start">
+      <div><div class="demo" style="display:grid;gap:12px">
+        <div class="row" id="xDeltas"></div>
+        <div id="xMeters" style="display:grid;gap:12px"></div>
+        <button class="ds-btn-sm" type="button" id="xDeltaShow">Döntés után: mutasd a változást</button>
+      </div><span class="label">dsDeltaHTML({ label, icon, value, unit, better:'up'|'down', small }) · dsMeterHTML({ label, icon, value01, delta, deltaValue }) · DS.delta.show(el, [..])<br>
+        Előjel + nyíl + szín: a szín sosem egyedül jelez. <code>better:'down'</code>: ahol a kevesebb a jobb (CO₂, forint).</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px">
+        <div class="ds-seg" role="radiogroup" aria-label="Profil nézet" id="xProfSeg" style="justify-self:start">
+          <button type="button" role="radio" aria-checked="true" class="on" data-mode="radar">Radar</button><button type="button" role="radio" aria-checked="false" data-mode="bars">Sávok</button></div>
+        <div id="xProfile"></div>
+        <p class="ds-muted" style="margin:0">Mintaértékek – csak a megjelenés bemutatására.</p>
+      </div><span class="label">dsProfileHTML({ values:[{ label, icon, value01 }], mode:'radar'|'bars', title }) – 3–6 tengely; 3 alatt magától sáv</span></div>
+
+      <div><div class="demo" style="display:grid;gap:10px">
+        <p style="margin:0">Egy átlagos háztartás ennyi áramot használ egy évben. <span id="xAssume"></span></p>
+        <div id="xSource"></div>
+        <div id="xSource2"></div>
+      </div><span class="label">dsSourceHTML({ title, url, publisher, year, note }) – új lapon nyílik · dsAssumeHTML(szöveg) – nem mért, hanem feltételezett adat</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px;justify-items:start">
+        <div class="row"><span id="xRing"></span><span id="xRingSmall"></span>
+          <button class="ds-btn-sm" type="button" id="xRingGo">Indítsd (10 mp)</button><button class="ds-btn-sm" type="button" id="xRingStop">Állj</button></div>
+        <p class="ds-muted" style="margin:0" id="xRingMsg">Az utolsó negyedben bogyószín és lüktető szám; háttérbe tett lapon megáll.</p>
+      </div><span class="label">dsRingHTML({ seconds, size, label }) · DS.ring.start(el, mp, onEnd) → { stop, pause, resume, left } · DS.ring.stop(el)</span></div>
+
+      <div><div class="demo" style="display:grid;gap:14px">
+        <div id="xRange"></div>
+        <div><label class="ds-range-label" for="xRangeBare">Egyszerű változat</label><input class="ds-range" type="range" id="xRangeBare" min="0" max="10" value="4" style="--k:.4"></div>
+      </div><span class="label">dsRangeHTML({ id, label, min, max, step, value, unit, labels:[bal, jobb] }) + DS.range.bind(input) · egyszerű: input.ds-range (--k)<br>Nyilakkal, Home/End-del is állítható (natív csúszka).</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px">
+        <p style="margin:0">A villanyóra <b data-ds-tip="Kilowattóra: ennyi áramot fogyaszt egy 1 kW-os gép egy óra alatt." tabindex="0" style="text-decoration:underline dotted">kWh</b>-ban mér. <span id="xTipBtn"></span></p>
+        <div class="row"><button class="ds-btn-sm" type="button" id="xTipAttach">Mutass rá erre</button></div>
+      </div><span class="label">DS.tip.attach(el, szöveg) · jelölővel: data-ds-tip="…" (DS.tip.scan) · dsTipBtnHTML(szöveg, szó) – rámutatás, fókusz, koppintás; Esc zárja; a képernyő szélén átfordul</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px;justify-items:start">
+        <button class="ds-btn is-small" type="button" id="xSheetOpen"><span data-pic="info"></span> Mit jelent a profil?</button>
+        <button class="ds-btn-sm" type="button" id="xCoachGo">Mutasd a tanítót</button>
+      </div><span class="label">DS.sheet.open(html, { title, onClose }) · DS.sheet.close() – asztalon középen, 700 px alatt alulról (fül, lehúzás) ·
+        DS.coach.show(cél, { text, key }) – kulcsonként egyszer (beeco_coach_&lt;kulcs&gt;) · DS.coach.reset()</span></div>
+
+      <div><div class="demo" style="display:grid;gap:12px">
+        <div class="row" style="justify-content:space-between"><span style="font-weight:700">Nagy betű mód</span>
+          <button class="ds-switch" type="button" role="switch" aria-checked="false" id="xBig" aria-label="Nagy betű mód"></button></div>
+        <p class="ds-muted" style="margin:0">Minden betű és koppintási felület kb. 1,2×. Tárolva: <code>beeco_big</code>.</p>
+      </div><span class="label">&lt;html class="ds-big"&gt; · DS.big.set(true) · DS.big.get()</span></div>
+
+      <div style="grid-column:1/-1"><div class="demo" style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr))">
+        <div style="height:380px;border:var(--line-w) solid var(--line);border-radius:var(--r-l);overflow:hidden;background:var(--bg)">
+          <div class="ds-screen is-contained" id="xScreen"></div></div>
+        <div style="height:380px;border:var(--line-w) solid var(--line);border-radius:var(--r-l);overflow:hidden;background:var(--bg)">
+          <div class="ds-screen is-contained is-landscape" id="xScreenL"></div></div>
+      </div><span class="label">.ds-screen › .ds-screen-top (HUD: .ds-hud, .ds-hud-group, .ds-hud-spacer) · .ds-screen-main (tábla) · .ds-screen-tray (tálca)<br>
+        Töréspont: fekvő tájolás + legfeljebb 500 px magas kijelző → a tálca oldalra kerül (jobb oldali minta: .is-landscape kényszeríti). A notch-sávokat figyeli. .is-contained: beágyazva.</span></div>
+    </div>
+  </section>
+
   <section id="ellenorzes">
     <h2>Ellenőrzőlista új képernyőhöz</h2>
     <p class="ds-lead">Mielőtt élesre megy – ezt nézzük meg.</p>
@@ -444,6 +507,7 @@
 
 <script src="js/pics.js"></script>
 <script src="js/ds.js"></script>
+<script src="js/ds-ext.js"></script>
 <script src="js/art/art.js"></script>
 <script src="js/art/art-nature.js"></script>
 <script src="js/art/art-nature-b.js"></script>
@@ -560,6 +624,49 @@
   $('#dlgOpen').innerHTML = pic('info') + ' Próbáld ki billentyűzettel';
   $('#dlgOpen').addEventListener('click', () => { dlg.hidden = false; dlg.querySelector('.ds-btn-sm').focus(); });
   dlg.addEventListener('click', e => { if(e.target === dlg || e.target.closest('[data-ds-close]')) dlg.hidden = true; });
+
+  // ---- Új elemek (1.2): a ds-ext.js segédeivel ----
+  $('#xDeltas').innerHTML = [dsDeltaHTML({ label:'Természet', icon:'leaf', value:2 }), dsDeltaHTML({ label:'Pénz', icon:'coin', value:-1 }),
+    dsDeltaHTML({ label:'Béke', icon:'people', value:0 }), dsDeltaHTML({ label:'CO₂', icon:'fire', value:-12, unit:'kg', better:'down', small:true })].join('');
+  const X_METERS = [{ label:'Természet', icon:'leaf', value01:.62, delta:.12, deltaValue:2 }, { label:'Pénz', icon:'coin', value01:.35, delta:-.08, deltaValue:-1 }];
+  $('#xMeters').innerHTML = X_METERS.map(dsMeterHTML).join('');
+  $('#xDeltaShow').addEventListener('click', e => DS.delta.show($('#xMeters'), [{ label:'Természet', icon:'leaf', value:2 }, { label:'Pénz', icon:'coin', value:-1 }]));
+  const X_PROF = [{ label:'Természet', icon:'leaf', value01:.8 }, { label:'Pénz', icon:'coin', value01:.45 }, { label:'Emberek', icon:'people', value01:.65 },
+    { label:'Energia', icon:'bolt', value01:.3 }, { label:'Víz', icon:'drop', value01:.72 }];
+  const xProf = (mode) => { $('#xProfile').innerHTML = dsProfileHTML({ values:X_PROF, mode, title:'Rendszerprofil' }); };
+  xProf('radar');
+  $('#xProfSeg').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return;
+    e.currentTarget.querySelectorAll('button').forEach(x => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-checked', on); }); xProf(b.dataset.mode); });
+  $('#xAssume').innerHTML = dsAssumeHTML('4 fős család');
+  $('#xSource').innerHTML = dsSourceHTML({ title:'Háztartások energiafelhasználása', url:'https://www.ksh.hu/', publisher:'KSH', note:'minta-hivatkozás' });
+  $('#xSource2').innerHTML = dsSourceHTML({ publisher:'Nébih', year:2024 });
+  $('#xRing').innerHTML = dsRingHTML({ seconds:10 });
+  $('#xRingSmall').innerHTML = dsRingHTML({ seconds:10, size:44 });
+  $('#xRingGo').addEventListener('click', () => { $('#xRingMsg').textContent = 'Fut…';
+    DS.ring.start($('#xRing .ds-ring'), 10, () => { $('#xRingMsg').textContent = 'Lejárt az idő!'; });
+    DS.ring.start($('#xRingSmall .ds-ring'), 10); });
+  $('#xRingStop').addEventListener('click', () => { DS.ring.stop($('#xRing .ds-ring')); DS.ring.stop($('#xRingSmall .ds-ring')); $('#xRingMsg').textContent = 'Megállítva.'; });
+  $('#xRange').innerHTML = dsRangeHTML({ id:'xTipp', label:'Szerinted hány kWh egy év?', min:0, max:6000, step:100, value:2500, unit:'kWh', labels:['kevés', 'sok'] });
+  DS.range.bind($('#xTipp')); DS.range.bind($('#xRangeBare'));
+  $('#xTipBtn').innerHTML = dsTipBtnHTML('A mérő mutatja, mennyi áram folyt át rajta, amióta felszerelték.', 'villanyóra');
+  DS.tip.scan(document);
+  DS.tip.attach($('#xTipAttach'), 'Ez a buborék a képernyő szélén átfordul, hogy mindig látsszon.');
+  $('#xSheetOpen').addEventListener('click', () => DS.sheet.open(
+    `<p class="ds-lead">A profil megmutatja, a döntéseid mire hatottak – egyik sem „jó” vagy „rossz” magában.</p>
+     ${dsProfileHTML({ values:X_PROF, mode:'bars' })}
+     <details class="ds-details"><summary>Hogyan számoljuk?</summary><p>Minden döntés a tengelyekre hat; a végén a tengelyek aránya látszik.</p></details>
+     <button class="ds-btn is-block" type="button" data-ds-close style="margin-top:var(--sp-4)">Értem</button>`, { title:'Mit jelent a profil?' }));
+  $('#xCoachGo').addEventListener('click', () => { DS.coach.reset('kalauz-demo');
+    DS.coach.show($('#xSheetOpen'), { key:'kalauz-demo', text:'Koppints ide: itt látod, mit jelent a profil.' }); });
+  const xBig = $('#xBig'); xBig.setAttribute('aria-checked', DS.big.get());
+  xBig.addEventListener('click', () => xBig.setAttribute('aria-checked', DS.big.set(xBig.getAttribute('aria-checked') !== 'true')));
+  const screenHTML = () => `<div class="ds-screen-top"><div class="ds-hud">
+      <button class="ds-icon-btn" type="button" aria-label="Menü">${pic('menu')}</button>
+      <div class="ds-hud-group"><span class="ds-chip is-small is-honey">${pic('star')}240</span><span class="ds-chip is-small">${pic('heart')}3</span></div>
+      <span class="ds-hud-spacer"></span>${dsRingHTML({ seconds:8, size:44 })}</div></div>
+    <div class="ds-screen-main"><div class="ds-card" style="text-align:center;max-width:90%"><b class="ds-h3">Tábla</b><p class="ds-muted" style="margin:4px 0 0">a játék tere – rugalmas</p></div></div>
+    <div class="ds-screen-tray"><button class="ds-btn-sm" type="button">${pic('leaf')} Park</button><button class="ds-btn-sm" type="button">${pic('bolt')} Napelem</button><button class="ds-btn-sm" type="button">${pic('drop')} Kút</button></div>`;
+  $('#xScreen').innerHTML = screenHTML(); $('#xScreenL').innerHTML = screenHTML();
 
   // interaktív minták
   $('#demoSwitch').addEventListener('click', e => { const b = e.currentTarget; b.setAttribute('aria-checked', b.getAttribute('aria-checked') !== 'true'); });

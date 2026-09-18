@@ -1,0 +1,18 @@
+/* ============================================================
+   ÁRAMLÁS-MOZGÁS (web/js/aramlas.js → DS_FLOW) – a vonal mentén haladó pöttyök kinézete
+   Egy pötty = két nulla hosszú, kerek végű vonal: olíva perem (.dsf-rim) + színes mag (.dsf-core).
+   A „non-scaling-stroke” miatt a vastagság képernyő-pixelben értendő, így torzított SVG-ben is kerek a pötty.
+   A szín a csoport osztályából jön (is-honey, is-leaf …) – csak tokenek.
+   ============================================================ */
+.dsf{ pointer-events:none; --dsf-c:var(--honey); }
+.dsf line{ stroke-linecap:round; vector-effect:non-scaling-stroke; fill:none; }
+.dsf .dsf-rim{ stroke:var(--line); }
+.dsf .dsf-core{ stroke:var(--dsf-c); }
+.dsf.is-honey{ --dsf-c:var(--honey); }   .dsf.is-leaf{ --dsf-c:var(--leaf); }
+.dsf.is-sky{ --dsf-c:var(--sky); }       .dsf.is-blossom{ --dsf-c:var(--blossom); }
+.dsf.is-ember{ --dsf-c:var(--ember); }   .dsf.is-berry{ --dsf-c:var(--berry); }
+.dsf.is-cream{ --dsf-c:var(--cream); }   .dsf.is-paper{ --dsf-c:var(--paper); }
+.dsf.is-olive{ --dsf-c:var(--olive); }
+.dsf.is-olive .dsf-rim{ stroke:var(--paper); }   /* sötét pötty világos peremmel */
+/* álló (Kevesebb mozgás) pöttyök kicsit halványabbak – jelzés, nem mozgás */
+.dsf.is-still{ opacity:.85; }

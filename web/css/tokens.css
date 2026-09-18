@@ -77,6 +77,28 @@
   --z-alert:40;    /* felvillanás, betöltés */
   --z-top:46;      /* legfelül: megosztás, új jelvény */
 
+  /* ---- 10. Adatskálák (hőtérkép, élőhely-érték, hálózati terhelés) – leírás: docs/adatskala.md ----
+     Mind az 5 fokozaton olvasható az olíva szöveg (≥ 4,5:1), ezért szám és jelvény is ülhet rajtuk.
+     Szabály: a szín soha nem egyedül mond valamit – mellé szám, jel (+/−) vagy ikon is kell. */
+  /* egyirányú (szekvenciális): kevés → sok · halvány zsálya → mély levél */
+  --scale-1:#EEF3DE; --scale-2:#D8E4BC; --scale-3:#BFD29A; --scale-4:#A6BF7B; --scale-5:#8BA863;
+  /* kétirányú (divergáló): rossz ← semleges krém → jó · rózsa/bogyó ↔ levél (a pozitív oldal = scale-2 / scale-4) */
+  --div-neg-2:#E88FA6; --div-neg-1:#F7C6D2; --div-0:#FBF3E0; --div-pos-1:#D8E4BC; --div-pos-2:#A6BF7B;
+  /* színtévesztő-barát változat (kék ↔ narancs; vörös–zöld tévesztésnél is szétválik) */
+  --scale-cb-1:#E6F1FB; --scale-cb-2:#C6E0F6; --scale-cb-3:#A2CBEF; --scale-cb-4:#80B5E6; --scale-cb-5:#66A3DD;
+  --div-cb-neg-2:#F0A35E; --div-cb-neg-1:#F9D1A8; --div-cb-0:#FBF3E0; --div-cb-pos-1:#C6E0F6; --div-cb-pos-2:#80B5E6;
+  /* szerepek: a felületek EZEKET használják – a .ds-cb osztály (html vagy body) a színtévesztő változatra vált */
+  --data-seq-1:var(--scale-1); --data-seq-2:var(--scale-2); --data-seq-3:var(--scale-3); --data-seq-4:var(--scale-4); --data-seq-5:var(--scale-5);
+  --data-neg-2:var(--div-neg-2); --data-neg-1:var(--div-neg-1); --data-0:var(--div-0); --data-pos-1:var(--div-pos-1); --data-pos-2:var(--div-pos-2);
+  --on-data:var(--olive);   /* szöveg bármelyik adatfokozaton */
+
   /* ---- Régi nevek (neo-brutalista skin) → új tokenek. Új kódban NE használd; a check-arculat.js számolja. ---- */
   --sarga:var(--honey); --fekete:var(--olive); --krem:var(--cream);
+}
+
+/* ---- Színtévesztő-barát adatskála: <html class="ds-cb"> vagy <body class="ds-cb"> (beállításból kapcsolható) ----
+   Csak a --data-* szerepeket írja át, a paletta és a többi felület változatlan. */
+.ds-cb{
+  --data-seq-1:var(--scale-cb-1); --data-seq-2:var(--scale-cb-2); --data-seq-3:var(--scale-cb-3); --data-seq-4:var(--scale-cb-4); --data-seq-5:var(--scale-cb-5);
+  --data-neg-2:var(--div-cb-neg-2); --data-neg-1:var(--div-cb-neg-1); --data-0:var(--div-cb-0); --data-pos-1:var(--div-cb-pos-1); --data-pos-2:var(--div-cb-pos-2);
 }

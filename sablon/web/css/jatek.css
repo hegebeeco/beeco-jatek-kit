@@ -6,7 +6,9 @@
 body { margin:0; min-height:100vh; background:var(--bg); color:var(--ink); font-family:var(--body); }
 #jatek { max-width:560px; margin:0 auto; padding:max(16px, env(safe-area-inset-top)) var(--sp-4) max(24px, env(safe-area-inset-bottom));
   display:flex; flex-direction:column; gap:var(--sp-4); }
-.jtErtekek { display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; }
+@media (max-width:560px){ #jatek { padding-top:max(64px, calc(env(safe-area-inset-top) + 56px)); } }   /* a fogaskerék ne takarjon */
+.jtErtekek { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap:8px 14px; }
+.jtErtekek > * { min-width:0; }
 .jtErtek { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; }
 .jtErtek img.art { width:28px; height:auto; } .jtErtek .ds-meter { flex:1 1 auto; }
 .jtKartya { text-align:center; padding:var(--sp-4); width:100%; }

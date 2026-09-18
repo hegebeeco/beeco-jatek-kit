@@ -21,16 +21,18 @@ beecoProfil.jatek({ id:JATEK_ID, nev:'{{NEV}}', ikon:'lombfa', kuldetesek:[{ id:
 async function jatekStart(){
   if(!T) await tartalomKesz;
   keretEredmeny.elrejt(); beecoHang.zeneStart(); beecoBridge.meres('start');
-  allapot = { i:0, ertek:Object.fromEntries(T.ertekek.map(e => [e.id, 0])), sorrend:T.kartyak.slice().sort(() => Math.random() - 0.5) };
+  allapot = { i:0, utolso:{}, ertek:Object.fromEntries(T.ertekek.map(e => [e.id, 0])), sorrend:T.kartyak.slice().sort(() => Math.random() - 0.5) };
   rajzol();
 }
 function kezdolap(){
   jatekEl.innerHTML = `<div class="ds-panel jtKartya ds-anim-in"><h1 class="ds-title">${esc(T ? T.cim : '')}</h1>
     <p class="ds-lead">${esc(T ? T.bevezeto : '')}</p><button class="ds-btn is-block" data-j="start">Kezdés ${pic('play')}</button></div>`;
 }
+// jelzőcsíkok a legutóbbi változással (ds-ext: dsMeterHTML – „szellem” szakasz + ↑/↓ jelzés); érték −6…+6 → 0…1
+const ertek01 = v => 0.5 + v/12;
 function ertekekHTML(){
-  return `<div class="ds-card jtErtekek">${T.ertekek.map(e => `<div class="jtErtek" title="${esc(e.nev)}">${artIcon(e.matrica)}
-    <div class="ds-meter" role="img" aria-label="${esc(e.nev)}"><i style="--v:${50 + allapot.ertek[e.id]*8}%"></i></div></div>`).join('')}</div>`;
+  return `<div class="ds-card jtErtekek">${T.ertekek.map(e => dsMeterHTML({ label:e.nev, icon:e.matrica, value01:ertek01(allapot.ertek[e.id]),
+    delta:(allapot.utolso[e.id] || 0)/12, deltaValue:allapot.utolso[e.id] || null })).join('')}</div>`;   // változás nélkül nincs jelzés
 }
 function rajzol(){
   const k = allapot.sorrend[allapot.i];
@@ -39,14 +41,19 @@ function rajzol(){
     <div class="jtGombok"><button class="ds-btn" data-j="bal">${pic('back')} ${esc(k.bal.felirat)}</button>
       <button class="ds-btn" data-j="jobb">${esc(k.jobb.felirat)} ${pic('next')}</button></div>
     <p class="ds-muted">${allapot.i + 1}/${allapot.sorrend.length}</p>`;
+  // első alkalommal a tanító megmutatja, mit kell csinálni (egyszer, eszközönként)
+  if(allapot.i === 0) setTimeout(() => DS.coach.show(jatekEl.querySelector('.jtGombok'), { key:JATEK_ID + '_elso', text:'Válassz a két lehetőség közül – figyeld, mi változik a csíkokon!' }), 400);
 }
 function dont(oldal){
   const k = allapot.sorrend[allapot.i], hatas = k[oldal].hatas || {};
-  for(const [id, v] of Object.entries(hatas)) allapot.ertek[id] = Math.max(-6, Math.min(6, (allapot.ertek[id] || 0) + v));
+  allapot.utolso = {};
+  for(const [id, v] of Object.entries(hatas)){ const elotte = allapot.ertek[id] || 0; allapot.ertek[id] = Math.max(-6, Math.min(6, elotte + v)); allapot.utolso[id] = allapot.ertek[id] - elotte; }
   dsFeedback('good');                                              // nincs „rossz” válasz – minden döntés hat valamire
   beecoProfil.gyujt(JATEK_ID, k.id + '_' + oldal, k[oldal].felirat, k.matrica);   // a döntés matricája az albumba
   allapot.i++; rajzol();
-  jatekEl.querySelectorAll('.ds-meter').forEach(m => DS.motion.play(m, 'pulse'));
+  // mi változott? felugró változásjelzők a csíkok fölött („+2 Természet ↑”)
+  const d = T.ertekek.filter(e => allapot.utolso[e.id]).map(e => ({ label:e.nev, value:allapot.utolso[e.id] }));
+  if(d.length) DS.delta.show(jatekEl.querySelector('.jtErtekek'), d);
 }
 // A menet vége: szöveges profil (a két legerősebben elmozdult értékből) – nem pontszám, nem „jó/rossz” pecsét
 function vege(){
@@ -54,6 +61,8 @@ function vege(){
   const profil = rend.map(([id, v]) => T.profilok[id] ? T.profilok[id][v >= 0 ? 'fel' : 'le'] : '').filter(Boolean).join(' ');
   jatekEl.innerHTML = ertekekHTML();
   keretEredmeny.mutat({ mood:'good', title:'Így alakult a városod', lead:profil, ujraFelirat:'Új menet', ujra:jatekStart,
+    more:[{ icon:'chart', title:'A városod profilja', html:dsProfileHTML({ title:'A városod', mode:'radar',
+      values:T.ertekek.map(e => ({ label:e.nev, icon:e.matrica, value01:ertek01(allapot.ertek[e.id]) })) }) }],
     kilep:() => (keretKioszk.aktiv ? keretKioszk.kezdolap() : kezdolap()) });
 }
 jatekEl.addEventListener('click', e => {

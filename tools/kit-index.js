@@ -36,6 +36,8 @@ const mod = (d, re) => ls(d, re).map(f => ({ nev:d.replace('web/', '') + '/' + f
 add('Játék-mechanikák', 'games', 'mechanikak.html', mod('web/js/mech', /\.js$/));
 add('Közös keret', 'home', 'keret.html', mod('web/js/keret', /\.js$/).concat(['profil.js', 'hang.js', 'szereplok.js', 'qr.js', 'offline.js'].filter(f => exists('web/js/' + f)).map(f => ({ nev:'js/' + f, info:leiras('web/js/' + f) }))));
 add('3D világ és hátterek', 'sun', 'vilag.html', mod('web/js/vilag', /\.js$/));
+add('2D hátterek és áramlás', 'flow', 'hatterek.html', mod('web/js/hatter2d', /\.js$/).concat(exists('web/js/aramlas.js') ? [{ nev:'js/aramlas.js', info:leiras('web/js/aramlas.js') }] : []));
+add('Design system bővítés (1.2)', 'palette', 'arculat.html', exists('web/js/ds-ext.js') ? [{ nev:'js/ds-ext.js', info:leiras('web/js/ds-ext.js') }, { nev:'css/ds-ext.css', info:'új ds- elemek stílusa' }] : []);
 add('Eszközök', 'tip', null, ls('tools', /\.(js|py|html)$/).map(f => ({ nev:'tools/' + f, info:leiras('tools/' + f) })));
 add('Szabálykönyvek', 'diary', null, ls('docs', /\.md$/).map(f => ({ nev:'docs/' + f, info:(rd('docs/' + f).match(/^#\s+(.+)$/m) || [, ''])[1] })));
 add('Claude-skillek', 'bee', null, ls('.claude/skills', /^[a-z-]+$/).map(d => ({ nev:d, info:((rd(`.claude/skills/${d}/SKILL.md`).match(/^description:\s*(.+)$/m) || [, ''])[1]).slice(0, 180) })));

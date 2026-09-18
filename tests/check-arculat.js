@@ -49,6 +49,9 @@ const PAIRS = [
   ['on-accent', 'accent', 4.5],
   // sötét környezet (.ds-dark a ds-game.css-ben): krém szöveg éjszakai alapon, zsálya másodlagos szöveg és körvonal
   ['cream', 'night', 4.5], ['cream', 'night-surface', 4.5], ['sage', 'night-surface', 4.5], ['sage', 'night', 3],
+  // adatskálák (docs/adatskala.md): a szám/jelvény olíva szövege minden fokozaton olvasható – a színtévesztő változaton is
+  ...['scale-', 'scale-cb-'].flatMap(p => [1, 2, 3, 4, 5].map(i => ['on-data', p + i, 4.5])),
+  ...['div-', 'div-cb-'].flatMap(p => ['neg-2', 'neg-1', '0', 'pos-1', 'pos-2'].map(i => ['on-data', p + i, 4.5])),
   ['focus', 'bg', 3], ['line', 'bg', 3], ['good', 'surface', 3],   // nem szöveg (3:1): fókuszkeret, körvonal, bekapcsolt kapcsoló a sor hátterén (az állapotot a gomb helye is mutatja)
 ];
 const contrastRows = [];

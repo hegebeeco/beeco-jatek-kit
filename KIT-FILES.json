@@ -62,7 +62,17 @@
   "web/css/mech.css",
   "web/mechanikak.html",
   "docs/mechanikak.md",
-  "tests/check-mech.js"
+  "tests/check-mech.js",
+  "web/css/ds-ext.css",
+  "web/js/ds-ext.js",
+  "web/js/aramlas.js",
+  "web/css/aramlas.css",
+  "web/js/hatter2d/",
+  "web/hatterek.html",
+  "docs/hatterek-2d.md",
+  "docs/adatskala.md",
+  "tests/check-ds-ext.js",
+  "tests/check-hatter2d.js"
  ],
  "sablon": [
   "tests/check-arculat.js",

@@ -38,8 +38,10 @@
   border:2.5px solid var(--sage); border-radius:var(--r-s); color:var(--ink); background:var(--surface); --heat:0;
   transition:background var(--t-base) var(--ease); }
 .mr-cell.is-filled{ border-color:var(--line); }
-.mr-cell.is-plus{ background:color-mix(in srgb, var(--leaf) calc(var(--heat) * 45%), var(--surface)); }
-.mr-cell.is-minus{ background:color-mix(in srgb, var(--blossom) calc(var(--heat) * 80%), var(--surface)); }
+/* hőtérkép: az adatskála fokozatai (docs/adatskala.md) – a szín mellett mindig ott a +/− jelvény is */
+.mr-cell.is-s1{ background:var(--data-seq-1); } .mr-cell.is-s2{ background:var(--data-seq-2); } .mr-cell.is-s3{ background:var(--data-seq-3); }
+.mr-cell.is-s4{ background:var(--data-seq-4); } .mr-cell.is-s5{ background:var(--data-seq-5); }
+.mr-cell.is-n1{ background:var(--data-neg-1); } .mr-cell.is-n2{ background:var(--data-neg-2); }
 .mr-cell:hover{ border-color:var(--line); }
 .mr-cell:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
 .mr-tile{ font-size:clamp(22px, 6vw, 38px); line-height:1; display:grid; place-items:center; }

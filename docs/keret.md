@@ -23,7 +23,7 @@ A sablon (`sablon/web/js/jatek.js`) mindet használja – onnan érdemes kiindul
 | `profil.js` | közös album, napi küldetés + sorozat, jelvények – minden játékon át | `beecoProfil.jatek({ id, nev, ikon, kuldetesek })`, `.gyujt(játék, id, név, matrica)`, `.kor({ stars })` |
 | `qr.js` | QR-kód (az app letöltéséhez) – a könyvtár csak kérésre töltődik (cdnjs, SRI) | `qrHTML(url, px)`, `qrFill(gyökér)` |
 | `keret/kioszk.js` | rendezvényi mód `?kioszk=1`: kezdőképernyő, védelem, tétlenségi alaphelyzet, képernyővédő, nagyítás | `keretKioszk.indit({ cim, alcim, kep, kartyak, inditas(id), alaphelyzet() })` |
-| `szereplok.js` | a Zöldi család rajzolt szereplői + a méhecske | `szereploHTML('anya', 'talk')`, `szereploHozzaad(id, kinézet, név)` |
+| `szereplok.js` | rajzolt szereplők: a Zöldi család (`anya`, `apa`, `panni`, `marci`, `nagyi`), 8 kitalált városlakó (`polgarmester`, `boltos`, `diak`, `nyugdijas`, `kertesz`, `buszsofor`, `orvos`, `tanar` – valódi személy, pártszín nélkül) + a méhecske (`meh`); hangulat: `happy` · `talk` · `sad`; saját figurához haj, fejfedő (`hat`) és ruha-részlet (`detail`) is választható | `szereploHTML('anya', 'talk')`, `szereploHozzaad(id, kinézet, név)`, `SZEREPLO_NEV[id]` |
 
 ## A befogadónak (weboldal / beeco app – @Bence)
 Minden üzenet `window.parent.postMessage` (iframe) vagy `BeecoBridge.postMessage(JSON)` (Flutter `webview_flutter` JS-csatorna).

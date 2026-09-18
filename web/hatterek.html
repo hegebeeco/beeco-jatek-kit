@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>beeco 2D hátterek és áramlás</title>
+  <meta name="theme-color" content="#FECF39">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/ikon-32.png">
+  <!--
+    ÉLŐ BEMUTATÓ: 2D háttér-jelenetek (web/js/hatter2d/) és az áramlás-mozgás (web/js/aramlas.js).
+    Leírás és API: docs/hatterek-2d.md
+  -->
+  <link rel="preload" href="assets/fonts/lalezar-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/ds.css">
+  <link rel="stylesheet" href="css/ds-game.css">
+  <link rel="stylesheet" href="css/ds-motion.css">
+  <link rel="stylesheet" href="css/mech.css">
+  <link rel="stylesheet" href="css/aramlas.css">
+  <style>
+    /* csak a bemutató elrendezése – tokenekkel */
+    *{ box-sizing:border-box; }
+    body{ margin:0; color:var(--ink); font-family:var(--body); font-size:var(--fs-m); line-height:1.5; background:var(--bg); }
+    #pageBg{ position:fixed; inset:0; width:100%; height:100%; z-index:-1; }        /* a lap háttere maga is a méhsejt-vászon */
+    .wrap{ max-width:1060px; margin:0 auto; padding-inline:var(--sp-4); padding-block:var(--sp-5) 64px; }
+    header.top{ display:flex; align-items:center; gap:var(--sp-4); flex-wrap:wrap; }
+    header.top img{ width:76px; height:auto; }
+    header.top h1{ font:400 clamp(32px, 6vw, var(--fs-3xl))/1 var(--display); margin:0; }
+    .bar{ display:flex; flex-wrap:wrap; gap:var(--sp-2); align-items:center; margin-top:var(--sp-4); }
+    .bar a{ color:var(--ink); text-decoration:none; }
+    .bar label{ display:flex; align-items:center; gap:var(--sp-2); margin-left:auto; font-weight:700; font-size:var(--fs-s); }
+    section{ margin-top:var(--sp-6); scroll-margin-top:16px; }
+    section > h2{ font:400 var(--fs-2xl)/1.05 var(--display); margin:0 0 var(--sp-1); display:flex; align-items:center; gap:var(--sp-2); }
+    section > h2 .pic{ width:34px; height:34px; }
+    .for{ margin:0 0 var(--sp-3); }
+    .demo{ background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-l); box-shadow:var(--soft); padding:var(--sp-3); }
+    .stage{ position:relative; aspect-ratio:16 / 9; border:var(--line-w) solid var(--line); border-radius:var(--r-m); overflow:hidden; background:var(--sage-bg); }
+    .stage > canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+    .stage .over{ position:absolute; left:var(--sp-3); bottom:var(--sp-3); z-index:1; }
+    .row{ display:flex; gap:var(--sp-2) var(--sp-3); flex-wrap:wrap; align-items:center; margin-top:var(--sp-3); }
+    .row label{ display:flex; align-items:center; gap:var(--sp-2); font-weight:700; font-size:var(--fs-s); }
+    .row input[type=range]{ accent-color:var(--leaf); width:min(220px, 50vw); }
+    .two{ display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-3); }
+    .two .stage{ aspect-ratio:4 / 3; }
+    .cap{ font-size:var(--fs-xs); font-weight:700; margin:var(--sp-1) 0 0; color:var(--ink-soft); }
+    pre{ margin:var(--sp-3) 0 0; padding:var(--sp-3); background:var(--bg); border-radius:var(--r-s); overflow-x:auto; font-size:var(--fs-xs); line-height:1.5; white-space:pre-wrap; word-break:break-all; }
+    .net{ width:100%; height:auto; display:block; }
+    .net .pipe{ fill:none; stroke-width:6; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+    .net .pipe.is-leaf{ stroke:var(--sage); } .net .pipe.is-sky{ stroke:var(--sky-bg); } .net .pipe.is-ember{ stroke:var(--butter); }
+    .net .node{ fill:var(--butter); stroke:var(--line); stroke-width:3; }
+    .net text{ font:700 13px var(--body); fill:var(--ink); text-anchor:middle; }
+    @media (max-width:640px){
+      .stage{ aspect-ratio:3 / 4; } .two{ grid-template-columns:1fr; } section > h2{ font-size:var(--fs-xl); }
+    }
+  </style>
+</head>
+<body class="ds-page">
+<canvas id="pageBg" aria-hidden="true"></canvas>
+<div class="wrap">
+  <header class="top">
+    <img src="assets/brand/bee-happy.webp" alt="">
+    <div><h1>2D hátterek és áramlás</h1><p class="ds-lead">Egyszer rajzolt háttér-jelenetek 2D játékokhoz, és mozgó pöttyök a vonalakon.</p></div>
+  </header>
+  <nav class="bar" aria-label="Tartalom">
+    <a class="ds-tag" href="#varos">1 · Város</a><a class="ds-tag" href="#konyha">2 · Konyha</a>
+    <a class="ds-tag" href="#kert">3 · Kert</a><a class="ds-tag" href="#mehsejt">4 · Méhsejt</a><a class="ds-tag" href="#aramlas">5 · Áramlás</a>
+    <label>Kevesebb mozgás <button type="button" class="ds-switch" role="switch" aria-checked="false" id="rm" aria-label="Kevesebb mozgás"></button></label>
+  </nav>
+
+  <section id="varos">
+    <h2><span data-pic="map"></span>Város: ma és 2075</h2>
+    <p class="for ds-muted">Kinek: 2075, városi döntések · <code>hatter2d/varos.js</code> · a két kép ugyanabból az elrendezésből készül</p>
+    <div class="demo">
+      <div class="stage" id="vStage"></div>
+      <div class="row">
+        <div class="ds-seg" role="radiogroup" aria-label="Változat" id="vSeg">
+          <button type="button" role="radio" aria-checked="true" data-v="0">Ma (szmog)</button>
+          <button type="button" role="radio" aria-checked="false" data-v="1">2075 (zöld)</button></div>
+        <label>Jövő-mérő <input type="range" id="vMix" min="0" max="100" value="0" aria-label="Jövő-mérő"></label>
+        <button type="button" class="ds-btn-sm" id="vNew"><span data-pic="refresh"></span> Új elrendezés</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="konyha">
+    <h2><span data-pic="home"></span>Konyha</h2>
+    <p class="for ds-muted">Kinek: Hűtő-mester 2D, receptes és maradékmentő játékok · <code>hatter2d/konyha.js</code></p>
+    <div class="demo">
+      <div class="stage"><canvas id="kCanvas" aria-hidden="true"></canvas></div>
+      <div class="row">
+        <label>Hűtő <button type="button" class="ds-switch" role="switch" aria-checked="true" id="kFridge" aria-label="Hűtő"></button></label>
+        <label>Lámpa <button type="button" class="ds-switch" role="switch" aria-checked="true" id="kLamp" aria-label="Lámpa"></button></label>
+        <button type="button" class="ds-btn-sm" id="kNew"><span data-pic="refresh"></span> Új elrendezés</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="kert">
+    <h2><span data-pic="leaf"></span>Kert</h2>
+    <p class="for ds-muted">Kinek: beporzós, komposztos, kerti játékok · <code>hatter2d/kert.js</code></p>
+    <div class="demo">
+      <div class="stage"><canvas id="gCanvas" aria-hidden="true"></canvas></div>
+      <div class="row">
+        <label>Kaptár <button type="button" class="ds-switch" role="switch" aria-checked="true" id="gHive" aria-label="Kaptár"></button></label>
+        <label>Méhecskék <input type="range" id="gBees" min="0" max="6" value="3" aria-label="Méhecskék száma"></label>
+        <button type="button" class="ds-btn-sm" id="gNew"><span data-pic="refresh"></span> Új elrendezés</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="mehsejt">
+    <h2><span data-pic="palette"></span>Méhsejt-minta</h2>
+    <p class="for ds-muted">Menük, kalauz-oldalak, 2D táblák háttere · <code>hatter2d/mehsejt.js</code> · vászonra vagy CSS-háttérnek</p>
+    <div class="demo">
+      <div class="two">
+        <div><div class="stage"><canvas id="mCanvas" aria-hidden="true"></canvas></div><p class="cap">Vászon (kitöltött sejtekkel)</p></div>
+        <div><div class="stage" id="mCss"></div><p class="cap">CSS-háttér (vászon nélkül)</p></div>
+      </div>
+      <div class="row">
+        <label>Sűrűség <input type="range" id="mDen" min="0" max="100" value="50" aria-label="Sűrűség"></label>
+        <label>Erősség <input type="range" id="mOp" min="4" max="40" value="12" aria-label="Erősség"></label>
+        <label>Méz-cseppek <input type="range" id="mFill" min="0" max="30" value="6" aria-label="Kitöltött sejtek"></label>
+        <div class="ds-seg" role="radiogroup" aria-label="Vonal színe" id="mSeg">
+          <button type="button" role="radio" aria-checked="true" data-c="honey-deep">Méz</button>
+          <button type="button" role="radio" aria-checked="false" data-c="leaf">Levél</button>
+          <button type="button" role="radio" aria-checked="false" data-c="olive-soft">Olíva</button></div>
+      </div>
+      <pre id="mCode"></pre>
+    </div>
+  </section>
+
+  <section id="aramlas">
+    <h2><span data-pic="link"></span>Áramlás-mozgás</h2>
+    <p class="for ds-muted">Beporzó a kapcsolaton, víz a csőben, áram a vezetéken · <code>js/aramlas.js</code> (DS_FLOW)</p>
+    <div class="demo">
+      <svg class="net" id="net" viewBox="0 0 600 220" role="img" aria-label="Minta-hálózat: rét, kaptár, kút és napelem, a vonalakon mozgó pöttyökkel">
+        <path class="pipe is-leaf" id="p1" d="M80 60 C 200 10, 260 150, 300 110"/>
+        <path class="pipe is-sky" id="p2" d="M300 110 C 360 70, 440 190, 520 150"/>
+        <line class="pipe is-ember" id="p3" x1="300" y1="110" x2="480" y2="40"/>
+        <polyline class="pipe is-leaf" id="p4" points="80,60 110,170 300,110"/>
+        <circle class="node" cx="80" cy="60" r="22"/><circle class="node" cx="300" cy="110" r="26"/>
+        <circle class="node" cx="520" cy="150" r="22"/><circle class="node" cx="480" cy="40" r="22"/>
+        <text x="80" y="102">Rét</text><text x="300" y="158">Kaptár</text><text x="520" y="194">Kút</text><text x="480" y="82">Napelem</text>
+      </svg>
+      <p class="cap">SVG: <code>DS_FLOW.along(path, { color:'honey' | 'sky' | 'ember', both:true })</code></p>
+    </div>
+    <div class="demo" style="margin-top:var(--sp-3)">
+      <div id="mvDemo"></div>
+      <p class="cap">A pontok-összekötése mechanika <code>flow:true</code> beállítással – húzz új kapcsolatot!</p>
+    </div>
+    <div class="demo" style="margin-top:var(--sp-3)">
+      <div class="stage" style="aspect-ratio:3 / 1"><canvas id="fCanvas" aria-hidden="true"></canvas></div>
+      <p class="cap">Vászon: <code>DS_FLOW.canvas(ctx, pontok, { auto:true, before:rajzolj })</code> – a játék saját képkocka-ciklusából <code>f.draw()</code></p>
+    </div>
+  </section>
+</div>
+
+<script src="js/pics.js"></script>
+<script src="js/ds.js"></script>
+<script src="js/art/art.js"></script>
+<script src="js/aramlas.js"></script>
+<script src="js/hatter2d/alap.js"></script>
+<script src="js/hatter2d/varos.js"></script>
+<script src="js/hatter2d/konyha.js"></script>
+<script src="js/hatter2d/kert.js"></script>
+<script src="js/hatter2d/mehsejt.js"></script>
+<script src="js/mech/kozos.js"></script>
+<script src="js/mech/vonal-logika.js"></script>
+<script src="js/mech/vonal-ui.js"></script>
+<script src="js/hatter2d/bemutato.js"></script>
+</body>
+</html>

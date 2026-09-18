@@ -14,7 +14,9 @@ ugyanazzal a minőséggel induljon, és a fejlesztések (új matrica, új piktog
 | **Eszközök** – ablak nélküli böngészős ellenőrzés, smoke-teszt, matrica-render/ív/prompt/import, 3D-ellenőrzés | `tools/` |
 | **Szabálykönyvek** – arculat, rajzolási mérce (B szint), promptolás, offline + CI, **játéktervezési elvek** | `docs/` |
 | **Claude-skillek** – `beeco-arculat`, `beeco-jatek` | `.claude/skills/` |
-| **Kalauz** – kereshető áttekintés mindenről + al-oldalak | `web/kit.html` (→ arculat, modellek, vilag, mechanikak, keret) |
+| **Kalauz** – kereshető áttekintés mindenről + al-oldalak | `web/kit.html` (→ arculat, modellek, vilag, mechanikak, hatterek, keret) |
+| **Design system 1.2** – változásjelző, profil-ábra, tanító, gyűrű, csúszka, lap, képernyő-váz, adatskálák | `web/js/ds-ext.js`, `web/css/ds-ext.css`, `docs/adatskala.md` |
+| **2D hátterek + áramlás** – város, konyha, kert, méhsejt; mozgó pöttyök | `web/js/hatter2d/`, `web/js/aramlas.js`, `docs/hatterek-2d.md` |
 | **3D világ-készlet** – 42 kódból épített tárgy + `beecoVilag()` (ég, felhők, szigetek, rét) | `web/js/3d/`, `web/js/vilag/`, `docs/3d-vilag.md` |
 | **Játék-mechanikák** – döntéskártya, rácsos lerakás, vonalhúzás, kombinálás | `web/js/mech/`, `docs/mechanikak.md` |
 | **Közös keret** – kör vége, beállítások, kifelé menő csatorna + mérés, kioszk, hang, szereplők | `web/js/keret/`, `hang.js`, `szereplok.js`, `docs/keret.md` |

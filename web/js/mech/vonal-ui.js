@@ -6,7 +6,9 @@
 //    types:{ ret:{ label:'Rét', icon:'🌼' }, … },
 //    maxDist:30, maxLinks:8, maxDegree:3, allow:(a, b) => true,          // korlátok (vonal-logika.js)
 //    tall:1.5,                                                           // telefonon ennyivel magasabb a térkép
-//    onChange:(metrics, graph) => {…} })
+//    onChange:(metrics, graph) => {…},
+//    flow:true | { dots:2, color:'honey', speed:40, both:true } })   // NEM KÖTELEZŐ: beporzók röpködnek a kapcsolatokon
+//                                                                   // (web/js/aramlas.js + css/aramlas.css kell hozzá; nélküle nincs hatása)
 //  Vissza: { graph, connect(a, b), remove(t), select(id), refresh(), destroy() }
 //  Kezelés: húzás pontról pontra · VAGY két koppintás (a, majd b) · billentyű: Tab + Enter ugyanígy; vonalon Enter/Delete = törlés.
 // ============================================================
@@ -30,6 +32,9 @@
     const map = el.querySelector('.mv-map'), svg = map.querySelector('svg'), edgesG = svg.querySelector('.mv-edges');
     const temp = svg.querySelector('.mv-temp'), range = svg.querySelector('.mv-range'), msg = el.querySelector('.mv-msg');
     const nodeEl = new Map();
+    // áramlás a kapcsolatokon (DS_FLOW) – csak ha kérték ÉS be van töltve az aramlas.js
+    const flowOpts = o.flow && root.DS_FLOW ? Object.assign({ dots:2, color:'honey', speed:40, size:8, both:true }, o.flow === true ? {} : o.flow) : null;
+    let flows = [];
     const label = (n) => (types[n.type] || {}).label || n.label || n.id;
 
     for(const n of graph.nodes()){
@@ -90,6 +95,7 @@
 
     function refresh(changed, fresh){
       const m = graph.metrics(), bridge = new Set(m.bridges.map(e => e.join('|'))), crit = new Set(m.critical), iso = new Set(m.isolated);
+      flows.forEach(f => root.DS_FLOW.stop(f)); flows = [];
       edgesG.innerHTML = '';
       for(const [a, b] of graph.edges()){
         const p = graph.node(a), q = graph.node(b), g = document.createElementNS(NS, 'g');
@@ -101,6 +107,7 @@
         g.addEventListener('click', del);
         g.addEventListener('keydown', (e) => { if(['Enter', ' ', 'Delete', 'Backspace'].includes(e.key)){ e.preventDefault(); del(); } });
         edgesG.appendChild(g);
+        if(flowOpts){ const f = root.DS_FLOW.along(g.querySelector('.mv-link'), flowOpts); if(f) flows.push(f); }
       }
       nodeEl.forEach((b, id) => {
         const n = graph.node(id); if(!n){ b.remove(); nodeEl.delete(id); return; }
@@ -124,7 +131,7 @@
     }
     map.addEventListener('pointerdown', (e) => { if(e.target === map || e.target === svg) select(null); });
     refresh(false);
-    return { graph, connect, remove, select, refresh:() => refresh(false), destroy(){ el.innerHTML = ''; el.classList.remove('mv'); } };
+    return { graph, connect, remove, select, refresh:() => refresh(false), destroy(){ flows.forEach(f => root.DS_FLOW.stop(f)); flows = []; el.innerHTML = ''; el.classList.remove('mv'); } };
   }
 
   root.MechVonal = Object.assign(root.MechVonal || {}, { mount });

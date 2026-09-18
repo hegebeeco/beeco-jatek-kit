@@ -21,8 +21,10 @@
     section { margin-top:var(--sp-5); } h2 { font:400 var(--fs-xl)/1.1 var(--display); margin:0 0 8px; }
     code { background:var(--sage-bg); padding:1px 5px; border-radius:6px; font-size:13px; }
     .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .cast { display:flex; gap:14px; flex-wrap:wrap; } .cast figure { margin:0; text-align:center; width:104px; }
-    .cast .szereplo { width:96px; height:auto; } .cast figcaption { font-weight:700; font-size:13px; }
+    .cast { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:var(--sp-3); }
+    .cast figure { margin:0; text-align:center; background:var(--surface); border:2px solid var(--sage); border-radius:var(--r-m); padding:var(--sp-2) var(--sp-2) 6px; }
+    .cast .moods { display:flex; justify-content:center; gap:2px; } .cast .szereplo { width:33%; max-width:72px; height:auto; }
+    .cast figcaption { font-weight:700; font-size:13px; margin-top:2px; } .cast figcaption small { display:block; font-weight:400; color:var(--ink-soft); }
     .missions { display:flex; flex-direction:column; gap:6px; max-width:560px; }
     .mission { display:flex; justify-content:space-between; gap:10px; background:var(--surface); border:2px solid var(--line); border-radius:var(--r-m); padding:6px 10px; }
     .mission.ok { background:var(--good-bg); color:var(--good-ink); }
@@ -45,7 +47,8 @@
     <div class="row"><button class="ds-btn-sm" id="p1">Matrica beragasztása (próba)</button><span class="ds-chip" id="pa"></span><span class="ds-chip" id="pj"></span></div>
     <h3>Mai küldetés</h3><div class="missions" id="pm"></div></section>
 
-  <section><h2>Szereplők</h2><p><code>szereploHTML(id, 'talk' | 'happy' | 'sad')</code> · új szereplő: <code>szereploHozzaad()</code></p>
+  <section><h2>Szereplők</h2><p><code>szereploHTML(id, 'talk' | 'happy' | 'sad')</code> · új szereplő: <code>szereploHozzaad()</code> (haj, fejfedő, ruha-részlet: <code>js/szereplok.js</code> fejléce).
+    A városlakók kitalált figurák – valódi személyt, pártszínt nem viselnek. Minden szereplő három hangulatban: vidám · beszél · szomorú.</p>
     <div class="cast" id="cast"></div></section>
 
   <section><h2>Hang</h2><p><code>beecoHang</code> – halk háttérzene, hangjelzés; a visszajelző hangok: <code>dsFeedback('good' | 'great' | 'try')</code>.</p>
@@ -90,7 +93,9 @@
   }
   $('p1').onclick = () => { const t = ['lombfa', 'bicikli', 'kulacs', 'napelem'][Math.floor(Math.random()*4)]; beecoProfil.gyujt('kalauz', t + Date.now(), t, t); profil(); };
   profil();
-  $('cast').innerHTML = ['anya', 'apa', 'panni', 'marci', 'nagyi', 'meh'].map(id => `<figure>${szereploHTML(id, 'happy')}<figcaption>${SZEREPLO_NEV[id]}</figcaption></figure>`).join('');
+  // minden szereplő (a család, a városlakók, a méhecske) – vidám · beszél · szomorú
+  $('cast').innerHTML = [...Object.keys(SZEREPLO_KINEZET), 'meh'].map(id => `<figure><div class="moods">${['happy', 'talk', 'sad'].map(m => szereploHTML(id, m)).join('')}</div>
+    <figcaption>${SZEREPLO_NEV[id] || id}<small><code>${id}</code></small></figcaption></figure>`).join('');
   $('h1').onclick = () => dsFeedback('good'); $('h2').onclick = () => dsFeedback('try');
   $('h3').onclick = () => { beecoHang.setMusic(!beecoHang.music); toast(beecoHang.music ? 'Zene be' : 'Zene ki'); };
   keretKioszk.indit({ cim:'Közös keret – kioszk-próba', alcim:'Így néz ki egy játék kezdőképernyője a standon.', kep:'assets/brand/roles/kacsint.webp',

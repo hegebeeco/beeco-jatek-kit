@@ -1,0 +1,227 @@
+/* ============================================================
+   beeco design system — BŐVÍTÉS 1.2 (a ds.css / ds-game.css / ds-motion.css után töltsd be)
+
+   Új elemek: változásjelző (delta) és változást mutató mérő, profil-ábra (radar / sávok), forrás-sor és
+   feltételezés-címke, első lépés tanító (coachmark), visszaszámláló gyűrű, csúszka (tippelés), magyarázó buborék,
+   alsó lap (bottom sheet), képernyő-váz (HUD · tábla · tálca), nagy betű mód.
+   Csak tokenekkel (css/tokens.css). JS-segédek: web/js/ds-ext.js. Bemutató: /arculat.html → „Új elemek (1.2)”.
+   Szabály: a szín soha nem egyedüli jel – mindig ikon vagy előjel is van mellette.
+   ============================================================ */
+
+/* ---- 1. Változásjelző: „↑ +2 Természet” – jó irány: zsálya, rossz irány: rózsa, nincs változás: semleges ---- */
+.ds-delta{ display:inline-flex; align-items:center; gap:5px; white-space:nowrap; font:700 var(--fs-s)/1 var(--body);
+  padding:5px 11px 4px 7px; border:2.5px solid var(--line); border-radius:var(--r-pill); box-shadow:var(--soft-sm);
+  background:var(--surface); color:var(--ink); }
+.ds-delta .pic, .ds-delta img.art{ width:18px; height:18px; vertical-align:0; }
+.ds-delta-sign{ display:inline-grid; place-items:center; min-width:18px; font:400 var(--fs-m)/1 var(--display); }
+.ds-delta-num{ font:400 var(--fs-m)/1 var(--display); font-variant-numeric:tabular-nums; }
+.ds-delta.is-good{ background:var(--good-bg); color:var(--good-ink); }
+.ds-delta.is-bad{ background:var(--bad-bg); color:var(--bad-ink); }
+.ds-delta.is-zero{ color:var(--ink-soft); border-style:dashed; box-shadow:none; }
+.ds-delta.is-small{ font-size:var(--fs-xs); padding:3px 8px 2px 5px; border-width:2px; }
+.ds-delta.is-small .ds-delta-num, .ds-delta.is-small .ds-delta-sign{ font-size:var(--fs-s); }
+.ds-delta.is-small .pic, .ds-delta.is-small img.art{ width:15px; height:15px; }
+
+/* felugró változás-köteg egy elem fölött (DS.delta.show) */
+.ds-delta-pop{ position:fixed; z-index:var(--z-alert); pointer-events:none; display:flex; flex-direction:column; align-items:center; gap:var(--sp-1);
+  transform:translate(-50%, -100%); }
+.ds-delta-pop .ds-delta{ animation:dsDeltaUp 1.8s var(--ease) both; }
+.ds-delta-pop .ds-delta:nth-child(2){ animation-delay:.1s; } .ds-delta-pop .ds-delta:nth-child(3){ animation-delay:.2s; }
+.ds-delta-pop .ds-delta:nth-child(n+4){ animation-delay:.3s; }
+@keyframes dsDeltaUp{ 0%{ transform:translateY(8px) scale(.85); opacity:0; } 14%{ transform:translateY(0) scale(1.06); opacity:1; }
+  22%{ transform:scale(1); } 78%{ transform:translateY(-10px); opacity:1; } 100%{ transform:translateY(-22px); opacity:0; } }
+
+/* mérő változással: a mostani szint + a változás „szellem” szakasza csíkozva (a csík a jel, nem csak a szín) */
+.ds-mrow{ display:grid; gap:var(--sp-1); }
+.ds-mrow-head{ display:flex; align-items:center; gap:var(--sp-2); font:700 var(--fs-s)/1.2 var(--body); color:var(--ink); }
+.ds-mrow-head > .pic, .ds-mrow-head > img.art{ width:22px; height:22px; }
+.ds-mrow-head .ds-delta{ margin-left:auto; }
+.ds-meter.is-delta{ position:relative; }
+.ds-meter-ghost{ position:absolute; top:0; bottom:0; left:var(--a, 0%); width:var(--w, 0%); pointer-events:none;
+  border-left:2px dashed var(--line); border-right:2px dashed var(--line); }
+.ds-meter-ghost.is-good{ background:repeating-linear-gradient(-45deg, var(--good) 0 5px, var(--good-bg) 5px 10px); }
+.ds-meter-ghost.is-bad{ background:repeating-linear-gradient(-45deg, var(--blossom) 0 5px, var(--bad-bg) 5px 10px); }
+.ds-meter-ghost.is-zero{ display:none; }
+
+/* ---- 2. Profil-ábra: radar (3–6 tengely) vagy vízszintes sávok – a futam végi „rendszerprofil” ---- */
+.ds-profile{ position:relative; width:100%; max-width:440px; margin-inline:auto; color:var(--ink); }
+.ds-profile.is-radar{ aspect-ratio:var(--ar, 440 / 290); }
+.ds-profile > svg{ position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.ds-profile .ds-rg-ring{ fill:none; stroke:var(--sage); stroke-width:1.5; }
+.ds-profile .ds-rg-ring.is-outer{ fill:var(--surface); stroke:var(--line); stroke-width:2; }
+.ds-profile .ds-rg-axis{ stroke:var(--sage); stroke-width:1.5; }
+.ds-profile .ds-rg-shape{ fill:var(--accent); fill-opacity:.72; stroke:var(--line); stroke-width:3; stroke-linejoin:round; }
+.ds-profile .ds-rg-dot{ fill:var(--surface); stroke:var(--line); stroke-width:2.5; }
+.ds-profile-lbl{ position:absolute; left:var(--x); top:var(--y); max-width:30%; display:flex; align-items:center; gap:4px;
+  font:700 var(--fs-xs)/1.15 var(--body); color:var(--ink); transform:translate(var(--tx, -50%), var(--ty, -50%)); }
+.ds-profile-lbl .pic, .ds-profile-lbl img.art{ width:18px; height:18px; flex:0 0 auto; }
+.ds-profile-lbl b{ font:400 var(--fs-s)/1 var(--display); font-variant-numeric:tabular-nums; }
+.ds-profile-lbl.is-l{ flex-direction:row-reverse; text-align:right; max-width:calc(var(--x) - 2px); }
+.ds-profile-lbl.is-r{ max-width:calc(100% - var(--x) - 2px); }
+.ds-profile-lbl.is-c{ max-width:44%; text-align:center; }
+.ds-profile.is-bars{ display:grid; gap:var(--sp-2); }
+.ds-profile-bar{ display:grid; grid-template-columns:minmax(0, 9em) 1fr 3.2em; gap:var(--sp-2); align-items:center; font:700 var(--fs-s)/1.2 var(--body); }
+.ds-profile-bar > span{ display:flex; align-items:center; gap:6px; min-width:0; }
+.ds-profile-bar > span .pic, .ds-profile-bar > span img.art{ width:20px; height:20px; }
+.ds-profile-bar > b{ text-align:right; font:400 var(--fs-m)/1 var(--display); font-variant-numeric:tabular-nums; }
+
+/* ---- 3. Forrás-sor és feltételezés-címke ---- */
+.ds-source{ display:flex; align-items:flex-start; gap:6px; margin:var(--sp-1) 0 0; font-size:var(--fs-xs); line-height:1.45; color:var(--ink-soft); }
+.ds-source > .pic{ width:15px; height:15px; margin-top:1px; }
+.ds-source a{ color:var(--focus); font-weight:700; text-underline-offset:2px; }
+.ds-source a:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; border-radius:4px; }
+.ds-source-note{ font-style:italic; }
+.ds-assume{ display:inline-flex; align-items:center; gap:5px; vertical-align:middle; padding:3px 9px 2px 6px; border:2px dashed var(--line);
+  border-radius:var(--r-pill); background:var(--butter); color:var(--ink); font:600 var(--fs-xs)/1.3 var(--body); }
+.ds-assume .pic{ width:15px; height:15px; }
+.ds-assume b{ font-weight:800; text-transform:uppercase; letter-spacing:.4px; font-size:11px; }
+
+/* ---- 4. Első lépés tanító (coachmark): fénykör a célon + méhecske-buborék, kulcsonként egyszer ---- */
+.ds-coach{ position:fixed; inset:0; z-index:var(--z-scene); }
+.ds-coach-ring{ position:fixed; border-radius:var(--r-m); border:var(--line-w) solid var(--accent); pointer-events:none;
+  box-shadow:0 0 0 3px var(--line), 0 0 0 200vmax var(--scrim); animation:dsCoachRing 1.6s var(--ease) infinite;
+  transition:left var(--t-base) var(--ease), top var(--t-base) var(--ease), width var(--t-base) var(--ease), height var(--t-base) var(--ease); }
+@keyframes dsCoachRing{ 0%,100%{ outline:0 solid var(--glow); } 50%{ outline:8px solid var(--glow-0); } }
+.ds-coach-say{ position:fixed; width:min(340px, calc(100vw - 24px)); animation:dsFadeUp var(--t-base) var(--ease) both; }
+.ds-coach-say .ds-bubble{ max-width:none; flex:1; font-size:var(--fs-m); box-shadow:var(--soft); }
+.ds-coach-say .ds-bubble .ds-btn-sm{ display:flex; margin:var(--sp-2) 0 0 auto; min-height:var(--tap); align-items:center; }
+
+/* ---- 5. Visszaszámláló gyűrű: fogyó méz-ív, a szám mindig középen; az utolsó negyedben bogyószín + lüktetés ---- */
+.ds-ring{ position:relative; display:inline-grid; place-items:center; width:var(--size, 64px); height:var(--size, 64px); flex:0 0 auto;
+  border-radius:50%; background:var(--surface); border:var(--line-w) solid var(--line); box-shadow:var(--soft-sm); }
+.ds-ring svg{ position:absolute; inset:2px; width:calc(100% - 4px); height:calc(100% - 4px); transform:rotate(-90deg); }
+.ds-ring-track{ fill:none; stroke:var(--sage-bg); stroke-width:6; }
+.ds-ring-bar{ fill:none; stroke:var(--accent); stroke-width:6; stroke-linecap:round; transition:stroke var(--t-base); }
+.ds-ring-num{ position:relative; font:400 calc(var(--size, 64px) * .38)/1 var(--display); font-variant-numeric:tabular-nums; color:var(--ink); padding-top:.12em; }
+.ds-ring.is-low .ds-ring-bar{ stroke:var(--bad-ink); }
+.ds-ring.is-low .ds-ring-num{ color:var(--bad-ink); animation:dsPulse .9s var(--ease) infinite; }
+.ds-ring.is-low{ background:var(--bad-bg); }
+.ds-ring.is-done .ds-ring-num{ animation:none; }
+.ds-ring.is-paused .ds-ring-num{ opacity:.55; }
+
+/* ---- 6. Csúszka (tippelés): natív <input type="range"> – billentyűzettel is megy ----
+   .ds-range: maga a bemenet (egyszerű változat: kerek méz fogantyú). A dsRangeHTML() mezője (.ds-range-field)
+   rárajzolja a méz HATSZÖG fogantyút és a lebegő érték-buborékot; a natív fogantyú láthatatlanul alatta marad. */
+.ds-range{ -webkit-appearance:none; appearance:none; width:100%; height:var(--tap); margin:0; background:none; cursor:pointer; touch-action:pan-y; }
+.ds-range::-webkit-slider-runnable-track{ height:14px; border:var(--line-w) solid var(--line); border-radius:var(--r-pill);
+  background:linear-gradient(90deg, var(--accent) calc(var(--k, .5) * 100%), var(--sage-bg) 0); }
+.ds-range::-moz-range-track{ height:8px; border:var(--line-w) solid var(--line); border-radius:var(--r-pill); background:var(--sage-bg); }
+.ds-range::-moz-range-progress{ height:8px; border-radius:var(--r-pill); background:var(--accent); }
+.ds-range::-webkit-slider-thumb{ -webkit-appearance:none; width:30px; height:30px; margin-top:-11px; border-radius:50%;
+  background:var(--accent); border:var(--line-w) solid var(--line); box-shadow:var(--soft-sm); }
+.ds-range::-moz-range-thumb{ width:24px; height:24px; border-radius:50%; background:var(--accent); border:var(--line-w) solid var(--line); }
+.ds-range:focus-visible{ outline:none; }
+.ds-range:focus-visible::-webkit-slider-thumb{ outline:3px solid var(--focus); outline-offset:3px; }
+.ds-range:focus-visible::-moz-range-thumb{ outline:3px solid var(--focus); outline-offset:3px; }
+
+.ds-range-field{ --thumb:32px; display:grid; gap:2px; }
+.ds-range-label{ font:700 var(--fs-s)/1.3 var(--body); color:var(--ink); }
+.ds-range-box{ position:relative; margin-top:34px; }   /* fölötte az érték-buborék helye */
+.ds-range-field .ds-range::-webkit-slider-runnable-track{ background:linear-gradient(90deg, var(--accent) calc(var(--thumb) / 2 + var(--k, .5) * (100% - var(--thumb))), var(--sage-bg) 0); }
+.ds-range-field .ds-range::-webkit-slider-thumb{ width:var(--thumb); height:var(--tap); margin-top:-18px; opacity:0; }
+.ds-range-field .ds-range::-moz-range-thumb{ width:var(--thumb); height:var(--tap); opacity:0; border:0; }
+.ds-range-hex{ position:absolute; top:50%; left:calc(var(--k, .5) * (100% - var(--thumb))); width:var(--thumb); aspect-ratio:1 / 1.1;
+  transform:translateY(-50%); clip-path:var(--hex); background:var(--line); pointer-events:none; }
+.ds-range-hex::after{ content:""; position:absolute; inset:3.5px; clip-path:var(--hex); background:var(--accent); }
+.ds-range-field .ds-range:focus-visible ~ .ds-range-hex{ background:var(--focus); }
+.ds-range-field .ds-range:active ~ .ds-range-hex{ transform:translateY(-50%) scale(1.12); }
+.ds-range-val{ position:absolute; bottom:calc(100% + 2px); left:calc(var(--k, .5) * (100% - var(--thumb)) + var(--thumb) / 2);
+  transform:translateX(-50%); pointer-events:none; white-space:nowrap; background:var(--surface); color:var(--ink);
+  border:2.5px solid var(--line); border-radius:var(--r-pill); padding:4px 10px 1px; box-shadow:var(--soft-sm);
+  font:400 var(--fs-m)/1 var(--display); font-variant-numeric:tabular-nums; }
+.ds-range-ends{ display:flex; justify-content:space-between; gap:var(--sp-3); font:600 var(--fs-xs)/1.3 var(--body); color:var(--ink-soft); }
+.ds-range-ends span:last-child{ text-align:right; }
+
+/* ---- 7. Magyarázó buborék (tooltip): rámutatásra, fókuszra, koppintásra; Esc / mellékoppintás zárja ---- */
+.ds-tip{ position:fixed; z-index:var(--z-top); max-width:min(280px, calc(100vw - 24px)); pointer-events:none;
+  background:var(--ink); color:var(--bg); border-radius:var(--r-s); padding:8px 12px 7px; box-shadow:var(--soft);
+  font:600 var(--fs-s)/1.4 var(--body); animation:dsTipIn var(--t-fast) var(--ease) both; }
+.ds-tip::after{ content:""; position:absolute; left:var(--ax, 50%); width:12px; height:12px; background:inherit;
+  transform:translateX(-50%) rotate(45deg); border-radius:2px; }
+.ds-tip.is-above::after{ bottom:-5px; } .ds-tip.is-below::after{ top:-5px; }
+@keyframes dsTipIn{ from{ opacity:0; transform:translateY(4px); } to{ opacity:1; transform:none; } }
+.ds-tip-btn{ display:inline-grid; place-items:center; width:var(--tap); height:var(--tap); margin:calc((var(--tap) - 26px) / -2);
+  padding:0; background:none; border:0; cursor:help; color:var(--ink); vertical-align:middle; }
+.ds-tip-btn::before{ content:""; grid-area:1 / 1; width:26px; height:26px; border-radius:50%; background:var(--butter); border:2px solid var(--line); }
+.ds-tip-btn .pic{ grid-area:1 / 1; width:17px; height:17px; position:relative; }
+.ds-tip-btn:focus-visible{ outline:3px solid var(--focus); outline-offset:-6px; border-radius:50%; }
+[data-ds-tip]{ cursor:help; }
+
+/* ---- 8. Alsó lap (bottom sheet): asztalon középre nyíló panel, telefonon alulról felcsúszó lap húzó-füllel ---- */
+.ds-sheet-scrim{ z-index:var(--z-popup); align-items:center; animation:dsSheetFade var(--t-base) var(--ease) both; }
+.ds-sheet{ position:relative; margin:auto; width:min(560px, 100%); max-height:min(86dvh, 760px); display:flex; flex-direction:column;
+  background:var(--bg); color:var(--ink); border:var(--line-w) solid var(--line); border-radius:var(--r-xl); box-shadow:var(--soft);
+  animation:dsIn var(--t-base) ease-out; outline:none; }
+.ds-sheet-handle{ display:none; }
+.ds-sheet-head{ display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-4) var(--sp-4) var(--sp-2) var(--sp-5); }
+.ds-sheet-title{ flex:1; margin:0; font:400 var(--fs-xl)/1.05 var(--display); text-wrap:balance; }
+.ds-sheet-body{ overflow-y:auto; overscroll-behavior:contain; padding:0 var(--sp-5) var(--sp-5); font-size:var(--fs-m); line-height:1.5; }
+.ds-sheet-body > :first-child{ margin-top:0; }
+.ds-sheet-body > * + *{ margin-top:var(--sp-3); }
+.ds-sheet.is-closing{ animation:dsOut var(--t-base) var(--ease) both; }
+.ds-sheet-scrim.is-closing{ animation:dsSheetFade var(--t-base) var(--ease) reverse both; }
+@keyframes dsSheetFade{ from{ opacity:0; } to{ opacity:1; } }
+@keyframes dsSheetUp{ from{ transform:translateY(100%); } to{ transform:none; } }
+@keyframes dsSheetDown{ to{ transform:translateY(100%); } }
+/* telefon (699 px szélesség alatt): alulról, teljes szélességben, a hüvelykujj közelében */
+@media (max-width: 699px){
+  .ds-sheet-scrim{ padding:0; align-items:flex-end; }
+  .ds-sheet{ margin:0; width:100%; max-height:88dvh; border-radius:var(--r-xl) var(--r-xl) 0 0; border-bottom:0;
+    padding-bottom:env(safe-area-inset-bottom); animation:dsSheetUp var(--t-slow) var(--ease) both; }
+  .ds-sheet.is-closing{ animation:dsSheetDown var(--t-base) var(--ease) both; }
+  .ds-sheet.is-dragging{ animation:none; transition:none; }
+  .ds-sheet-handle{ display:grid; place-items:center; height:28px; margin-bottom:-10px; cursor:grab; touch-action:none; }
+  .ds-sheet-handle::before{ content:""; width:48px; height:6px; border-radius:var(--r-pill); background:var(--sage); border:2px solid var(--line); }
+  .ds-sheet-head{ touch-action:none; padding-left:var(--sp-4); }
+  .ds-sheet-body{ padding-inline:var(--sp-4); }
+}
+
+/* ---- 9. Képernyő-váz: HUD fent, tábla középen (rugalmas), tálca lent; fekvő telefonon a tálca oldalra kerül ----
+   Töréspont: fekvő tájolás ÉS legfeljebb 500 px magas kijelző (= fekvő telefon). A biztonsági sávokat (notch) figyeli. */
+.ds-screen{ display:grid; grid-template-rows:auto minmax(0, 1fr) auto; grid-template-columns:minmax(0, 1fr);
+  grid-template-areas:"top" "main" "tray"; gap:var(--sp-2); height:100dvh; box-sizing:border-box;
+  padding:max(var(--sp-2), env(safe-area-inset-top)) max(var(--sp-3), env(safe-area-inset-right))
+          max(var(--sp-2), env(safe-area-inset-bottom)) max(var(--sp-3), env(safe-area-inset-left)); }
+.ds-screen.is-contained{ height:100%; }   /* beágyazva (pl. a kalauzban): a szülő magasságát tölti ki */
+.ds-screen-top{ grid-area:top; min-width:0; }
+.ds-screen-main{ grid-area:main; min-height:0; min-width:0; position:relative; display:grid; place-items:center; overflow:hidden; }
+.ds-screen-tray{ grid-area:tray; min-width:0; display:flex; gap:var(--sp-2); align-items:center; justify-content:center; flex-wrap:wrap;
+  background:var(--surface); border:var(--line-w) solid var(--line); border-radius:var(--r-l); box-shadow:var(--soft); padding:var(--sp-2) var(--sp-3); }
+.ds-hud{ display:flex; align-items:center; gap:var(--sp-2); flex-wrap:nowrap; }
+.ds-hud-group{ display:flex; align-items:center; gap:var(--sp-2); min-width:0; }
+.ds-hud-spacer{ flex:1; }
+@media (orientation: landscape) and (max-height: 500px){
+  .ds-screen{ grid-template-rows:auto minmax(0, 1fr); grid-template-columns:minmax(0, 1fr) auto; grid-template-areas:"top top" "main tray"; }
+  .ds-screen-tray{ flex-direction:column; flex-wrap:nowrap; justify-content:flex-start; overflow-y:auto; max-width:40vw; }
+}
+.ds-screen.is-landscape{ grid-template-rows:auto minmax(0, 1fr); grid-template-columns:minmax(0, 1fr) auto; grid-template-areas:"top top" "main tray"; }
+.ds-screen.is-landscape .ds-screen-tray{ flex-direction:column; flex-wrap:nowrap; justify-content:flex-start; }   /* bemutatóhoz kényszerítve */
+
+/* ---- 10. Nagy betű mód: <html class="ds-big"> – minden betű és koppintási felület ~1,2× ---- */
+.ds-big{ --fs-xs:14px; --fs-s:17px; --fs-m:19px; --fs-l:24px; --fs-xl:31px; --fs-2xl:40px; --fs-3xl:54px; --tap:52px; }
+.ds-big body{ font-size:var(--fs-m); }
+.ds-big .ds-btn, .ds-big .btn{ font-size:25px; }
+.ds-big .ds-btn.is-small{ font-size:20px; }
+.ds-big .ds-btn-sm, .ds-big .mnBtn{ font-size:var(--fs-s); min-height:var(--tap); }
+.ds-big .ds-btn-sm small, .ds-big .mnBtn small{ font-size:var(--fs-xs); }
+.ds-big .ds-tab{ font-size:var(--fs-s); min-height:var(--tap); }
+.ds-big .ds-seg button{ font-size:var(--fs-s); min-height:var(--tap); }
+.ds-big .ds-chip{ font-size:24px; } .ds-big .ds-chip.is-small{ font-size:19px; }
+.ds-big .ds-feedback{ font-size:29px; }
+.ds-big .ds-details summary{ font-size:var(--fs-m); }
+.ds-big .ds-key, .ds-big .ds-tag{ font-size:var(--fs-xs); }
+.ds-big .ds-icon-btn .pic{ width:26px; height:26px; }
+.ds-big .ds-switch{ width:68px; height:38px; } .ds-big .ds-switch::after{ width:28px; height:28px; }
+.ds-big .ds-switch[aria-checked="true"]::after{ left:32px; }
+.ds-big .ds-range-field{ --thumb:38px; }
+
+/* ---- Hozzáférhetőség és „Kevesebb mozgás” ---- */
+.ds-sheet .ds-icon-btn:focus-visible, .ds-coach .ds-btn-sm:focus-visible{ outline:3px solid var(--focus); outline-offset:3px; }
+@media (prefers-reduced-motion: reduce){
+  .ds-delta-pop .ds-delta{ animation:none; }
+  .ds-coach-ring, .ds-coach-say, .ds-ring.is-low .ds-ring-num, .ds-tip, .ds-sheet, .ds-sheet-scrim{ animation:none !important; }
+  .ds-coach-ring, .ds-ring-bar{ transition:none; }
+}
+.reduce-motion .ds-delta-pop .ds-delta, .reduce-motion .ds-coach-ring, .reduce-motion .ds-coach-say, .reduce-motion .ds-ring.is-low .ds-ring-num,
+.reduce-motion .ds-tip, .reduce-motion .ds-sheet, .reduce-motion .ds-sheet-scrim{ animation:none !important; }
+.reduce-motion .ds-coach-ring, .reduce-motion .ds-ring-bar{ transition:none; }

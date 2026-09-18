@@ -30,6 +30,7 @@ automatikus ellenőrzés – hogy minden játék egységes maradjon, akárki (va
 | **Elemkészlet** | `web/css/ds.css` | `ds-` alapelemek: gombok, csipesz, kártya, panel, hatszög, lenyitható, kapcsoló, fülek, szegmens, visszajelzés, mérő, sáv |
 | **Játék-minták** | `web/css/ds-game.css` | buborék + arckép, csillagok, eredmény-panel, beviteli mező, jelvény, betöltés, lapozó, címke, pipálós lista, értesítés, adat-oszlop, sötét környezet, mozgás-készlet |
 | **Mozgás** | `web/css/ds-motion.css` | érkezés (`drop`, `slide-l/r`, `out`), ítélet és jutalom (`stamp`, `tick`, `rise`), élet és figyelem (`buzz`, `glow`, `pulse`, `sweep`), lapozás (`flip`), lépcsőzés (`ds-delay-1…4`), röppenő darabkák (`.ds-piece`); JS-segédek: `DS.motion.play/rise/burst/countUp` – mind megáll a „Kevesebb mozgás” beállítással |
+| **Bővítés 1.2** | `web/css/ds-ext.css` + `web/js/ds-ext.js` | változásjelző, profil-ábra, forrás-sor, feltételezés-címke, tanító (coachmark), visszaszámláló gyűrű, csúszka, magyarázó buborék, alsó lap, képernyő-váz, nagy betű mód – lásd 4/b; betöltés a `ds-motion.css` / `ds.js` UTÁN |
 | Piktogramok | `web/js/pics.js` | 60 saját ikon a **vezérlőkre**, `pic('név')` |
 | **Illusztrációk** | `web/js/art/art.js` + `art-*.js` | matricák a **tartalomra** (tárgy, étel, készülék, hulladék) emoji és régi kódrajz helyett: `artIcon('🧊')`, `ART.image('i_tukor')`; csere kész képre: `web/data/art-override.json` – lásd 5/d és `docs/grafika-spec.md` |
 | JS-oldal | `web/js/ds.js` | `DS.color` (= tokenek), `DS.world` (3D paletta), `DS.light`, `DS.moods` (méhecske-hangulatok), `DS.sound` / `DS.haptic` / `DS.feedback` (visszajelzés-recept), táblák (`DS.signCanvas`, `DS.pillCanvas`); böngésző-segédek: `dsFeedback`, `dsSound`, `dsStarsHTML`, `dsResultHTML`, `dsMood`, **párbeszéd-őr** (5/e) |
@@ -127,6 +128,30 @@ Régi nevek (`--sarga`, `--fekete`, `--krem`) átirányítva az újakra – új 
 | Adat-oszlop | `ds-bars` / `ds-bar` (+ `is-after`, `--v`) | előtte / utána összevetés |
 | Sötét környezet | `ds-dark` a tartalmazó elemen | éjszakai nézet, hőkamera, mozi-jelenet |
 | Mozgás | `ds-anim-pop`, `-shake`, `-float`, `-spin`, `-in` | felugró pont, „majdnem”, lebegés; a „Kevesebb mozgás” mindet leállítja |
+
+### 4/b. Bővítés 1.2 (`ds-ext.css` + `ds-ext.js`)
+
+Betöltés: `<link rel="stylesheet" href="css/ds-ext.css">` a `ds-motion.css` után, `<script src="js/ds-ext.js">` a `pics.js` és a `ds.js` után.
+A HTML-t adó segédek Node-ban is futnak (`node tests/check-ds-ext.js`). Élő minta: `arculat.html` → „Új elemek (1.2)”.
+
+| Elem | Osztály / segéd | Szabály |
+|---|---|---|
+| Változásjelző | `dsDeltaHTML({ label, icon, value, unit, better, small })` → `ds-delta` (`is-good` / `is-bad` / `is-zero`, `is-small`) | nyíl + előjel + szín együtt; `better:'down'`, ahol a kevesebb a jobb (CO₂, forint) – ilyenkor a mínusz a zöld |
+| Változás-köteg | `DS.delta.show(horgony, [{ label, icon, value }])` | döntés után a mérő fölött felszáll; `aria-live`, mozgás nélkül is olvasható ideig ott marad |
+| Mérő változással | `dsMeterHTML({ label, icon, value01, delta, deltaValue })` → `ds-mrow` + `ds-meter is-delta` + `ds-meter-ghost` | `value01` az ÚJ érték; a változás csíkozott „szellem” szakasz (a csík a jel, nem csak a szín) |
+| Profil-ábra | `dsProfileHTML({ values:[{ label, icon, value01 }], mode:'radar'\|'bars', title })` → `ds-profile` | futam végi „rendszerprofil”; 3–6 tengely, 3 alatt magától sáv; a címkék HTML-ben (telefonon is olvashatók), képernyőolvasónak a számok is |
+| Forrás-sor | `dsSourceHTML({ title, url, publisher, year, note })` → `ds-source` | **minden szám mellé**; a link új lapon nyílik (`rel="noopener"`), csak `http(s)` link lesz kattintható |
+| Feltételezés | `dsAssumeHTML(szöveg)` → `ds-assume` (szaggatott keret) | kitalált / becsült kiindulás (pl. „4 fős család”) – sosem mért adatként |
+| Tanító | `DS.coach.show(cél, { text, key, mood })`, `DS.coach.hide()`, `DS.coach.reset(kulcs?)` | első lépésnél EGY tipp egyszerre; kulcsonként egyszer (`beeco_coach_<kulcs>`); koppintásra / a cél használatára / Esc-re eltűnik; a „Bemutatók újra” beállítás hívja a `reset()`-et |
+| Visszaszámláló | `dsRingHTML({ seconds, size, label })` + `DS.ring.start(el, mp, onEnd)` / `DS.ring.stop(el)` | a szám mindig középen; az utolsó negyedben bogyószín + lüktetés; háttérbe tett lapon megáll |
+| Csúszka (tippelés) | `dsRangeHTML({ id, label, min, max, step, value, unit, labels })` + `DS.range.bind(input)`; egyszerű: `input.ds-range` | natív csúszka (nyilak, Home/End); méz hatszög fogantyú, lebegő érték-buborék, a képernyőolvasó az egységet is mondja |
+| Magyarázó buborék | `DS.tip.attach(el, szöveg)`, jelölővel `data-ds-tip="…"` (`DS.tip.scan()`), gomb: `dsTipBtnHTML(szöveg, szó)` → `ds-tip` | egy fogalom rövid magyarázata; rámutatás / fókusz / koppintás; Esc és mellékoppintás zárja; a képernyő szélén átfordul |
+| Alsó lap | `DS.sheet.open(html, { title, onClose })`, `DS.sheet.close()` → `ds-sheet` | 700 px alatt alulról, fül + lehúzás; fölötte középre nyíló panel; `role="dialog"` + `aria-modal`, a párbeszéd-őr (5/e) intézi a Tab/Esc-et |
+| Képernyő-váz | `ds-screen` › `ds-screen-top` (+ `ds-hud`, `ds-hud-group`, `ds-hud-spacer`), `ds-screen-main`, `ds-screen-tray`; `is-contained` | HUD fent, tábla középen, tálca lent; **töréspont: fekvő tájolás + legfeljebb 500 px magas kijelző** → a tálca oldalra kerül; a notch-sávokat figyeli |
+| Nagy betű mód | `<html class="ds-big">`, `DS.big.set(on)` / `DS.big.get()` | minden `--fs-*` és a `--tap` ~1,2×; tárolva `beeco_big` (a régi `beeco_rz_big`-et is olvassa) |
+
+Minden új elem tiszteli a „Kevesebb mozgás” beállítást (`.reduce-motion` / rendszer).
+Piktogramok, amelyeket a bővítés használ, ha léteznek (különben szöveges tartalék): `up`, `down`, `alert`, `link`, `info`, `close`.
 
 **Álnevek** – a régi osztályok már most a design system kinézetét kapják, átírásuk ráér:
 `.btn` → `ds-btn` · `.mnBtn` (+`.primary`) → `ds-btn-sm` (+`is-primary`) · `.mnSwitch` → `ds-switch` ·
@@ -256,6 +281,8 @@ Az ikon levélzöld hatszögben a kacsintó méhecske: 32 px-en ez adta a legjob
 - [ ] Tartalom képe (tárgy, étel, készülék): `artIcon()` matrica, nem emoji (5/d).
 - [ ] `node tests/check-arculat.js` és `node tests/check-art.js` zöld (és a többi `tests/check-*.js`).
 - [ ] Új elemnél: bekerül a `ds.css`-be **és** az `arculat.html`-be, és ide a 4. pontba.
+- [ ] Szám mellett forrás-sor (`dsSourceHTML`), becsült kiindulás mellett feltételezés-címke (`dsAssumeHTML`); változás nyíllal és előjellel is (`dsDeltaHTML`).
+- [ ] Első lépésnél legfeljebb egy tanító (`DS.coach`); a Beállítások „Nagy betű” kapcsolója a `DS.big.set()`-et hívja; `node tests/check-ds-ext.js` zöld.
 
 ## 10. Átállás – mi van már a design systemen
 

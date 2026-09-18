@@ -1,5 +1,5 @@
 {
- "verzio": "1.1.0",
+ "verzio": "1.1.1",
  "keszult": "2026-09-18",
  "csoportok": [
   {
@@ -1749,6 +1749,82 @@
     {
      "nev": "medal",
      "info": "pic('medal')"
+    },
+    {
+     "nev": "up",
+     "info": "pic('up')"
+    },
+    {
+     "nev": "down",
+     "info": "pic('down')"
+    },
+    {
+     "nev": "plus",
+     "info": "pic('plus')"
+    },
+    {
+     "nev": "minus",
+     "info": "pic('minus')"
+    },
+    {
+     "nev": "undo",
+     "info": "pic('undo')"
+    },
+    {
+     "nev": "hand",
+     "info": "pic('hand')"
+    },
+    {
+     "nev": "alert",
+     "info": "pic('alert')"
+    },
+    {
+     "nev": "eye",
+     "info": "pic('eye')"
+    },
+    {
+     "nev": "city",
+     "info": "pic('city')"
+    },
+    {
+     "nev": "road",
+     "info": "pic('road')"
+    },
+    {
+     "nev": "recycle",
+     "info": "pic('recycle')"
+    },
+    {
+     "nev": "ring",
+     "info": "pic('ring')"
+    },
+    {
+     "nev": "chart",
+     "info": "pic('chart')"
+    },
+    {
+     "nev": "sheet",
+     "info": "pic('sheet')"
+    },
+    {
+     "nev": "swipe",
+     "info": "pic('swipe')"
+    },
+    {
+     "nev": "grid",
+     "info": "pic('grid')"
+    },
+    {
+     "nev": "network",
+     "info": "pic('network')"
+    },
+    {
+     "nev": "flow",
+     "info": "pic('flow')"
+    },
+    {
+     "nev": "source",
+     "info": "pic('source')"
     }
    ]
   },
@@ -2070,6 +2146,130 @@
      "info": "46"
     },
     {
+     "nev": "--scale-1",
+     "info": "#EEF3DE"
+    },
+    {
+     "nev": "--scale-2",
+     "info": "#D8E4BC"
+    },
+    {
+     "nev": "--scale-3",
+     "info": "#BFD29A"
+    },
+    {
+     "nev": "--scale-4",
+     "info": "#A6BF7B"
+    },
+    {
+     "nev": "--scale-5",
+     "info": "#8BA863"
+    },
+    {
+     "nev": "--div-neg-2",
+     "info": "#E88FA6"
+    },
+    {
+     "nev": "--div-neg-1",
+     "info": "#F7C6D2"
+    },
+    {
+     "nev": "--div-0",
+     "info": "#FBF3E0"
+    },
+    {
+     "nev": "--div-pos-1",
+     "info": "#D8E4BC"
+    },
+    {
+     "nev": "--div-pos-2",
+     "info": "#A6BF7B"
+    },
+    {
+     "nev": "--scale-cb-1",
+     "info": "#E6F1FB"
+    },
+    {
+     "nev": "--scale-cb-2",
+     "info": "#C6E0F6"
+    },
+    {
+     "nev": "--scale-cb-3",
+     "info": "#A2CBEF"
+    },
+    {
+     "nev": "--scale-cb-4",
+     "info": "#80B5E6"
+    },
+    {
+     "nev": "--scale-cb-5",
+     "info": "#66A3DD"
+    },
+    {
+     "nev": "--div-cb-neg-2",
+     "info": "#F0A35E"
+    },
+    {
+     "nev": "--div-cb-neg-1",
+     "info": "#F9D1A8"
+    },
+    {
+     "nev": "--div-cb-0",
+     "info": "#FBF3E0"
+    },
+    {
+     "nev": "--div-cb-pos-1",
+     "info": "#C6E0F6"
+    },
+    {
+     "nev": "--div-cb-pos-2",
+     "info": "#80B5E6"
+    },
+    {
+     "nev": "--data-seq-1",
+     "info": "var(--scale-1)"
+    },
+    {
+     "nev": "--data-seq-2",
+     "info": "var(--scale-2)"
+    },
+    {
+     "nev": "--data-seq-3",
+     "info": "var(--scale-3)"
+    },
+    {
+     "nev": "--data-seq-4",
+     "info": "var(--scale-4)"
+    },
+    {
+     "nev": "--data-seq-5",
+     "info": "var(--scale-5)"
+    },
+    {
+     "nev": "--data-neg-2",
+     "info": "var(--div-neg-2)"
+    },
+    {
+     "nev": "--data-neg-1",
+     "info": "var(--div-neg-1)"
+    },
+    {
+     "nev": "--data-0",
+     "info": "var(--div-0)"
+    },
+    {
+     "nev": "--data-pos-1",
+     "info": "var(--div-pos-1)"
+    },
+    {
+     "nev": "--data-pos-2",
+     "info": "var(--div-pos-2)"
+    },
+    {
+     "nev": "--on-data",
+     "info": "var(--olive)"
+    },
+    {
      "nev": "--sarga",
      "info": "var(--honey)"
     },
@@ -2080,6 +2280,46 @@
     {
      "nev": "--krem",
      "info": "var(--cream)"
+    },
+    {
+     "nev": "--data-seq-1",
+     "info": "var(--scale-cb-1)"
+    },
+    {
+     "nev": "--data-seq-2",
+     "info": "var(--scale-cb-2)"
+    },
+    {
+     "nev": "--data-seq-3",
+     "info": "var(--scale-cb-3)"
+    },
+    {
+     "nev": "--data-seq-4",
+     "info": "var(--scale-cb-4)"
+    },
+    {
+     "nev": "--data-seq-5",
+     "info": "var(--scale-cb-5)"
+    },
+    {
+     "nev": "--data-neg-2",
+     "info": "var(--div-cb-neg-2)"
+    },
+    {
+     "nev": "--data-neg-1",
+     "info": "var(--div-cb-neg-1)"
+    },
+    {
+     "nev": "--data-0",
+     "info": "var(--div-cb-0)"
+    },
+    {
+     "nev": "--data-pos-1",
+     "info": "var(--div-cb-pos-1)"
+    },
+    {
+     "nev": "--data-pos-2",
+     "info": "var(--div-cb-pos-2)"
     }
    ]
   },
@@ -2356,6 +2596,56 @@
    ]
   },
   {
+   "cim": "2D hátterek és áramlás",
+   "ikon": "flow",
+   "link": "hatterek.html",
+   "elemek": [
+    {
+     "nev": "js/hatter2d/alap.js",
+     "info": "2D HÁTTÉR-JELENETEK – közös alap (beecoHatter2D): vászon előkészítése, átméretezés, sorsolás, rajz-segédek"
+    },
+    {
+     "nev": "js/hatter2d/bemutato.js",
+     "info": "web/hatterek.html bemutató-vezérlése (NEM része a játékoknak – csak a kalauz-oldal használja)"
+    },
+    {
+     "nev": "js/hatter2d/kert.js",
+     "info": "2D HÁTTÉR – KERT (kerti, beporzós, komposztos játékokhoz): sávos ég nappal, felhők, két domb-sor, fák,"
+    },
+    {
+     "nev": "js/hatter2d/konyha.js",
+     "info": "2D HÁTTÉR – KONYHA (étel- és hűtős játékokhoz): csempés fal, ablak éggel és függönnyel, polcok befőttes üvegekkel,"
+    },
+    {
+     "nev": "js/hatter2d/mehsejt.js",
+     "info": "2D HÁTTÉR – MÉHSEJT-MINTA (a főmenü és a kalauz-oldalak háttere, paraméterezve): halvány hatszög-rács + színfoltok"
+    },
+    {
+     "nev": "js/hatter2d/varos.js",
+     "info": "2D HÁTTÉR – VÁROS két változatban, ugyanazon a várostérképen: szmogos ma ('szmog') és zöld 2075 ('zold')"
+    },
+    {
+     "nev": "js/aramlas.js",
+     "info": "ÁRAMLÁS-MOZGÁS (DS_FLOW) – pöttyök, amelyek egy vonal mentén haladnak: beporzó a kapcsolaton, víz a csőben,"
+    }
+   ]
+  },
+  {
+   "cim": "Design system bővítés (1.2)",
+   "ikon": "palette",
+   "link": "arculat.html",
+   "elemek": [
+    {
+     "nev": "js/ds-ext.js",
+     "info": "beeco design system — BŐVÍTÉS 1.2: JS-segédek a web/css/ds-ext.css elemeihez"
+    },
+    {
+     "nev": "css/ds-ext.css",
+     "info": "új ds- elemek stílusa"
+    }
+   ]
+  },
+  {
    "cim": "Eszközök",
    "ikon": "tip",
    "link": null,
@@ -2440,6 +2730,10 @@
      "info": "3D készlet és világ – modellek + háttér bármelyik beeco-játékhoz"
     },
     {
+     "nev": "docs/adatskala.md",
+     "info": "Adatskálák – színek hőtérképhez, élőhelyhez, hálózati terheléshez"
+    },
+    {
      "nev": "docs/arculat.md",
      "info": "beeco játékok – design system („Méhsejt-diorama”)"
     },
@@ -2450,6 +2744,10 @@
     {
      "nev": "docs/grafika-spec.md",
      "info": "Rajzolási útmutató — beeco illusztrációk („Méhsejt-diorama” matricák)"
+    },
+    {
+     "nev": "docs/hatterek-2d.md",
+     "info": "2D háttér-jelenetek és áramlás-mozgás"
     },
     {
      "nev": "docs/jatektervezes.md",

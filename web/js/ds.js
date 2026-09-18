@@ -15,9 +15,30 @@
     cream:'#FFF8E7', paper:'#FFFDF6',
     blossom:'#F5B4C7', 'blossom-bg':'#FDE2E8', berry:'#7A2E3F', sky:'#B1DEFF', 'sky-bg':'#D6E8F7', ember:'#EA580C',
     focus:'#2656D9', night:'#1F2615', 'night-surface':'#353F25',
+    // adatskálák (= tokens.css 10. szakasza) – hőtérkép, élőhely, hálózati terhelés; leírás: docs/adatskala.md
+    'scale-1':'#EEF3DE', 'scale-2':'#D8E4BC', 'scale-3':'#BFD29A', 'scale-4':'#A6BF7B', 'scale-5':'#8BA863',
+    'div-neg-2':'#E88FA6', 'div-neg-1':'#F7C6D2', 'div-0':'#FBF3E0', 'div-pos-1':'#D8E4BC', 'div-pos-2':'#A6BF7B',
+    'scale-cb-1':'#E6F1FB', 'scale-cb-2':'#C6E0F6', 'scale-cb-3':'#A2CBEF', 'scale-cb-4':'#80B5E6', 'scale-cb-5':'#66A3DD',
+    'div-cb-neg-2':'#F0A35E', 'div-cb-neg-1':'#F9D1A8', 'div-cb-0':'#FBF3E0', 'div-cb-pos-1':'#C6E0F6', 'div-cb-pos-2':'#80B5E6',
   };
   const toNum = (hex) => parseInt(String(hex).replace('#', ''), 16);
   const toCss = (num) => '#' + Number(num).toString(16).padStart(6, '0').toUpperCase();
+
+  // ---- 1/b. Adatskálák vászonra és 3D-be (a CSS-párjuk a --data-seq-1…5 és --data-neg-2…--data-pos-2 szerep – ott a .ds-cb osztály vált) ----
+  // DS.scale.step(érték, csúcs) → 1…5 (0 = nincs adat) · DS.scale.color(érték, csúcs, { cb, signed }) → hex szín
+  const pick = (pre, keys) => keys.map(k => color[pre + k]);
+  const scale = {
+    seq:pick('scale-', [1, 2, 3, 4, 5]), seqCb:pick('scale-cb-', [1, 2, 3, 4, 5]),
+    div:pick('div-', ['neg-2', 'neg-1', '0', 'pos-1', 'pos-2']), divCb:pick('div-cb-', ['neg-2', 'neg-1', '0', 'pos-1', 'pos-2']),
+    // egyirányú fokozat: |érték| / csúcs → 1…5 (felfelé kerekít, hogy a legkisebb nem nulla érték is látszódjon)
+    step(v, peak){ const k = Math.abs(v) / (Math.abs(peak) || 1); return v ? Math.max(1, Math.min(5, Math.ceil(k * 5))) : 0; },
+    // kétirányú fokozat: −2…+2 (a csúcs felénél vált az erősebb árnyalatra)
+    divStep(v, peak){ const k = Math.abs(v) / (Math.abs(peak) || 1); return v ? Math.sign(v) * (k > 0.5 ? 2 : 1) : 0; },
+    color(v, peak, o = {}){
+      if(o.signed){ return (o.cb ? scale.divCb : scale.div)[scale.divStep(v, peak) + 2]; }
+      const s = scale.step(v, peak); return s ? (o.cb ? scale.seqCb : scale.seq)[s - 1] : null;
+    },
+  };
 
   // ---- 2. A 3D világ palettája: meleg, földközeli tónusok a beeco színeiből ----
   // Szabály: új díszlet ezekből színez; ha új szín kell, ide vedd fel (név = MIRE való).
@@ -112,7 +133,7 @@
   // kind: 'good' | 'great' | 'try'  →  mood a méhecskének
   const feedback = { good:{ mood:'good', icon:'check', tone:'is-good' }, great:{ mood:'great', icon:'star', tone:'is-good' }, try:{ mood:'think', icon:'refresh', tone:'is-bad' } };
 
-  const DS = { color, world, interior, light, font, moods, sound, haptic, feedback, toNum, toCss, roundRect, signCanvas, pillCanvas };
+  const DS = { color, scale, world, interior, light, font, moods, sound, haptic, feedback, toNum, toCss, roundRect, signCanvas, pillCanvas };
   if(typeof module !== 'undefined' && module.exports){ module.exports = DS; return; }
   root.DS = DS;
 

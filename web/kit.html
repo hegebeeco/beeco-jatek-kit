@@ -56,6 +56,7 @@
     <a class="ds-card is-interactive tile" href="modellek.html"><span class="ds-hex"><span id="t2"></span></span><span><b>3D modellek</b><small>forgatható galéria – kukák, konyha, ház, otthon</small></span></a>
     <a class="ds-card is-interactive tile" href="vilag.html"><span class="ds-hex"><span id="t3"></span></span><span><b>3D világ</b><small>ég, felhők, fű, lebegő szigetek – élő bemutató</small></span></a>
     <a class="ds-card is-interactive tile" href="mechanikak.html"><span class="ds-hex"><span id="t4"></span></span><span><b>Játék-mechanikák</b><small>húzós kártya, rács, vonalhúzás, kombinálás</small></span></a>
+    <a class="ds-card is-interactive tile" href="hatterek.html"><span class="ds-hex"><span id="t6"></span></span><span><b>2D hátterek</b><small>város, konyha, kert, méhsejt + áramlás-mozgás</small></span></a>
     <a class="ds-card is-interactive tile" href="keret.html"><span class="ds-hex"><span id="t5"></span></span><span><b>Közös keret</b><small>kör vége, beállítások, profil, szereplők, kioszk</small></span></a>
   </nav>
 
@@ -80,7 +81,7 @@
 </script>
 <script>
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[c]);
-  [['t1', 'festopaletta'], ['t2', 'hutogep'], ['t3', 'szelturbina'], ['t4', 'jatekvezerlo'], ['t5', 'haz_kert']].forEach(([id, a]) => document.getElementById(id).outerHTML = artIcon(a));
+  [['t6', 'haz'], ['t1', 'festopaletta'], ['t2', 'hutogep'], ['t3', 'szelturbina'], ['t4', 'jatekvezerlo'], ['t5', 'haz_kert']].forEach(([id, a]) => document.getElementById(id).outerHTML = artIcon(a));
   let DATA = null, szuro = null;
   const LIMIT = 48;
   function rajz(){

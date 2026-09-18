@@ -34,7 +34,9 @@ Játékterv: `docs/jatekterv.md`. Tervezési elvek (kötelező): `docs/jatekterv
 * A beeco méhecskét nem rajzoljuk újra (`web/assets/brand/`).
 * **Kész építőkockák a kitből – előbb nézd meg, van-e már:** közös keret (`docs/keret.md`: kör vége panel, beállítások, kioszk,
   kifelé menő csatorna + mérés, hang, szereplők), közös profil (`docs/kozos-profil.md`), játék-mechanikák (`docs/mechanikak.md`:
-  döntéskártya, rácsos lerakás, vonalhúzás, kombinálás), 3D világ és modellek (`docs/3d-vilag.md`). Kalauz: `web/kit.html`.
+  döntéskártya, rácsos lerakás, vonalhúzás, kombinálás), 3D világ és modellek (`docs/3d-vilag.md`), 2D hátterek és áramlás
+  (`docs/hatterek-2d.md`), új DS-elemek (`ds-ext.js`: változásjelző, profil-ábra, tanító, gyűrű, csúszka, lap, képernyő-váz; adatskála:
+  `docs/adatskala.md`), szereplők (városlakók is). Kalauz: `web/kit.html`.
 * **A kit közös fájljait ne itt fejleszd csendben:** ha a design systemen javítasz (új piktogram, új matrica, token), utána
   `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js . --vissza`, majd a kitben commit + push, hogy a többi játék is megkapja.
   Frissítés a kitből: `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js .`

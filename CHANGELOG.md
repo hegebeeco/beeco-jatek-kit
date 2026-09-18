@@ -15,6 +15,22 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.2.0 – 2026-09-18 (design system 1.2)
+* **10 új `ds-` elem** (`web/css/ds-ext.css`, `web/js/ds-ext.js`, bemutató: `arculat.html` → Új elemek): változásjelző
+  (`dsDeltaHTML`, `DS.delta.show`, `dsMeterHTML` szellem-szakasszal), profil-ábra (`dsProfileHTML` radar/sávok), forrás-sor és
+  feltételezés-címke (`dsSourceHTML`, `dsAssumeHTML`), első lépés tanító (`DS.coach`), visszaszámláló gyűrű (`DS.ring`),
+  csúszka (`dsRangeHTML`), magyarázó buborék (`DS.tip`), alsó lap (`DS.sheet`), képernyő-váz (`.ds-screen`), nagy betű mód (`DS.big`).
+* **19 új piktogram** (79 összesen): up, down, plus, minus, undo, hand, alert, eye, city, road, recycle, ring, chart, sheet,
+  swipe, grid, network, flow, source.
+* **Adatskála-tokenek** (hőtérkép, élőhely): egyirányú és kétirányú skála + színtévesztő-barát változat (`.ds-cb`),
+  `DS.scale` – `docs/adatskala.md`; a rács-modul hőtérképe erre állt át (color-mix nélkül).
+* **8 új szereplő** (kitalált városlakók: polgármester, boltos, diák, nyugdíjas, kertész, buszsofőr, orvos, tanár) + új
+  haj-, fejfedő- és ruha-részlet opciók a `szereplok.js`-ben.
+* **Áramlás-mozgás** (`web/js/aramlas.js`, `DS_FLOW`): pöttyök SVG-vonalon és vásznon; a vonal-modulban opcionális.
+* **2D háttér-jelenetek** (`web/js/hatter2d/`: város ma/2075 jövő-mérővel, konyha, kert, méhsejt-minta) – bemutató: `web/hatterek.html`.
+* **Keret:** a beállítások között „Nagyobb betűk” és „Színtévesztő-barát színek”.
+* **Sablon:** a mintajáték változásjelzővel, tanítóval és profil-ábrával.
+
 ## 1.1.1 – 2026-09-18
 * A kalauz fejlesztői oldalai (kit.html, keret.html, modellek.html, vilag.html, mechanikak.html) nem kerülnek az offline fájllistába.
 

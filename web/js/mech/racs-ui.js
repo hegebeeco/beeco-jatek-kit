@@ -57,7 +57,12 @@
         const txt = v ? (v > 0 ? '+' : '−') + Math.abs(v) : '';
         if(badge.textContent !== txt){ badge.textContent = txt; if(txt && changed) play(badge, 'pop'); }
         b.classList.toggle('is-plus', v > 0); b.classList.toggle('is-minus', v < 0); b.classList.toggle('is-filled', !!t);
-        b.style.setProperty('--heat', (Math.abs(v) / peak).toFixed(2));
+        // hőtérkép-fokozat a design system adatskálájából (tokens.css 10.): plusz → is-s1…is-s5 (zsálya → levél),
+        // mínusz → is-n1 / is-n2 (rózsa); a .ds-cb osztály színtévesztő-barát változatra vált. A --heat (0–1) marad a régi stílusoknak.
+        const k = Math.abs(v) / peak, s = v > 0 ? Math.max(1, Math.min(5, Math.ceil(k * 5))) : 0, n = v < 0 ? (k > 0.5 ? 2 : 1) : 0;
+        for(let i = 1; i <= 5; i++) b.classList.toggle('is-s' + i, s === i);
+        for(let i = 1; i <= 2; i++) b.classList.toggle('is-n' + i, n === i);
+        b.style.setProperty('--heat', k.toFixed(2));
         b.setAttribute('aria-label', `${c.x + 1}. oszlop, ${c.y + 1}. sor: ${t ? t.label : 'üres'}${txt ? ', ' + txt : ''}`);
       }
       for(const v of values){
