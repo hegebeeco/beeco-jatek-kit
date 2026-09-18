@@ -8,6 +8,8 @@
 //  Böngészőben: globális DS; Node-ban (tesztek): require('../web/js/ds.js').
 // ============================================================
 (function(root){
+  // nyelv: ha a web/js/i18n.js nincs betöltve, a tr() a magyar szöveget adja vissza (a {név} változókat kitöltve)
+  if(typeof root.tr !== 'function') root.tr = (s, v) => !v ? s : String(s).replace(/\{(\w+)\}/g, (m, k) => v[k] != null ? v[k] : m);
   // ---- 1. Paletta (= tokens.css 1. szakasza) ----
   const color = {
     honey:'#FECF39', 'honey-deep':'#D8A500', butter:'#FEEEBB',
@@ -192,7 +194,7 @@
   // tartalom-ikon egy helyen: piktogram-név → pic() · emoji vagy matrica-név → illusztráció (js/art) · egyébként a szöveg marad
   root.dsIcon = (k) => (typeof PIC_DEFS !== 'undefined' && PIC_DEFS[k]) ? P(k) : (typeof artIcon === 'function' ? artIcon(k || '') : escT(k));
   // csillagok: dsStarsHTML(2) → ★★☆ (piktogramokkal, képernyőolvasónak „3-ból 2 csillag")
-  root.dsStarsHTML = (n, max = 3, big = false) => `<span class="ds-stars${big ? ' is-big' : ''}" role="img" aria-label="${max}-ból ${n} csillag">`
+  root.dsStarsHTML = (n, max = 3, big = false) => `<span class="ds-stars${big ? ' is-big' : ''}" role="img" aria-label="${root.tr('{max}-ból {n} csillag', { max, n })}">`
     + Array.from({ length:max }, (_, i) => P(i < n ? 'star' : 'nostar')).join('') + '</span>';
   // eredmény-panel belseje: dsResultHTML({ mood, title, lead, stars, score, scoreLabel, stats:[{icon,value,label,tone}], actions })
   // az actions HTML-t a játék adja (egy ds-btn + kis gombok); a szövegeket itt escape-eljük

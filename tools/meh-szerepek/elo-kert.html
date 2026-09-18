@@ -1,0 +1,33 @@
+<!doctype html><html lang="hu"><head><meta charset="utf-8"><title>Méh: Élő kert</title></head><body>
+<!-- Élő kert: szalma napkalap levélzöld szalaggal + kis locsolókanna vízcseppekkel -->
+<script>
+window.MEH = { front: `
+  <g transform="translate(206 160) scale(1.35) translate(-208 -160) rotate(-8 208 150)">
+    <!-- karima: alsó sötét, felső világos lap -->
+    <path d="M146 156 Q150 142 208 140 Q266 142 272 156 Q262 168 208 168 Q154 168 146 156 Z" fill="#D9B964"/>
+    <path d="M146 156 Q150 142 208 140 Q266 142 272 156 Q240 152 208 152 Q170 152 146 156 Z" fill="#F2D98C"/>
+    <!-- korona: két tónus + fénylap -->
+    <path d="M178 152 Q176 120 208 118 Q240 120 238 152 Z" fill="#E7C872"/>
+    <path d="M178 152 Q176 120 208 118 L210 152 Z" fill="#F2D98C"/>
+    <path d="M186 128 Q194 121 206 120 L200 132 Z" fill="#FBEBB5"/>
+    <!-- szalag -->
+    <path d="M178 150 Q208 156 238 150 L238 141 Q208 147 178 141 Z" fill="#6E8947"/>
+    <path d="M178 141 Q208 147 238 141 L238 145 Q208 151 178 145 Z" fill="#8AA35E"/>
+    <!-- kis virág a szalagon -->
+    <circle cx="186" cy="146" r="5" fill="#F5B4C7"/><circle cx="186" cy="146" r="2.2" fill="#FECF39"/>
+  </g>
+  <!-- locsolókanna elöl -->
+  <g transform="translate(270 266) scale(1.3) translate(-262 -258)">
+    <path d="M244 226 Q256 206 272 224" fill="none" stroke="#596B39" stroke-width="6" stroke-linecap="round"/>
+    <path d="M236 234 H280 L276 286 H240 Z" fill="#596B39"/>
+    <path d="M236 234 H262 L258 286 H240 Z" fill="#6E8947"/>
+    <path d="M240 240 H250 L247 270 H242 Z" fill="#8AA35E"/>
+    <path d="M232 230 H284 V238 H232 Z" fill="#4A5A2E"/>
+    <!-- kiöntő -->
+    <path d="M276 262 L302 234 L307 239 L280 270 Z" fill="#6E8947"/>
+    <path d="M298 228 L312 238 L306 246 L294 236 Z" fill="#596B39"/>
+    <!-- vízcseppek -->
+    <path d="M312 252 q4 7 0 10 q-4 -3 0 -10Z" fill="#B1DEFF"/>
+    <path d="M304 262 q4 7 0 10 q-4 -3 0 -10Z" fill="#B1DEFF"/>
+  </g>` };
+</script><script src="meh.js"></script></body></html>

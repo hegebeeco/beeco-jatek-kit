@@ -33,7 +33,7 @@ const beecoProfil = (function(){
     let h = 2166136261; for(const c of day()) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0;
     const pool = osszes(), out = [];
     while(out.length < 3 && pool.length){ h = Math.imul(h ^ (h >>> 13), 1274126177) >>> 0; out.push(pool.splice(h % pool.length, 1)[0]); }
-    return out.map(m => ({ id:m.id, g:m.g, ev:m.ev, goal:m.cel, text:m.szoveg }));
+    return out.map(m => ({ id:m.id, g:m.g, ev:m.ev, goal:m.cel, text:tr(m.szoveg) }));
   }
   function napi(){
     const s = load('beeco_napi') || { day:null, prog:{}, streak:0, lastFull:null, full:false };
@@ -47,18 +47,18 @@ const beecoProfil = (function(){
     const J = [['elso', 'erem', 'Első kör', () => Object.keys(a.rounds).length > 0], ['harom', 'kituntetes', 'Háromcsillagos', () => !!a.three],
       ['album10', 'fuzet', 'Gyűjtő', () => db >= 10], ['album30', 'fuzet', 'Nagy gyűjtő', () => db >= 30], ['album75', 'fuzet', 'Albummester', () => db >= 75],
       ['kuldetes', 'naptar', 'Küldetés teljesítve', () => !!n.lastFull], ['sorozat3', 'tuz', '3 napos sorozat', () => n.streak >= 3], ['sorozat7', 'tuz', 'Hetes sorozat', () => n.streak >= 7]]
-      .concat(Object.entries(JATEKOK).map(([g, j]) => ['mester_' + g, j.ikon, j.nev + '-mester', () => (a.good[g] || 0) >= 30]));
-    return J.map(([id, art, name, f]) => ({ id, art, name, got:f() }));
+      .concat(Object.entries(JATEKOK).map(([g, j]) => ['mester_' + g, j.ikon, tr('{nev}-mester', { nev:tr(j.nev) }), () => (a.good[g] || 0) >= 30]));
+    return J.map(([id, art, name, f]) => ({ id, art, name:tr(name), got:f() }));
   }
   function esemeny(type, game){
     const s = napi(), ms = maiKuldetesek(), elotte = ms.map(m => (s.prog[m.id] || 0) >= m.goal);
     for(const m of ms) if(m.g ? (type === 'good' && game === m.g) : m.ev === type) s.prog[m.id] = Math.min(m.goal, (s.prog[m.id] || 0) + 1);
-    ms.forEach((m, i) => { if((s.prog[m.id] || 0) >= m.goal && !elotte[i]) say(`${pic('check')} Napi küldetés kész: ${m.text}`, true); });
+    ms.forEach((m, i) => { if((s.prog[m.id] || 0) >= m.goal && !elotte[i]) say(`${pic('check')} ${tr('Napi küldetés kész: {t}', { t:m.text })}`, true); });
     if(ms.every(m => (s.prog[m.id] || 0) >= m.goal) && !s.full){ s.full = true; s.streak = s.lastFull === day() ? s.streak : s.streak + 1; s.lastFull = day();
-      setTimeout(() => say(`${pic('flame')} Mindhárom napi küldetés kész! Sorozat: ${s.streak} nap`, true), 900); }
+      setTimeout(() => say(`${pic('flame')} ${tr('Mindhárom napi küldetés kész! Sorozat: {n} nap', { n:s.streak })}`, true), 900); }
     save('beeco_napi', s);
     const latott = load('beeco_jelveny') || {};
-    for(const b of jelvenyek()) if(b.got && !latott[b.id]){ latott[b.id] = Date.now(); setTimeout(() => say(`${pic('medal')} Új jelvény: ${b.name}`, true), 1400); }
+    for(const b of jelvenyek()) if(b.got && !latott[b.id]){ latott[b.id] = Date.now(); setTimeout(() => say(`${pic('medal')} ${tr('Új jelvény: {nev}', { nev:b.name })}`, true), 1400); }
     save('beeco_jelveny', latott);
   }
   return {

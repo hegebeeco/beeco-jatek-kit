@@ -12,7 +12,7 @@
 // ============================================================
 (function(root){
   const { esc, icon, ic, say, play, burst, drag } = root.MechUI;
-  const WHY = { 'nincs-recept':'Ez a kettő nem áll össze', folyamatban:'Ez még készül – várj egy kört', ugyanaz:'', nincs:'' };
+  const WHY = { 'nincs-recept':tr('Ez a kettő nem áll össze'), folyamatban:tr('Ez még készül – várj egy kört'), ugyanaz:'', nincs:'' };
 
   function mount(el, o){
     const board = root.MechKombinal.create(o), defs = o.items || {};
@@ -22,7 +22,7 @@
     el.innerHTML = `<div class="mc-top">
         <span class="ds-chip is-small" title="Kör">${ic('calendar')}<span class="ds-sr">Kör: </span><span class="mc-turn">0</span></span>
         <span class="ds-chip is-small" title="Szabad hely">${ic('box')}<span class="ds-sr">Szabad hely: </span><span class="mc-free"></span></span>
-        <button type="button" class="ds-btn is-small mc-tick">${esc(o.turnLabel || 'Következő kör')} ${ic('next')}</button></div>
+        <button type="button" class="ds-btn is-small mc-tick">${esc(o.turnLabel || tr('Következő kör'))} ${ic('next')}</button></div>
       <div class="mc-board" role="list" aria-label="Tábla"></div>
       ${(o.supply || []).length ? `<div class="mc-supply"><span class="ds-muted">Kamra:</span>${o.supply.map(t =>
         `<button type="button" class="ds-btn-sm mc-add" data-type="${esc(t)}" aria-label="${esc(name(t))} a táblára">${ico(t)}</button>`).join('')}</div>` : ''}
@@ -80,14 +80,14 @@
     }
     function add(type){
       const it = board.add(type);
-      if(!it){ msg.textContent = 'Nincs több hely a táblán'; play(boardEl, 'shake'); return null; }
+      if(!it){ msg.textContent = tr('Nincs több hely a táblán'); play(boardEl, 'shake'); return null; }
       render([it.uid]); if(o.onChange) o.onChange(board, { kind:'add', item:it }); return it;
     }
     function tap(u){
       if(sel && sel !== u) return combine(sel, u);
       const kf = el.contains(document.activeElement);
       sel = sel === u ? null : u; render();
-      msg.textContent = sel ? 'Most koppints arra, amivel összeraknád' : '';
+      msg.textContent = sel ? tr('Most koppints arra, amivel összeraknád') : '';
       if(kf && uiOf(u)) uiOf(u).focus();
     }
     // húzás: egy „szellem” másolat követi az ujjat; elengedéskor az alatta lévő tárgyra dobjuk

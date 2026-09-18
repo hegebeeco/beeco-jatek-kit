@@ -79,7 +79,7 @@
       play(stamp, 'stamp');
       const f = q.decide(side, c);
       if(opts.onDecide) opts.onDecide(side, c, f);
-      say(el, label(side, c) + (f ? ' – ennek még lesz következménye' : ''));
+      say(el, label(side, c) + (f ? tr(' – ennek még lesz következménye') : ''));
       if(f) burst(cEl, 6);
       const dir = side === 'right' ? 1 : -1, t = still() ? 0 : 380;
       setTimeout(() => {                                      // a pecsét egy pillanatig látszik, aztán kirepül

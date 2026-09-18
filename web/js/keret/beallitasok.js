@@ -1,5 +1,5 @@
 // ============================================================
-//  KERET – beállítások: hang, háttérzene, rezgés, kevesebb mozgás, vezérlés (érintés / egér)
+//  KERET – beállítások: hang, háttérzene, rezgés, kevesebb mozgás, vezérlés (érintés / egér), nyelv (ha a js/i18n.js be van töltve)
 //  Ugyanazok a mentési kulcsok, mint a beeco-szelektalj játékokban → a közös címen futó játékok beállítása közös.
 //  keretBeallitasok.panelHTML() → a panel tartalma (ds-switch, ds-seg); keretBeallitasok.bekot(el) → a kattintások kezelése.
 //  keretBeallitasok.kevesebbMozgas → igaz, ha a játékos kérte (vagy a rendszer): ilyenkor a DS mozgás-készlet is áll.
@@ -13,8 +13,8 @@ const keretBeallitasok = (function(){
   if(document.body) alkalmaz(); else document.addEventListener('DOMContentLoaded', alkalmaz);
   const input = () => ls('beeco_input', 'auto');
   const erintes = () => input() === 'erintes' || (input() === 'auto' && (matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window));
-  const sor = (key, ikon, cim, alcim, on) => `<div class="kerSor"><div><b>${pic(ikon)} ${cim}</b><small>${alcim}</small></div>
-    <button class="ds-switch" role="switch" aria-checked="${!!on}" aria-label="${cim}" data-ker="${key}"></button></div>`;
+  const sor = (key, ikon, cim, alcim, on) => `<div class="kerSor"><div><b>${pic(ikon)} ${tr(cim)}</b><small>${tr(alcim)}</small></div>
+    <button class="ds-switch" role="switch" aria-checked="${!!on}" aria-label="${tr(cim)}" data-ker="${key}"></button></div>`;
   function panelHTML(){
     const H = typeof beecoHang !== 'undefined' ? beecoHang : null;
     return (H ? sor('hang', 'sound', 'Hang', 'Minden hangeffekt és a zene be/ki.', !H.muted)
@@ -23,12 +23,14 @@ const keretBeallitasok = (function(){
       + sor('mozgas', 'motion', 'Kevesebb mozgás', 'Visszafogottabb animációk.', reduce)
       + (DS && DS.big ? sor('nagy', 'text', 'Nagyobb betűk', 'Nagyobb szöveg és gombok minden képernyőn.', DS.big.get()) : '')
       + sor('cb', 'eye', 'Színtévesztő-barát színek', 'A térképek és ábrák kék–narancs színskálát használnak.', cb)
-      + `<div class="kerSor"><div><b>${pic('games')} Vezérlés</b><small>Érintőképernyőn az „Érintés” a jó. Váltáskor az oldal újratölt.</small></div>
-        <div class="ds-seg" role="radiogroup" aria-label="Vezérlés">${[['auto', 'Automatikus'], ['erintes', 'Érintés'], ['eger', 'Egér']].map(([v, l]) =>
-          `<button role="radio" aria-checked="${input() === v}" class="${input() === v ? 'on' : ''}" data-ker="input" data-v="${v}">${l}</button>`).join('')}</div></div>`;
+      + `<div class="kerSor"><div><b>${pic('games')} ${tr('Vezérlés')}</b><small>${tr('Érintőképernyőn az „Érintés” a jó. Váltáskor az oldal újratölt.')}</small></div>
+        <div class="ds-seg" role="radiogroup" aria-label="${tr('Vezérlés')}">${[['auto', tr('Automatikus')], ['erintes', tr('Érintés')], ['eger', tr('Egér')]].map(([v, l]) =>
+          `<button role="radio" aria-checked="${input() === v}" class="${input() === v ? 'on' : ''}" data-ker="input" data-v="${v}">${l}</button>`).join('')}</div></div>`
+      + (typeof I18N !== 'undefined' ? `<div class="kerSor"><div><b>${pic('info')} ${tr('Nyelv')}</b><small>${tr('Magyar vagy angol felület. Váltáskor az oldal újratölt.')}</small></div>${I18N.selectorHTML()}</div>` : '');
   }
   function bekot(el){
     el.addEventListener('click', e => {
+      const lb = e.target.closest('[data-lang]'); if(lb && typeof I18N !== 'undefined'){ e.stopPropagation(); I18N.set(lb.dataset.lang); return; }
       const b = e.target.closest('[data-ker]'); if(!b) return; e.stopPropagation();
       const k = b.dataset.ker, H = typeof beecoHang !== 'undefined' ? beecoHang : null;
       if(k === 'hang' && H) H.setMuted(!H.muted);

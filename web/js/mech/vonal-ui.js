@@ -15,8 +15,8 @@
 (function(root){
   const { esc, icon, ic, say, play, burst, drag } = root.MechUI;
   const NS = 'http://www.w3.org/2000/svg';
-  const WHY = { tavol:'Túl messze van', keret:'Elfogyott a kapcsolat-keret', megvan:'Már össze vannak kötve',
-    fok:'Ennek a pontnak több kapcsolat nem fér', szabaly:'Ezt a kettőt nem lehet összekötni', ugyanaz:'', nincs:'' };
+  const WHY = { tavol:tr('Túl messze van'), keret:tr('Elfogyott a kapcsolat-keret'), megvan:tr('Már össze vannak kötve'),
+    fok:tr('Ennek a pontnak több kapcsolat nem fér'), szabaly:tr('Ezt a kettőt nem lehet összekötni'), ugyanaz:'', nincs:'' };
 
   function mount(el, o){
     const graph = root.MechVonal.create(o);
@@ -90,7 +90,7 @@
     function tap(id){
       if(sel && sel !== id) connect(sel, id);
       else if(sel === id){ select(null); msg.textContent = ''; }         // második koppintás ugyanarra: kijelölés le
-      else { select(id); msg.textContent = 'Most koppints a másik pontra'; }
+      else { select(id); msg.textContent = tr('Most koppints a másik pontra'); }
     }
 
     function refresh(changed, fresh){
@@ -103,7 +103,7 @@
         g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button');
         g.setAttribute('aria-label', `Kapcsolat: ${label(p)} – ${label(q)}. Törlés: Enter`);
         g.innerHTML = `<line class="mv-hit" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}"/><line class="mv-link" x1="${p.x}" y1="${p.y}" x2="${q.x}" y2="${q.y}"/>`;
-        const del = () => { graph.disconnect(a, b); refresh(true); say(el, 'Kapcsolat törölve'); };
+        const del = () => { graph.disconnect(a, b); refresh(true); say(el, tr('Kapcsolat törölve')); };
         g.addEventListener('click', del);
         g.addEventListener('keydown', (e) => { if(['Enter', ' ', 'Delete', 'Backspace'].includes(e.key)){ e.preventDefault(); del(); } });
         edgesG.appendChild(g);

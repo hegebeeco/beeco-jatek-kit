@@ -16,7 +16,7 @@
 //  telepítéskor csak a ténylegesen megváltozott fájlokat tölti le újra (a többit átmásolja a régi tárból).
 //  Leírás: docs/offline-es-ci.md
 // ============================================================
-const VERSION = '872919fe5b12'; // a tools/sw-lista.js írja
+const VERSION = 'a2d08ad2dfbf'; // a tools/sw-lista.js írja
 const PREFIX = 'beeco-';
 const CACHE = PREFIX + VERSION;
 const META = new URL('__beeco-meta', self.location).href;          // a tár „adatlapja”: melyik fájl milyen hash-sel van benne

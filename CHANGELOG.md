@@ -15,6 +15,17 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.3.0 – 2026-09-18 (nyelvek)
+* **Kétnyelvű felület (magyar / angol):** `web/js/i18n.js` – `tr('magyar szöveg')` (a magyar a kulcs, hiányzó fordításnál
+  a magyar jelenik meg), szótárak `web/js/i18n/en-*.js`, angol tartalom `web/data/en/*.json` (azonos szerkezet),
+  `I18N.fetchJSON`, `data-i18n`, nyelvválasztó `I18N.selectorHTML()`; nyelv: `?lang=en` > mentett választás > böngésző.
+  Ellenőrzés: `tests/check-i18n.js` (hiányzó fordítás, eltérő szám/azonosító az angol tartalomban). Szabályok: `docs/nyelvek.md`.
+* A közös modulok fordíthatók: kör vége, kioszk, beállítások (**új Nyelv sor**), közös profil (küldetések, jelvények),
+  szereplők neve, ds-ext felolvasott szövegei, mechanikák üzenetei; angol szótár: `web/js/i18n/en-kit.js`.
+  A `ds.js`-ben tartalék `tr()` – az i18n.js nélkül minden magyarul megy tovább.
+* **5 új szerepes méhecske** (`web/assets/brand/roles/`): polgármester, élő kert, ételmentő, beporzó, körforgó –
+  az eredeti méhecske + kódból rajzolt kellékek (`tools/meh-szerepek/`, `docs/meh-szerepek.md`).
+
 ## 1.2.1 – 2026-09-18
 * A 2D hátterek bemutató-oldala (hatterek.html) sem kerül az offline fájllistába.
 

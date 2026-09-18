@@ -17,11 +17,11 @@ const keretEredmeny = (function(){
     if(typeof beecoBridge !== 'undefined' && beecoBridge.fut()) beecoBridge.meres('end', { stars:o.stars != null ? o.stars : null });
     const more = (o.more || []).map(m => `<details class="ds-details"><summary>${pic(m.icon || 'info')}${m.title}</summary><div>${m.html}</div></details>`).join('');
     const app = window.KIOSZK && typeof qrHTML === 'function' && o.appUrl !== false
-      ? `<div class="kerApp">${qrHTML(o.appUrl || 'https://beeco.hu', 96)}<div><b>Töltsd le a beeco appot</b><small>Olvasd be a telefonod kamerájával!</small></div></div>` : '';
+      ? `<div class="kerApp">${qrHTML(o.appUrl || 'https://beeco.hu', 96)}<div><b>${tr('Töltsd le a beeco appot')}</b><small>${tr('Olvasd be a telefonod kamerájával!')}</small></div></div>` : '';
     el.innerHTML = `<div class="ds-panel kerBox">${dsResultHTML({ mood:o.mood || (o.stars === 3 ? 'great' : 'good'), title:o.title, lead:o.lead, stars:o.stars,
-      score:o.score, scoreLabel:o.scoreLabel || (o.score != null ? 'pont' : null), stats:o.stats, extra:more,
-      actions:`<button class="ds-btn is-block" type="button" data-ker="ujra">${o.ujraFelirat || 'Újra'} ${pic('refresh')}</button>
-        ${o.kilep ? `<div class="ds-row"><button class="ds-btn-sm" type="button" data-ker="kilep">${pic('home')} ${o.kilepFelirat || 'Kilépés'}</button></div>` : ''}` })}${app}</div>`;
+      score:o.score, scoreLabel:o.scoreLabel || (o.score != null ? tr('pont') : null), stats:o.stats, extra:more,
+      actions:`<button class="ds-btn is-block" type="button" data-ker="ujra">${o.ujraFelirat || tr('Újra')} ${pic('refresh')}</button>
+        ${o.kilep ? `<div class="ds-row"><button class="ds-btn-sm" type="button" data-ker="kilep">${pic('home')} ${o.kilepFelirat || tr('Kilépés')}</button></div>` : ''}` })}${app}</div>`;
     el.classList.remove('hidden');
     if(typeof qrFill === 'function') qrFill(el);
     if(mozog()){

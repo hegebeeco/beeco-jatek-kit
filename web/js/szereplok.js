@@ -88,6 +88,7 @@ function szereploSVG(id, mood){
 const SZEREPLO_NEV = { anya:'Anya', apa:'Apa', panni:'Panni', marci:'Marci', nagyi:'Nagyi', meh:'beeco méhecske',
   polgarmester:'Polgármester', boltos:'Boltos', diak:'Diák', nyugdijas:'Nyugdíjas szomszéd', kertesz:'Kertész', buszsofor:'Buszsofőr',
   orvos:'Orvos', tanar:'Tanár' };
+if(typeof tr === 'function') for(const k in SZEREPLO_NEV) SZEREPLO_NEV[k] = tr(SZEREPLO_NEV[k]);   // angol felületen a szótárból (a szótár e fájl előtt töltődik)
 function szereploHozzaad(id, kinezet, nev){ SZEREPLO_KINEZET[id] = kinezet; if(nev) SZEREPLO_NEV[id] = nev; }
 function szereploHTML(id, mood){
   if(id === 'meh') return `<img class="szereplo" src="${dsMood(mood === 'sad' ? 'think' : 'good')}" alt="">`;

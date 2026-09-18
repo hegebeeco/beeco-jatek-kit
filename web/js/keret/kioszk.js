@@ -25,7 +25,7 @@ const keretKioszk = (function(){
   const poke = () => { last = Date.now(); if(warnT){ clearInterval(warnT); warnT = null; idle.classList.add('hidden'); } };
   const onHome = () => home && !home.classList.contains('hidden');
   const qr = size => typeof qrHTML === 'function' ? qrHTML(cfg.appUrl || 'https://beeco.hu', size) : '';
-  const app = size => `<div class="kzApp">${qr(size)}<div><b>${cfg.appCta || 'Töltsd le a beeco appot'}</b><small>Olvasd be a telefonod kamerájával!</small></div></div>`;
+  const app = size => `<div class="kzApp">${qr(size)}<div><b>${cfg.appCta || tr('Töltsd le a beeco appot')}</b><small>${tr('Olvasd be a telefonod kamerájával!')}</small></div></div>`;
   const erint = () => typeof keretBeallitasok !== 'undefined' ? keretBeallitasok.erintes : matchMedia('(pointer: coarse)').matches;
 
   function showHome(){
@@ -35,8 +35,8 @@ const keretKioszk = (function(){
       <div class="kzStories">${(cfg.kartyak || []).map((k, i) => `<button type="button" class="kzStory ${k.kiemelt ? 'is-quick' : ''} ds-anim-in ds-delay-${Math.min(4, i + 1)}" data-kz="${k.id}">
         <span class="kzIco" aria-hidden="true">${dsIcon(k.ikon || 'star')}</span><span class="kzTxt">${k.cimke ? `<span class="ds-tag ${k.kiemelt ? 'is-accent' : ''}">${k.cimke}</span>` : ''}
         <b>${k.cim}</b>${k.alcim ? `<small>${k.alcim}</small>` : ''}</span><span class="kzGo">${pic('next')}</span></button>`).join('')}</div>
-      <div class="kzFoot"><p class="kzTap ds-anim-pulse">${pic('tip')} ${cfg.felhivas || 'Válassz, és indulhat a játék!'}</p>${app(104)}</div>
-      <div class="kzInput"><span>${pic('games')} Vezérlés:</span><div class="ds-seg" role="radiogroup" aria-label="Vezérlés">${[['erintes', 'Érintés'], ['eger', 'Egér + billentyű']].map(([v, l]) =>
+      <div class="kzFoot"><p class="kzTap ds-anim-pulse">${pic('tip')} ${cfg.felhivas || tr('Válassz, és indulhat a játék!')}</p>${app(104)}</div>
+      <div class="kzInput"><span>${pic('games')} ${tr('Vezérlés:')}</span><div class="ds-seg" role="radiogroup" aria-label="${tr('Vezérlés')}">${[['erintes', tr('Érintés')], ['eger', tr('Egér + billentyű')]].map(([v, l]) =>
         `<button type="button" role="radio" aria-checked="${erint() === (v === 'erintes')}" class="${erint() === (v === 'erintes') ? 'on' : ''}" data-kz-input="${v}">${l}</button>`).join('')}</div></div></div>`;
     if(typeof qrFill === 'function') qrFill(home);
   }
@@ -45,7 +45,7 @@ const keretKioszk = (function(){
     saver.innerHTML = `<div class="kzBees">${bees.concat(bees).map((b, i) => `<img src="${b}" alt="" style="--i:${i}">`).join('')}</div>
       <div class="kzSaverBox">${cfg.kep ? `<img class="kzRole" src="${cfg.kep}" alt="">` : ''}<h1>${cfg.cim}</h1>
         <div class="kzSlides">${(cfg.kartyak || []).map((k, i) => `<p class="kzSlide${i ? '' : ' on'}">${dsIcon(k.ikon || 'star')} <span>${k.alcim || k.cim}</span></p>`).join('')}</div>
-        <p class="kzTap ds-anim-pulse">Érintsd meg a képernyőt!</p></div><div class="kzSaverApp">${app(120)}</div>`;
+        <p class="kzTap ds-anim-pulse">${tr('Érintsd meg a képernyőt!')}</p></div><div class="kzSaverApp">${app(120)}</div>`;
     if(typeof qrFill === 'function') qrFill(saver); saver.classList.remove('hidden'); slide = 0;
     clearInterval(saverT); saverT = setInterval(() => { const all = saver.querySelectorAll('.kzSlide'); if(!all.length) return;
       all[slide].classList.remove('on'); slide = (slide + 1) % all.length; all[slide].classList.add('on'); }, 4000);
@@ -56,9 +56,9 @@ const keretKioszk = (function(){
     cfg = o || {};
     home = $('', 'kioszk', ''); home.setAttribute('role', 'dialog'); home.setAttribute('aria-modal', 'true');
     saver = $('', 'kzSaver'); saver.setAttribute('aria-hidden', 'true');
-    idle = $(`<div class="ds-panel kzIdleBox"><img src="${dsMood('think')}" alt=""><h2>Még itt vagy?</h2>
-      <p>Ha nem, <b class="kzNum">${WARN}</b> mp múlva kezdődik elölről a következő játékosnak.</p>
-      <button class="ds-btn" type="button" data-kz-stay>Itt vagyok, folytatom ${pic('next')}</button></div>`, 'kzIdle');
+    idle = $(`<div class="ds-panel kzIdleBox"><img src="${dsMood('think')}" alt=""><h2>${tr('Még itt vagy?')}</h2>
+      <p>${tr('Ha nem, {mp} mp múlva kezdődik elölről a következő játékosnak.', { mp:`<b class="kzNum">${WARN}</b>` })}</p>
+      <button class="ds-btn" type="button" data-kz-stay>${tr('Itt vagyok, folytatom')} ${pic('next')}</button></div>`, 'kzIdle');
     idle.setAttribute('role', 'alertdialog'); idle.setAttribute('aria-modal', 'true');
     // védelem
     document.addEventListener('contextmenu', e => e.preventDefault());

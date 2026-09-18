@@ -63,7 +63,7 @@
         for(let i = 1; i <= 5; i++) b.classList.toggle('is-s' + i, s === i);
         for(let i = 1; i <= 2; i++) b.classList.toggle('is-n' + i, n === i);
         b.style.setProperty('--heat', k.toFixed(2));
-        b.setAttribute('aria-label', `${c.x + 1}. oszlop, ${c.y + 1}. sor: ${t ? t.label : 'üres'}${txt ? ', ' + txt : ''}`);
+        b.setAttribute('aria-label', tr('{o}. oszlop, {s}. sor: {x}', { o:c.x + 1, s:c.y + 1, x:t ? t.label : tr('üres') }) + (txt ? ', ' + txt : ''));
       }
       for(const v of values){
         const m = el.querySelector(`.mr-meter[data-v="${CSS.escape(v.id)}"]`), n = Math.round((res.totals[v.id] || 0) * 10) / 10;
@@ -82,7 +82,7 @@
       const cur = root.MechRacs.typeOf(grid.get(x, y));
       const t = (sel && cur === sel) ? null : sel;         // ugyanazt a lapkát újra koppintva: leveszi
       if(!grid.place(x, y, t)) return false;
-      render(true); say(el, t ? byType[t].label + ' lerakva' : 'Mező üres');
+      render(true); say(el, t ? tr('{x} lerakva', { x:byType[t].label }) : tr('Mező üres'));
       return true;
     }
     el.querySelector('.mr-grid').addEventListener('click', (e) => {

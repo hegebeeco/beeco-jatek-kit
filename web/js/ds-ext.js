@@ -11,6 +11,7 @@
 // ============================================================
 (function(root){
   // ---------- közös apróságok ----------
+  const tr = (s, v) => typeof root.tr === 'function' ? root.tr(s, v) : (!v ? s : String(s).replace(/\{(\w+)\}/g, (m, k) => v[k] != null ? v[k] : m));   // nyelv (i18n.js), különben magyar
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
   // piktogram, ha létezik (a pics.js-be később érkező nevekhez is – pl. 'up', 'down', 'alert', 'hand'); különben ''
   const hasPic = (n) => typeof PIC_DEFS !== 'undefined' && !!PIC_DEFS[n];
@@ -46,7 +47,7 @@
   // dsDeltaHTML({ label:'Természet', icon:'leaf', value:+2, unit:'', better:'up', small:false })
   function dsDeltaHTML(o = {}){
     const s = dsDeltaSign(o.value), tone = dsDeltaTone(o.value, o.better);
-    const say = { up:'nőtt', down:'csökkent', zero:'nem változott' }[s.dir];
+    const say = { up:tr('nőtt'), down:tr('csökkent'), zero:tr('nem változott') }[s.dir];
     const aria = `${o.label ? o.label + ': ' : ''}${s.dir === 'zero' ? say : `${say}, ${s.text.replace(MINUS, 'mínusz ').replace('+', 'plusz ')}${o.unit ? ' ' + o.unit : ''}`}`;
     const arrow = ic(s.dir === 'zero' ? '' : s.dir) || esc(s.arrow);
     return `<span class="ds-delta is-${tone}${o.small ? ' is-small' : ''}" role="img" aria-label="${esc(aria)}">`
@@ -81,7 +82,7 @@
   // dsProfileHTML({ values:[{ label, icon, value01 }], mode:'radar'|'bars', title:'Rendszerprofil', showValue:true })
   function dsProfileHTML(o = {}){
     const vals = (o.values || []).slice(0, 6);
-    const title = o.title || 'Profil';
+    const title = o.title || tr('Profil');
     const sr = `<ul class="ds-sr">${vals.map(v => `<li>${esc(v.label)}: ${Math.round(clamp01(v.value01) * 100)}%</li>`).join('')}</ul>`;
     // 3-nál kevesebb tengelyből nem lesz radar → sávok
     if(o.mode === 'bars' || vals.length < 3){
@@ -116,20 +117,20 @@
   // dsSourceHTML({ title, url, publisher, year, note }) – a link új lapon nyílik, a játék nem veszíti el az állását
   function dsSourceHTML(o = {}){
     const url = safeUrl(o.url), meta = [o.publisher, o.year].filter(x => x != null && x !== '').map(esc).join(', ');
-    const t = esc(o.title || o.publisher || 'Forrás');
+    const t = esc(o.title || o.publisher || tr('Forrás'));
     const link = url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${t}<span class="ds-sr"> (új lapon nyílik)</span></a>` : `<b>${t}</b>`;
     return `<p class="ds-source">${ic('link')}<span><span class="ds-sr">Forrás: </span>${link}${meta && o.title ? ' · ' + meta : ''}`
       + `${o.note ? ` <span class="ds-source-note">– ${esc(o.note)}</span>` : ''}</span></p>`;
   }
   // dsAssumeHTML('4 fős család') – szaggatott keretes „feltételezés” címke: nem mért adat, hanem kitalált/becsült kiindulás
-  const dsAssumeHTML = (text) => `<span class="ds-assume">${ic('alert') || ic('info')}<b>feltételezés</b>${text ? `<span>${esc(text)}</span>` : ''}</span>`;
+  const dsAssumeHTML = (text) => `<span class="ds-assume">${ic('alert') || ic('info')}<b>${tr('feltételezés')}</b>${text ? `<span>${esc(text)}</span>` : ''}</span>`;
 
   // =================================================================================================
   // 5. VISSZASZÁMLÁLÓ GYŰRŰ (HTML)
   // =================================================================================================
   const RING_R = 20, RING_C = +(2 * Math.PI * RING_R).toFixed(3);
   // dsRingHTML({ seconds:10, size:64, label:'Hátralévő idő' })
-  const dsRingHTML = (o = {}) => `<div class="ds-ring" role="timer" aria-label="${esc(o.label || 'Hátralévő idő')}"${o.size ? ` style="--size:${Number(o.size) || 64}px"` : ''} data-seconds="${Math.max(0, Number(o.seconds) || 0)}">`
+  const dsRingHTML = (o = {}) => `<div class="ds-ring" role="timer" aria-label="${esc(o.label || tr('Hátralévő idő'))}"${o.size ? ` style="--size:${Number(o.size) || 64}px"` : ''} data-seconds="${Math.max(0, Number(o.seconds) || 0)}">`
     + `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle class="ds-ring-track" cx="24" cy="24" r="${RING_R}"/>`
     + `<circle class="ds-ring-bar" cx="24" cy="24" r="${RING_R}" stroke-dasharray="${RING_C}" stroke-dashoffset="0"/></svg>`
     + `<b class="ds-ring-num">${Math.ceil(Math.max(0, Number(o.seconds) || 0))}</b></div>`;
@@ -152,7 +153,7 @@
   }
 
   // tipp-gomb (kis „i” egy szó mellett): dsTipBtnHTML('Mit jelent a kWh?', 'kWh')
-  const dsTipBtnHTML = (text, label) => `<button class="ds-tip-btn" type="button" data-ds-tip="${esc(text)}" aria-label="${esc(label ? 'Mit jelent: ' + label : 'Magyarázat')}">${ic('info')}</button>`;
+  const dsTipBtnHTML = (text, label) => `<button class="ds-tip-btn" type="button" data-ds-tip="${esc(text)}" aria-label="${esc(label ? tr('Mit jelent: {x}', { x:label }) : tr('Magyarázat'))}">${ic('info')}</button>`;
 
   const API = { dsDeltaTone, dsDeltaSign, dsDeltaHTML, dsMeterHTML, dsRadarPoints, dsProfileHTML, dsSourceHTML, dsAssumeHTML,
     dsRingHTML, dsRangeHTML, dsTipBtnHTML, RADAR, RING_C };
@@ -196,7 +197,7 @@
       const bee = typeof root.dsMood === 'function' ? root.dsMood(o.mood || 'help') : 'assets/brand/moods/help.webp';
       const say = mk('div', 'ds-say ds-coach-say', `<span class="ds-avatar is-bee" style="--size:56px"><img src="${esc(bee)}" alt=""></span>`
         + `<div class="ds-bubble" role="status" aria-live="polite"><b class="ds-who">Tipp</b>${esc(o.text)}`
-        + `<button class="ds-btn-sm is-primary" type="button">${esc(o.button || 'Értem')}</button></div>`);
+        + `<button class="ds-btn-sm is-primary" type="button">${esc(o.button || tr('Értem'))}</button></div>`);
       wrap.append(ring, say); document.body.appendChild(wrap);
       const place = () => {
         const r = target.getBoundingClientRect(), pad = 6;
@@ -339,10 +340,10 @@
       DS.sheet.close(true);
       const back = document.activeElement, tid = nextId('ds-sheet-t');
       const scrim = mk('div', 'ds-scrim ds-sheet-scrim');
-      scrim.innerHTML = `<div class="ds-sheet" role="dialog" aria-modal="true" ${o.title ? `aria-labelledby="${tid}"` : 'aria-label="Részletek"'} tabindex="-1">`
+      scrim.innerHTML = `<div class="ds-sheet" role="dialog" aria-modal="true" ${o.title ? `aria-labelledby="${tid}"` : `aria-label="${tr('Részletek')}"`} tabindex="-1">`
         + `<div class="ds-sheet-handle" aria-hidden="true"></div>`
         + `<div class="ds-sheet-head">${o.title ? `<h2 class="ds-sheet-title" id="${tid}">${esc(o.title)}</h2>` : '<span style="flex:1"></span>'}`
-        + `<button class="ds-icon-btn" type="button" data-ds-close aria-label="Bezárás">${ic('close') || '×'}</button></div>`
+        + `<button class="ds-icon-btn" type="button" data-ds-close aria-label="${tr('Bezárás')}">${ic('close') || '×'}</button></div>`
         + `<div class="ds-sheet-body"></div></div>`;
       const sheet = scrim.firstElementChild, body = sheet.querySelector('.ds-sheet-body');
       if(typeof html === 'string') body.innerHTML = html; else if(html) body.appendChild(html);

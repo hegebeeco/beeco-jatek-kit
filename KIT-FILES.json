@@ -72,7 +72,11 @@
   "docs/hatterek-2d.md",
   "docs/adatskala.md",
   "tests/check-ds-ext.js",
-  "tests/check-hatter2d.js"
+  "tests/check-hatter2d.js",
+  "web/js/i18n.js",
+  "web/js/i18n/en-kit.js",
+  "tests/check-i18n.js",
+  "docs/nyelvek.md"
  ],
  "sablon": [
   "tests/check-arculat.js",
