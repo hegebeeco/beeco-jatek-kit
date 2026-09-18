@@ -324,4 +324,4 @@ A beeco.hu ugyanerre a design systemre épül: ugyanazok a tokenek, a puha „ma
 a Lalezar + Open Sans páros és a hatszög. A Webflow-ban a tokenek pontos értéke áll az osztályokon (a Designer nem
 ismeri a `var(--…)`-t), az oldal saját kódja pedig CSS-változóként is felveszi őket.
 A **`[WEB]`** jel ebben a tárolóban azt jelöli, ami csak a weboldalra vonatkozik (a játékokba nem kerül).
-Minden részlet, token–Webflow megfeleltetés és a weboldali minták listája: **`docs/weboldal.md`**.
+Minden részlet, a tokenek és a Webflow-osztályok megfeleltetése és a weboldali minták listája: **`docs/weboldal.md`**.
