@@ -53,8 +53,10 @@ function cmp(a, b, p, f){
   if(typeof a !== 'string'){ if(a !== b) errors.push(`${f}: ${p} értéke eltér (${a} ↔ ${b}) – szám/igaz-hamis nem változhat`); return; }
   if(FIX.test(key) || /^https?:/.test(a)){ if(a !== b) errors.push(`${f}: ${p} azonosító/link eltér („${a}” ↔ „${b}”)`); return; }
   if(typeof b !== 'string') errors.push(`${f}: ${p} nem szöveg az angolban`);
-  else{ if(ACC.test(b) && b === a && a.length > 12) warns.push(`${f}: ${p} fordítatlannak tűnik: ${a.slice(0, 60)}`);
-    const na = (a.match(/\d+(?:[.,]\d+)?/g) || []).map(x => x.replace(',', '.')), nb = (b.match(/\d+(?:[.,]\d+)?/g) || []).map(x => x.replace(',', '.'));
+  else{ if(ACC.test(b) && b === a && a.length > 12 && !/\.source\./.test(p)) warns.push(`${f}: ${p} fordítatlannak tűnik: ${a.slice(0, 60)}`);   // forráscím eredeti nyelven maradhat
+    // ezres elválasztó: magyarul szóköz (85 000), angolul vessző (85,000) → mindkettő 85000; tizedes: 1,5 ↔ 1.5
+    const nums = (t, en) => (String(t).replace(en ? /(\d),(?=\d{3}\b)/g : /(\d)[\s\u00a0\u202f](?=\d{3}\b)/g, '$1').match(/\d+(?:[.,]\d+)?/g) || []).map(x => x.replace(',', '.'));
+    const na = a === b ? [] : nums(a, false), nb = nums(b, true);                // változatlan (pl. forráscím): nincs mit összevetni
     for(const x of na) if(!nb.includes(x) && !nb.includes(x.replace(/\.0+$/, ''))) warns.push(`${f}: ${p} – a „${x}” szám nincs meg az angolban (ellenőrizd: forrás szerinti szám nem változhat)`); }
 }
 let pairs = 0;

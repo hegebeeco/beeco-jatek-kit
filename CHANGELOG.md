@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.3.2 – 2026-09-21
+* `check-i18n`: az ezres elválasztót (85 000 ↔ 85,000) nem jelzi eltérő számnak, és a változatlanul hagyott szöveget (pl. eredeti nyelvű forráscím) nem veti össze.
+
 ## 1.3.1 – 2026-09-21
 * Döntéskártya: új `onLean(oldal, 0–1, kártya)` visszahívás húzás közben – pl. a mérőkön előre mutatható, merre mozdulnak (az „Egy ökos polgármester élete” használja).
 
