@@ -12,9 +12,9 @@
   const g = n => root[n];                                              // a builder-globálisok (böngészőben window, Node-ban globalThis)
   const hex = c => g('MODEL').hexOf(c);                                // tartalom-szín a palettából (pl. a kuka színe)
   const v = (label, call, build) => ({ label, call, build });
-  const GROUPS = ['Szelektálj!', 'Hűtő-mester', 'Ökos-rejtély ház', 'Fenntartható otthon', 'Közös növényzet és kert', 'Égbolt és sziget'];
+  const GROUPS = ['Szelektálj!', 'Hűtő-mester', 'Ökos-rejtély ház', 'Fenntartható otthon', 'Közös növényzet és kert', 'Égbolt és sziget', 'Élő kert'];
 
-  const SZ = () => g('SZ_MODELS'), HU = () => g('HUTO_MODELS'), RZ = () => g('RZ_MODELS'), OT = () => g('OT_MODELS'), VM = () => g('VILAG_MODELS'), K = () => g('MODEL');
+  const SZ = () => g('SZ_MODELS'), HU = () => g('HUTO_MODELS'), RZ = () => g('RZ_MODELS'), OT = () => g('OT_MODELS'), VM = () => g('VILAG_MODELS'), EK = () => g('EK_MODELS'), K = () => g('MODEL');
   const LIST = [
     // ---------------- Szelektálj! ----------------
     { id:'sz-bin', group:'Szelektálj!', name:'Szelektív kuka', desc:'4 valódi forma: kerekes kuka, gyűjtődoboz, olajos hordó, üveggyűjtő harang. Tábla-oszlop hátul, ikon-hely: m.icon.',
@@ -75,6 +75,41 @@
     { id:'vl-cottage', group:'Égbolt és sziget', name:'Házikó', desc:'Kis ház nyeregtetővel a lebegő szigeten.', variants:[ v('Alap', 'VILAG_MODELS.cottage(MODEL)', () => VM().cottage(K())) ] },
     { id:'vl-birds', group:'Égbolt és sziget', name:'Madárraj', desc:'9 „v” alakú madár.', variants:[ v('Alap', 'VILAG_MODELS.birds(MODEL, 9, 7)', () => VM().birds(K(), 9, 7)) ] },
     { id:'vl-soil', group:'Égbolt és sziget', name:'Sziget földrétegei', desc:'A hatszögletű füves sziget alja (a tetejét a vilag textúrás lapja adja).', variants:[ v('R = 6', 'VILAG_MODELS.islandSoil(MODEL, 6)', () => VM().islandSoil(K(), 6)) ] },
+    // ---------------- Élő kert (3d/elokert-modellek.js + elokert-allatok.js; egy mező = 1,4 egység) ----------------
+    { id:'ek-tree', group:'Élő kert', name:'Fa (3 fázis, 4 évszak)', desc:'stage 0: csemete karóval · 1: fiatal fa · 2: lombos fa; tavasszal virágpöttyök, ősszel színes lomb és avar, télen kopasz ág hóval.',
+      variants:[ v('Csemete, nyár', "EK_MODELS.tree(MODEL, { stage:0, season:'nyar' })", () => EK().tree(K(), { stage:0, season:'nyar' })),
+                 v('Fiatal fa, tavasz', "EK_MODELS.tree(MODEL, { stage:1, season:'tavasz' })", () => EK().tree(K(), { stage:1, season:'tavasz' })),
+                 v('Lombos, tavasz', "EK_MODELS.tree(MODEL, { stage:2, season:'tavasz' })", () => EK().tree(K(), { stage:2, season:'tavasz' })),
+                 v('Lombos, nyár', "EK_MODELS.tree(MODEL, { stage:2, season:'nyar' })", () => EK().tree(K(), { stage:2, season:'nyar' })),
+                 v('Lombos, ősz', "EK_MODELS.tree(MODEL, { stage:2, season:'osz' })", () => EK().tree(K(), { stage:2, season:'osz' })),
+                 v('Lombos, tél', "EK_MODELS.tree(MODEL, { stage:2, season:'tel' })", () => EK().tree(K(), { stage:2, season:'tel' })) ] },
+    { id:'ek-hedge', group:'Élő kert', name:'Őshonos sövény', desc:'Egy mezőnyi az X tengely mentén; stage 0: frissen ültetett, 1: kifejlett. Tavasszal fehér virág, ősszel bogyók, télen ritkás.',
+      variants:[ v('Fiatal, nyár', "EK_MODELS.hedge(MODEL, { stage:0, season:'nyar' })", () => EK().hedge(K(), { stage:0, season:'nyar' })),
+                 v('Tavasz', "EK_MODELS.hedge(MODEL, { stage:1, season:'tavasz' })", () => EK().hedge(K(), { stage:1, season:'tavasz' })),
+                 v('Nyár', "EK_MODELS.hedge(MODEL, { stage:1, season:'nyar' })", () => EK().hedge(K(), { stage:1, season:'nyar' })),
+                 v('Ősz (bogyók)', "EK_MODELS.hedge(MODEL, { stage:1, season:'osz' })", () => EK().hedge(K(), { stage:1, season:'osz' })),
+                 v('Tél', "EK_MODELS.hedge(MODEL, { stage:1, season:'tel' })", () => EK().hedge(K(), { stage:1, season:'tel' })) ] },
+    ...[['ek-meadow', 'meadow', 'Virágos rét-folt', 'Füves korong, fűcsomók, sok kis virág; ősszel magházak, télen száraz szárak és hófoltok.'],
+        ['ek-perennials', 'perennials', 'Évelőágyás', 'Fa szegély; levendula-szerű lila tüskék, sárga és fehér tányérvirágok; télen visszavágott tövek.'],
+        ['ek-vegbed', 'vegbed', 'Veteményes magaságyás', 'Saláta, répa, paradicsom karóval; tavasszal palánták, télen fátyolfólia-alagút és szalma.']].map(([id, fn, name, desc]) =>
+      ({ id, group:'Élő kert', name, desc, variants:[['Tavasz', 'tavasz'], ['Nyár', 'nyar'], ['Ősz', 'osz'], ['Tél', 'tel']].map(([l, s]) =>
+        v(l, `EK_MODELS.${fn}(MODEL, { season:'${s}' })`, () => EK()[fn](K(), { season:s }))) })),
+    { id:'ek-pond', group:'Élő kert', name:'Kerti tó', desc:'Kőperem, nád, gyékény, tavirózsa. Részek: body + water (a vízfelszín – a játékban áttetsző).', variants:[ v('Alap', 'EK_MODELS.pond(MODEL)', () => EK().pond(K())) ] },
+    { id:'ek-barrel', group:'Élő kert', name:'Esővízgyűjtő hordó', desc:'Fa állvány, bordás hordó fedéllel, csap; az ereszcső-darab terelővel a fedélbe vezet.', variants:[ v('Alap', 'EK_MODELS.barrel(MODEL)', () => EK().barrel(K())) ] },
+    { id:'ek-compost', group:'Élő kert', name:'Komposztláda', desc:'Hézagos deszkaláda, benne barna halom zöld maradékkal és héjjal.', variants:[ v('Alap', 'EK_MODELS.compost(MODEL)', () => EK().compost(K())) ] },
+    { id:'ek-hotel', group:'Élő kert', name:'Rovarhotel', desc:'Oszlopon, nyeregtetővel; üreges nádszálak, fúrt farönk, tobozok, kis rönkök.', variants:[ v('Alap', 'EK_MODELS.insectHotel(MODEL)', () => EK().insectHotel(K())) ] },
+    { id:'ek-birdbath', group:'Élő kert', name:'Madáritató', desc:'Kő talp, sekély tál peremmel, moha. Részek: body + water.', variants:[ v('Alap', 'EK_MODELS.birdBath(MODEL)', () => EK().birdBath(K())) ] },
+    { id:'ek-bench', group:'Élő kert', name:'Kerti fapad', desc:'Öntöttvas oldallábak, léces ülőke és háttámla, karfa.', variants:[ v('Alap', 'EK_MODELS.bench(MODEL)', () => EK().bench(K())) ] },
+    { id:'ek-path', group:'Élő kert', name:'Térkő (1 mező)', desc:'3 × 3 lap két kőárnyalatban, moha a hézagban; a mezők hézagmentesen illeszkednek.', variants:[ v('Alap', 'EK_MODELS.path(MODEL)', () => EK().path(K())) ] },
+    { id:'ek-house', group:'Élő kert', name:'A Zöldi család háza', desc:'Kert felőli homlokzat (+Z): zöld ajtó előtetővel, ablak spalettával és virágládával, cseréptető, kémény, eresz + ereszcső. w × h mező.',
+      variants:[ v('2 × 2 mező', 'EK_MODELS.house(MODEL, { w:2, h:2 })', () => EK().house(K(), { w:2, h:2 })), v('1 × 1 mező', 'EK_MODELS.house(MODEL, { w:1, h:1 })', () => EK().house(K(), { w:1, h:1 })) ] },
+    { id:'ek-terrace', group:'Élő kert', name:'Fa terasz', desc:'Deszkázat gerendakerettel, asztal cseréppel, két szék párnával. w × h mező.', variants:[ v('2 × 1 mező', 'EK_MODELS.terrace(MODEL, { w:2, h:1 })', () => EK().terrace(K(), { w:2, h:1 })) ] },
+    { id:'ek-gate', group:'Élő kert', name:'Kiskapu és kerítés', desc:'Kapu két oszloppal (1 mező), Z-merevítő, zsanér, retesz; a kerítés ugyanebben a stílusban, a hossz paraméter.',
+      variants:[ v('Kiskapu', 'EK_MODELS.gate(MODEL)', () => EK().gate(K())), v('Kerítés, 3 mező', 'EK_MODELS.fence(MODEL, 4.2)', () => EK().fence(K(), 4.2)) ] },
+    { id:'ek-animals-fly', group:'Élő kert', name:'Repülő állatok', desc:'Részek: body, wingL, wingR (+ foot: a legalsó pont). Origó = szárny-zsanér: a szárnyat a Z tengely körül forgatva csapkodtatod.',
+      variants:[['Méhecske', 'bee'], ['Pillangó', 'butterfly'], ['Madár (vörösbegy)', 'bird'], ['Denevér', 'bat']].map(([l, fn]) => v(l, `EK_MODELS.${fn}(MODEL)`, () => EK()[fn](K()))) },
+    { id:'ek-animals', group:'Élő kert', name:'Földön járó állatok', desc:'Talp y = 0, orr +Z; 0,15–0,5 egység.',
+      variants:[['Katica', 'ladybird'], ['Sün', 'hedgehog'], ['Béka', 'frog'], ['Gyík', 'lizard']].map(([l, fn]) => v(l, `EK_MODELS.${fn}(MODEL)`, () => EK()[fn](K()))) },
   ];
 
   // segéd: modell vagy részek → [[részNév, modell], …]

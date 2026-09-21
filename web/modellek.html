@@ -107,6 +107,8 @@
 <script src="js/3d/rezsi-modellek.js"></script>
 <script src="js/3d/otthon-modellek.js"></script>
 <script src="js/vilag/vilag-modellek.js"></script>
+<script src="js/3d/elokert-modellek.js"></script>
+<script src="js/3d/elokert-allatok.js"></script>
 <script src="js/3d/katalogus.js"></script>
 <script src="js/3d/orbit.js"></script>
 <script src="js/pics.js"></script>
@@ -191,7 +193,7 @@
     stats();
     history.replaceState(null, '', '#' + it.id + (vi ? '/' + vi : ''));
   }
-  const PART_NAMES = { body:'Test', heat:'Hőcserélő / ajtó (hőkamera)', frost:'Dér és jégcsap', eco:'„Új gép” címke', glass:'Üvegfal' };
+  const PART_NAMES = { body:'Test', heat:'Hőcserélő / ajtó (hőkamera)', frost:'Dér és jégcsap', eco:'„Új gép” címke', glass:'Üvegfal', water:'Vízfelszín', wingL:'Bal szárny', wingR:'Jobb szárny' };
   function stats(){
     const on = shown.parts.filter(p => p.on); let t = 0; const cols = new Set();
     for(const p of on){ t += p.m.stats().tris; for(const k of p.m.groups().keys()) cols.add(k); }
@@ -201,7 +203,7 @@
   const howTo = call => ['<script src="js/art/art.js"><\/script>', '<script src="js/art/model-kit.js"><\/script>',
     `<script src="${FILES[call.split('.')[0]] || '…'}"><\/script>`, '', `const m = ${call};`,
     `const g = ${/^(RZ_MODELS)/.test(call) ? '(m.body)' : 'm'}.toThree(THREE, { material: hex => new THREE.MeshToonMaterial({ color: hex, gradientMap: GRAD }) });`, 'scene.add(g);'].join('\n');
-  const FILES = { SZ_MODELS:'js/3d/szelektalj-modellek.js', HUTO_MODELS:'js/3d/huto-modellek.js', RZ_MODELS:'js/3d/rezsi-modellek.js', OT_MODELS:'js/3d/otthon-modellek.js', VILAG_MODELS:'js/vilag/vilag-modellek.js' };
+  const FILES = { SZ_MODELS:'js/3d/szelektalj-modellek.js', HUTO_MODELS:'js/3d/huto-modellek.js', RZ_MODELS:'js/3d/rezsi-modellek.js', OT_MODELS:'js/3d/otthon-modellek.js', VILAG_MODELS:'js/vilag/vilag-modellek.js', EK_MODELS:'js/3d/elokert-modellek.js' };
 
   // ---- gombok ----
   $('#copy').onclick = async () => { try{ await navigator.clipboard.writeText($('#call').textContent); $('#copy').textContent = 'Másolva ✓'; }

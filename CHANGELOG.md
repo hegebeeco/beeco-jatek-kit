@@ -15,6 +15,13 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.4.0 – 2026-09-21 (kerti 3D készlet)
+* **Élő kert modellek** (`web/js/3d/elokert-modellek.js` + `elokert-allatok.js`, `EK_MODELS`, B szint, 43 változat a galériában):
+  fa 3 fázisban és 4 évszakban, őshonos sövény, virágos rét, évelőágyás, veteményes (évszakosan), kerti tó és madáritató
+  (külön vízfelszín-résszel), esővízgyűjtő, komposztláda, rovarhotel, pad, térkő, ház, terasz, kiskapu, kerítés; állatok:
+  vadméh, pillangó, madár, denevér (csapkodó szárny-részekkel), katica, sün, béka, gyík.
+* `check-i18n`: a `source2`/`source3` forráscímet sem veti össze.
+
 ## 1.3.2 – 2026-09-21
 * `check-i18n`: az ezres elválasztót (85 000 ↔ 85,000) nem jelzi eltérő számnak, és a változatlanul hagyott szöveget (pl. eredeti nyelvű forráscím) nem veti össze.
 

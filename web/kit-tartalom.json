@@ -1,5 +1,5 @@
 {
- "verzio": "1.3.2",
+ "verzio": "1.4.0",
  "keszult": "2026-09-21",
  "csoportok": [
   {
@@ -2328,6 +2328,110 @@
    "ikon": "box",
    "link": "modellek.html",
    "elemek": [
+    {
+     "nev": "wings",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "bee",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "butterfly",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "ladybird",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "bird",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "hedgehog",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "frog",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "lizard",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "bat",
+     "info": "elokert-allatok.js"
+    },
+    {
+     "nev": "blob",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "tree",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "hedge",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "meadow",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "perennials",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "pond",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "barrel",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "compost",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "vegbed",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "insectHotel",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "birdBath",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "bench",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "path",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "house",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "terrace",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "fence",
+     "info": "elokert-modellek.js"
+    },
+    {
+     "nev": "gate",
+     "info": "elokert-modellek.js"
+    },
     {
      "nev": "fridge",
      "info": "huto-modellek.js"

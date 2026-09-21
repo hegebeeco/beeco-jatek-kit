@@ -21,10 +21,11 @@ globalThis.HUTO_MODELS = require(J('3d/huto-modellek.js'));
 globalThis.RZ_MODELS = require(J('3d/rezsi-modellek.js'));
 const ot = require(J('3d/otthon-modellek.js')); globalThis.OT = ot.OT; globalThis.OT_MODELS = ot.OT_MODELS;
 globalThis.VILAG_MODELS = require(J('vilag/vilag-modellek.js'));
+require(J('3d/elokert-modellek.js')); require(J('3d/elokert-allatok.js'));   // → globalThis.EK_MODELS
 const CAT = require(J('3d/katalogus.js'));
 
 // a hívás-szöveg kiértékelése ugyanazokkal a nevekkel, mint a böngészőben
-const NAMES = ['MODEL', 'SZ_MODELS', 'HUTO_MODELS', 'RZ_MODELS', 'OT_MODELS', 'OT', 'VILAG_MODELS'];
+const NAMES = ['MODEL', 'SZ_MODELS', 'HUTO_MODELS', 'RZ_MODELS', 'OT_MODELS', 'OT', 'VILAG_MODELS', 'EK_MODELS'];
 const evalCall = call => new Function(...NAMES, 'return ' + call)(...NAMES.map(n => globalThis[n]));
 const sig = r => CAT.parts(r).map(([n, m]) => n + ':' + m.stats().tris + '/' + m.stats().materials).join(',');
 
