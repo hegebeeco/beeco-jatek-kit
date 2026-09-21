@@ -1,5 +1,5 @@
 {
- "version": "a2d08ad2dfbf",
+ "version": "9c23b231d544",
  "count": 105,
  "files": {
   "assets/brand/bee-angry.webp": "7a53dcb6d6f4",
@@ -83,7 +83,7 @@
   "js/hatter2d/konyha.js": "77248a9ad4a6",
   "js/hatter2d/mehsejt.js": "6989d6e7423e",
   "js/hatter2d/varos.js": "b1a55d21d670",
-  "js/i18n/en-kit.js": "8d5e97bc2e49",
+  "js/i18n/en-kit.js": "17dab7d8334d",
   "js/i18n.js": "90ae82a5ca39",
   "js/keret/beallitasok.js": "f7f598f751d9",
   "js/keret/bridge.js": "a1cf2d8e48df",
@@ -91,7 +91,7 @@
   "js/keret/kioszk.js": "27e99eae279a",
   "js/mech/bemutato.js": "3265ce9cf0cd",
   "js/mech/kartya-logika.js": "c3dc496d9b94",
-  "js/mech/kartya-ui.js": "34e771d1c382",
+  "js/mech/kartya-ui.js": "b66bd592ec61",
   "js/mech/kombinal-logika.js": "4530cb846235",
   "js/mech/kombinal-ui.js": "852d63b7f0eb",
   "js/mech/kozos.js": "86c4ba830709",

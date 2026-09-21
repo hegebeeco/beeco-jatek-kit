@@ -27,7 +27,7 @@ I18N.add('en', {
   'Első kör':'First round', 'Háromcsillagos':'Three stars', 'Gyűjtő':'Collector', 'Nagy gyűjtő':'Big collector', 'Albummester':'Album master',
   'Küldetés teljesítve':'Mission complete', '3 napos sorozat':'3-day streak', 'Hetes sorozat':'Week-long streak',
   'Szelektálj!':'Sort It!', 'Hűtő-mester':'Fridge Master', 'Greenwashing-vadász':'Greenwash Hunter', 'Mi van mögötte?':'What’s Behind It?',
-  'Ökos-rejtély':'Eco Mystery', 'Fenntartható otthon':'Sustainable Home', 'Greenwashing-párbaj':'Greenwash Duel',
+  'Ökos-rejtély':'Eco Mystery', 'Egy ökos polgármester élete':'Life of an Eco Mayor', 'Hozz 8 döntést polgármesterként Méhesden':'Make 8 decisions as mayor of Méhesd', 'Fenntartható otthon':'Sustainable Home', 'Greenwashing-párbaj':'Greenwash Duel',
   // szereplők
   'Anya':'Mum', 'Apa':'Dad', 'Nagyi':'Gran', 'beeco méhecske':'beeco bee', 'Polgármester':'Mayor', 'Boltos':'Shopkeeper', 'Diák':'Student', 'Nyugdíjas szomszéd':'Retired neighbour',
   'Kertész':'Gardener', 'Buszsofőr':'Bus driver', 'Orvos':'Doctor', 'Tanár':'Teacher',

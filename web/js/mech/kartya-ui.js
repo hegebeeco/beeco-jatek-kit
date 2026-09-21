@@ -6,6 +6,7 @@
 //    render:(card) => '<p>…</p>',                           // a kártya belseje (HTML) – a tartalom a játéké
 //    onDecide:(side, card, kovetkezmeny) => {…},            // side: 'left' | 'right'
 //    onEnd:(history) => {…},                                // elfogyott a pakli (és a következmények)
+//    onLean:(side|null, 0–1, card) => {…},                  // húzás közben: merre és mennyire dől (null = középen)
 //    threshold:0.3,                                         // a kártyaszélesség ennyi részéig kell húzni
 //    labels:{ left:'Nem', right:'Igen' },                   // pecsét + gomb (kártyánként felülírható: card.left.label)
 //    globalKeys:false })                                    // true: a nyilak akkor is működnek, ha a fókusz máshol van
@@ -56,6 +57,7 @@
       const k = Math.min(1, Math.abs(dx) / (cardEl.offsetWidth * thr || 1));
       cardEl.querySelector('.is-left').style.opacity = dx < 0 ? k : 0;
       cardEl.querySelector('.is-right').style.opacity = dx > 0 ? k : 0;
+      if(opts.onLean) opts.onLean(dx < 0 ? 'left' : dx > 0 ? 'right' : null, k, card);   // pl. a mérőkön előre mutatni a hatás irányát
     }
     function bindDrag(c){
       drag(c, {
