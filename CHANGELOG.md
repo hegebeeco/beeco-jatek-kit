@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.5.1 – 2026-09-22
+* `orbit.js` (dioráma-kamera): érintésnél ~10 px holtzóna (a koppintás nem billenti el a nézetet), nagy kijelzőn lassabb forgatás – táblagép-teszt után.
+
 ## 1.5.0 – 2026-09-21 (Méhesd: város és poszméh)
 * **Város-modellek** (`web/js/3d/varos-modellek.js`, `VAROS_MODELS`, B szint): házsor, panelház, iskola, templom, bolt, parkoló,
   út, patak (külön vízfelszínnel), híd, vasúti töltés, temető, gyümölcsös, park, zöldfolyosó-szakaszok hosszra nyújtva

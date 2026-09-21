@@ -13,15 +13,20 @@ function beecoOrbit(THREE, camera, dom, o){
   const clamp = () => { st.el = Math.max(o.minEl, Math.min(o.maxEl, st.el)); st.dist = Math.max(o.minDist, Math.min(o.maxDist, st.dist)); };
   dom.style.touchAction = 'none';
   if(!dom.hasAttribute('tabindex')) dom.setAttribute('tabindex', '0');
-  dom.addEventListener('pointerdown', e => { ptr.set(e.pointerId, [e.clientX, e.clientY]); dom.setPointerCapture(e.pointerId); st.idle = 0; });
+  // holtzóna: egy ujjal csak ~10 px elmozdulás után forgat – így a koppintás (pont kiválasztása) nem billenti el a nézetet
+  const start = new Map();
+  dom.addEventListener('pointerdown', e => { ptr.set(e.pointerId, [e.clientX, e.clientY]); start.set(e.pointerId, [e.clientX, e.clientY, false]); dom.setPointerCapture(e.pointerId); st.idle = 0; });
   dom.addEventListener('pointermove', e => {
     if(!ptr.has(e.pointerId)) return; const [px, py] = ptr.get(e.pointerId); ptr.set(e.pointerId, [e.clientX, e.clientY]); st.idle = 0;
-    if(ptr.size === 1){ st.az -= (e.clientX - px) * 0.35; st.el += (e.clientY - py) * 0.3; }
+    const s0 = start.get(e.pointerId);
+    if(s0 && !s0[2]){ if(Math.hypot(e.clientX - s0[0], e.clientY - s0[1]) < (e.pointerType === 'mouse' ? 4 : 10)) return; s0[2] = true; return; }
+    if(ptr.size === 1){ const k = e.pointerType === 'mouse' ? 1 : Math.max(0.5, Math.min(1, 600 / Math.max(1, innerWidth)));   // nagy kijelzőn lassabban forog
+      st.az -= (e.clientX - px) * 0.35 * k; st.el += (e.clientY - py) * 0.3 * k; }
     else if(ptr.size === 2){ const [a, b] = [...ptr.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]);
       if(pinch) st.dist *= pinch / d; pinch = d; }
     clamp();
   });
-  const up = e => { ptr.delete(e.pointerId); if(ptr.size < 2) pinch = 0; };
+  const up = e => { ptr.delete(e.pointerId); start.delete(e.pointerId); if(ptr.size < 2) pinch = 0; };
   dom.addEventListener('pointerup', up); dom.addEventListener('pointercancel', up);
   dom.addEventListener('wheel', e => { e.preventDefault(); st.dist *= Math.exp(e.deltaY * 0.0012); st.idle = 0; clamp(); }, { passive:false });
   dom.addEventListener('keydown', e => {
