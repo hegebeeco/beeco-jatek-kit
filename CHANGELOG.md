@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.5.2 – 2026-09-22
+* `i18n.js`: minden nyelvválasztó magától működik (közös kattintás-figyelő – a menü fejlécében nem volt kezelő), és váltáskor az URL `?lang=` paramétere törlődik (különben a link nyelve felülírta a választást).
+
 ## 1.5.1 – 2026-09-22
 * `orbit.js` (dioráma-kamera): érintésnél ~10 px holtzóna (a koppintás nem billenti el a nézetet), nagy kijelzőn lassabb forgatás – táblagép-teszt után.
 

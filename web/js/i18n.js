@@ -10,7 +10,7 @@
 //  • HTML: <b data-i18n>Kezdés</b> szövege, data-i18n-attr="placeholder,aria-label,title" attribútumai – I18N.applyDom().
 //  • Nyelv: ?lang=en|hu az URL-ben > mentett választás (beeco_lang) > a böngésző nyelvei (ha van köztük magyar → magyar, különben angol).
 //  • Számok/dátum: I18N.locale ('hu-HU' | 'en-GB'), I18N.num(v, tizedes).
-//  • Nyelvválasztó: I18N.selectorHTML() (ds-seg: HU | EN) + I18N.bind(el); váltáskor az oldal újratölt.
+//  • Nyelvválasztó: I18N.selectorHTML() (ds-seg: HU | EN) – a kattintást egy közös figyelő kezeli (bind nem kell); váltáskor az oldal újratölt (a ?lang= nélkül).
 // ============================================================
 (function(root){
   const LANGS = { hu:{ nev:'Magyar', rovid:'HU', locale:'hu-HU' }, en:{ nev:'English', rovid:'EN', locale:'en-GB' } };
@@ -39,7 +39,10 @@
     get lang(){ return lang; }, get locale(){ return LANGS[lang].locale; },
     add(l, obj){ Object.assign(dict[l] || (dict[l] = {}), obj); },
     has(hu){ return lang === 'hu' || dict[lang][hu] != null; },
-    set(l){ if(!LANGS[l] || l === lang) return; store.set('beeco_lang', l); if(typeof location !== 'undefined') location.reload(); },
+    // váltás: mentés, és újratöltés az URL ?lang= paramétere NÉLKÜL (különben a link nyelve felülírná a választást)
+    set(l){ if(!LANGS[l] || l === lang) return; store.set('beeco_lang', l);
+      if(typeof location === 'undefined') return;
+      const u = new URL(location.href); u.searchParams.delete('lang'); location.replace(u.toString()); },
     num(v, d){ return new Intl.NumberFormat(LANGS[lang].locale, { maximumFractionDigits:d || 0, minimumFractionDigits:d || 0 }).format(v); },
     dataUrl(p){ return lang === 'hu' ? p : p.replace(/^(\.?\/?)(data\/)/, `$1$2${lang}/`); },
     // tartalom a nyelv szerint; ha az angol hiányzik, a magyar jön (a konzolba egy figyelmeztetés kerül)
@@ -64,5 +67,10 @@
   };
   root.I18N = I18N; root.tr = tr;
   if(typeof module !== 'undefined' && module.exports) module.exports = I18N;
-  if(typeof document !== 'undefined') document.addEventListener('DOMContentLoaded', () => I18N.applyDom());
+  if(typeof document !== 'undefined'){
+    document.addEventListener('DOMContentLoaded', () => I18N.applyDom());
+    // minden nyelvválasztó (I18N.selectorHTML) magától működik: egy közös, elkapó (capture) kattintás-figyelő
+    document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('.ds-lang [data-lang]'); if(!b) return;
+      e.preventDefault(); e.stopPropagation(); I18N.set(b.dataset.lang); }, true);
+  }
 })(typeof window !== 'undefined' ? window : globalThis);

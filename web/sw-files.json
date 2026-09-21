@@ -1,5 +1,5 @@
 {
- "version": "200769c3f56a",
+ "version": "3b5443632056",
  "count": 109,
  "files": {
   "assets/brand/bee-angry.webp": "7a53dcb6d6f4",
@@ -88,7 +88,7 @@
   "js/hatter2d/mehsejt.js": "6989d6e7423e",
   "js/hatter2d/varos.js": "b1a55d21d670",
   "js/i18n/en-kit.js": "17dab7d8334d",
-  "js/i18n.js": "90ae82a5ca39",
+  "js/i18n.js": "9a42e6ae6726",
   "js/keret/beallitasok.js": "f7f598f751d9",
   "js/keret/bridge.js": "a1cf2d8e48df",
   "js/keret/eredmeny.js": "f2273c84e3a4",
