@@ -15,6 +15,13 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.5.0 – 2026-09-21 (Méhesd: város és poszméh)
+* **Város-modellek** (`web/js/3d/varos-modellek.js`, `VAROS_MODELS`, B szint): házsor, panelház, iskola, templom, bolt, parkoló,
+  út, patak (külön vízfelszínnel), híd, vasúti töltés, temető, gyümölcsös, park, zöldfolyosó-szakaszok hosszra nyújtva
+  (virágsáv, sövény, fasor – évszakosan), kaszált rét, élőhely-pont talapzat (`node({ kind })`, álnevekkel).
+* **Poszméh** (`varos-poszmeh.js`): királynő és dolgozó csapkodó szárny-részekkel, fészek (rágcsálójárat fűcsomóban), permetezés-jelzés.
+* Galéria: új „Méhesd” csoport (39 változat).
+
 ## 1.4.0 – 2026-09-21 (kerti 3D készlet)
 * **Élő kert modellek** (`web/js/3d/elokert-modellek.js` + `elokert-allatok.js`, `EK_MODELS`, B szint, 43 változat a galériában):
   fa 3 fázisban és 4 évszakban, őshonos sövény, virágos rét, évelőágyás, veteményes (évszakosan), kerti tó és madáritató

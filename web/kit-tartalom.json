@@ -1,5 +1,5 @@
 {
- "verzio": "1.4.0",
+ "verzio": "1.5.0",
  "keszult": "2026-09-21",
  "csoportok": [
   {
@@ -2587,6 +2587,94 @@
     {
      "nev": "boat",
      "info": "szelektalj-modellek.js"
+    },
+    {
+     "nev": "oneHouse",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "houses",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "blocks",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "school",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "church",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "shop",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "parking",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "road",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "stream",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "bridge",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "railway",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "cemetery",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "orchard",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "park",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "flowerStrip",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "hedgeStrip",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "treeRow",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "mowed",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "node",
+     "info": "varos-modellek.js"
+    },
+    {
+     "nev": "bumblebee",
+     "info": "varos-poszmeh.js"
+    },
+    {
+     "nev": "nest",
+     "info": "varos-poszmeh.js"
+    },
+    {
+     "nev": "sprayWarn",
+     "info": "varos-poszmeh.js"
     }
    ]
   },

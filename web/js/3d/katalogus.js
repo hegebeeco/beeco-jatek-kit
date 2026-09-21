@@ -6,15 +6,15 @@
 //  • call  = a másolható hívás, pontosan így írd a játékba (a teszt ellenőrzi, hogy ugyanazt építi, mint a build)
 //  • build = () => modell, vagy RÉSZEK objektuma ({ body, heat, … }) – a részeket a galéria külön kapcsolja
 //  Új modell: a builder a 3d/ (vagy vilag/) fájlba, ide egy tétel – a galéria és a teszt magától felveszi.
-//  Kell hozzá: js/art/model-kit.js + a 3d/*-modellek.js fájlok + vilag/vilag-modellek.js (Node-ban a teszt tölti be őket).
+//  Kell hozzá: js/art/model-kit.js + a 3d/*-modellek.js fájlok (+ 3d/elokert-allatok.js, 3d/varos-poszmeh.js) + vilag/vilag-modellek.js (Node-ban a teszt tölti be őket).
 // ============================================================
 (function(root){
   const g = n => root[n];                                              // a builder-globálisok (böngészőben window, Node-ban globalThis)
   const hex = c => g('MODEL').hexOf(c);                                // tartalom-szín a palettából (pl. a kuka színe)
   const v = (label, call, build) => ({ label, call, build });
-  const GROUPS = ['Szelektálj!', 'Hűtő-mester', 'Ökos-rejtély ház', 'Fenntartható otthon', 'Közös növényzet és kert', 'Égbolt és sziget', 'Élő kert'];
+  const GROUPS = ['Szelektálj!', 'Hűtő-mester', 'Ökos-rejtély ház', 'Fenntartható otthon', 'Közös növényzet és kert', 'Égbolt és sziget', 'Élő kert', 'Méhesd'];
 
-  const SZ = () => g('SZ_MODELS'), HU = () => g('HUTO_MODELS'), RZ = () => g('RZ_MODELS'), OT = () => g('OT_MODELS'), VM = () => g('VILAG_MODELS'), EK = () => g('EK_MODELS'), K = () => g('MODEL');
+  const SZ = () => g('SZ_MODELS'), HU = () => g('HUTO_MODELS'), RZ = () => g('RZ_MODELS'), OT = () => g('OT_MODELS'), VM = () => g('VILAG_MODELS'), EK = () => g('EK_MODELS'), VA = () => g('VAROS_MODELS'), K = () => g('MODEL');
   const LIST = [
     // ---------------- Szelektálj! ----------------
     { id:'sz-bin', group:'Szelektálj!', name:'Szelektív kuka', desc:'4 valódi forma: kerekes kuka, gyűjtődoboz, olajos hordó, üveggyűjtő harang. Tábla-oszlop hátul, ikon-hely: m.icon.',
@@ -110,6 +110,36 @@
       variants:[['Méhecske', 'bee'], ['Pillangó', 'butterfly'], ['Madár (vörösbegy)', 'bird'], ['Denevér', 'bat']].map(([l, fn]) => v(l, `EK_MODELS.${fn}(MODEL)`, () => EK()[fn](K()))) },
     { id:'ek-animals', group:'Élő kert', name:'Földön járó állatok', desc:'Talp y = 0, orr +Z; 0,15–0,5 egység.',
       variants:[['Katica', 'ladybird'], ['Sün', 'hedgehog'], ['Béka', 'frog'], ['Gyík', 'lizard']].map(([l, fn]) => v(l, `EK_MODELS.${fn}(MODEL)`, () => EK()[fn](K()))) },
+    // ---------------- Méhesd (3d/varos-modellek.js + varos-poszmeh.js; 1 egység ≈ 25 m, dioráma-léptékben; hosszú elemek az X mentén) ----------------
+    ...[['va-houses', 'houses', 'Házsor kertekkel', 'n családi ház (1,1 egység telkenként), előttük kert fával, bokorral, kerítéssel; eltérő tetőszínek, minden 2. ház oromzata az utcára néz.', "{ n:3 }", { n:3 }],
+        ['va-blocks', 'blocks', 'Lakótelepi panelház', 'Felújított, pasztell: 8 szint ablaksávokkal, panelhézagok, sárga erkélyoszlopok, lépcsőház, attika, gépház. w × d.', "{ w:2.4, d:0.9 }", { w:2.4, d:0.9 }],
+        ['va-parking', 'parking', 'Parkoló autókkal', 'Merőleges beállók felfestéssel, egyszerű dobozautók három színben, a helyek kb. fele foglalt. w × d.', "{ w:2, d:1.2 }", { w:2, d:1.2 }]].map(([id, fn, name, desc, arg, o]) =>
+      ({ id, group:'Méhesd', name, desc, variants:[ v('Alap', `VAROS_MODELS.${fn}(MODEL, ${arg})`, () => VA()[fn](K(), o)) ] })),
+    ...[['va-school', 'school', 'Iskola', 'Kétszintes, sárga, kontyolt tető, fehér rizalit oromzattal, lépcsős bejárat; előtte udvar két kis focikapuval és fákkal.'],
+        ['va-church', 'church', 'Kis templom', 'Fehér hajó cseréptetővel, torony harangablakokkal és patinás gúlasisakkal, félköríves szentély.'],
+        ['va-shop', 'shop', 'Bolt', 'Kirakat, üvegajtó, csíkos napellenző, felirat nélküli tábla, gyümölcsös ládák és virágcserepek.'],
+        ['va-bridge', 'bridge', 'Kis kőhíd', 'Az átkelés iránya X; kváderköves boltív, púpos úttest, mellvéd. Fesztáv 0,68 – a patak (0,46) alatta Z irányban.']].map(([id, fn, name, desc]) =>
+      ({ id, group:'Méhesd', name, desc, variants:[ v('Alap', `VAROS_MODELS.${fn}(MODEL)`, () => VA()[fn](K())) ] })),
+    { id:'va-road', group:'Méhesd', name:'Út (szakasz)', desc:'Az X mentén, len hosszal: aszfalt felező- és szélvonallal, járdák, kandeláberek.', variants:[ v('4 egység', 'VAROS_MODELS.road(MODEL, { len:4 })', () => VA().road(K(), { len:4 })) ] },
+    { id:'va-stream', group:'Méhesd', name:'Patak (szakasz)', desc:'Az X mentén, len hosszal: meder, füves partok, kövek, nád. Részek: body + water (áttetsző vízfelszín fodrokkal).', variants:[ v('4 egység', 'VAROS_MODELS.stream(MODEL, { len:4 })', () => VA().stream(K(), { len:4 })) ] },
+    { id:'va-railway', group:'Méhesd', name:'Vasúti töltés (szakasz)', desc:'Az X mentén, len hosszal: füves rézsű vadvirágokkal (élőhely), ágyazat, talpfák, sínek, felsővezeték-oszlop.', variants:[ v('4 egység', 'VAROS_MODELS.railway(MODEL, { len:4 })', () => VA().railway(K(), { len:4 })) ] },
+    ...[['va-cemetery', 'cemetery', 'Temető', 'Pasztell, nyugodt: sövény kapunyílással, kavicsos sétány, lekerekített kövek virággal, tuják a sarkokon. w × d.'],
+        ['va-park', 'park', 'Park', 'Körsétány, virágágy, három nagy fa, két pad. w × d.']].map(([id, fn, name, desc]) =>
+      ({ id, group:'Méhesd', name, desc, variants:[ v('2 × 1,4', `VAROS_MODELS.${fn}(MODEL, { w:2, d:1.4 })`, () => VA()[fn](K(), { w:2, d:1.4 })) ] })),
+    { id:'va-orchard', group:'Méhesd', name:'Gyümölcsös', desc:'Fasorok kaszált sávokkal; tavasszal virágzik (kora tavaszi táplálék), nyáron alma, ősszel színes lomb, télen kopasz. w × d.',
+      variants:[['Tavasz', 'tavasz'], ['Nyár', 'nyar'], ['Ősz', 'osz'], ['Tél', 'tel']].map(([l, se]) => v(l, `VAROS_MODELS.orchard(MODEL, { w:2, d:1.4, season:'${se}' })`, () => VA().orchard(K(), { w:2, d:1.4, season:se }))) },
+    ...[['va-flowers', 'flowerStrip', 'Virágsáv (folyosó)', 'Az X mentén, len hosszal, 0,3 széles: fűcsomók és vadvirágok évszak szerint.', 2],
+        ['va-hedge', 'hedgeStrip', 'Sövény (folyosó)', 'Az X mentén, len hosszal, 0,3 széles: tavasszal virág, ősszel bogyó, télen kopasz vessző hóval.', 2],
+        ['va-trees', 'treeRow', 'Fasor (folyosó)', 'Az X mentén, len hosszal, fák ~0,6-onként (hárs-jelleg: nyáron apró sárgás virágzat).', 3]].map(([id, fn, name, desc, len]) =>
+      ({ id, group:'Méhesd', name, desc, variants:[['Tavasz', 'tavasz'], ['Nyár', 'nyar'], ['Ősz', 'osz'], ['Tél', 'tel']].map(([l, se]) =>
+        v(l, `VAROS_MODELS.${fn}(MODEL, { len:${len}, season:'${se}' })`, () => VA()[fn](K(), { len, season:se }))) })),
+    { id:'va-mowed', group:'Méhesd', name:'Frissen kaszált rét', desc:'Nyírás-csíkok, széna-rendek, a szélén meghagyott fűcsomók – virág nélkül (a kaszálás-zavarás képe). w × d.', variants:[ v('2 × 1,4', 'VAROS_MODELS.mowed(MODEL, { w:2, d:1.4 })', () => VA().mowed(K(), { w:2, d:1.4 })) ] },
+    { id:'va-node', group:'Méhesd', name:'Élőhely-pont talapzata', desc:'Hatszögletű füves talapzat (Ø ≈ 0,94) egy jellegzetes elemmel. Álnevek: VAROS_MODELS.NODE_ALIAS (pl. park → rét).',
+      variants:[['Kert', 'kert'], ['Rét', 'ret'], ['Rézsű', 'rezsu'], ['Patakpart', 'patakpart'], ['Udvar', 'udvar'], ['Ágyás', 'agyas']].map(([l, kind]) => v(l, `VAROS_MODELS.node(MODEL, { kind:'${kind}' })`, () => VA().node(K(), { kind }))) },
+    { id:'va-bumblebee', group:'Méhesd', name:'Földi poszméh', desc:'Részek: body, wingL, wingR (+ foot). Origó = szárny-zsanér. Sárga gallér és potroh-öv, fehér farok; a dolgozó lábán virágporcsomó, a királynő 1,35× nagyobb.',
+      variants:[ v('Királynő', 'VAROS_MODELS.bumblebeeQueen(MODEL)', () => VA().bumblebeeQueen(K())), v('Dolgozó', 'VAROS_MODELS.bumblebeeWorker(MODEL)', () => VA().bumblebeeWorker(K())) ] },
+    { id:'va-nest', group:'Méhesd', name:'Poszméh-fészek', desc:'Apró földkupac fűcsomókkal, elöl (+Z) a régi rágcsálójárat bejárata. Ø ≈ 0,4.', variants:[ v('Alap', 'VAROS_MODELS.nest(MODEL)', () => VA().nest(K())) ] },
+    { id:'va-spray', group:'Méhesd', name:'Permetezés-jelzés', desc:'Háromszögletű „Figyelem!” tábla karón (piros szegély, felkiáltójel) – vegyszer, flakon és márka nélkül.', variants:[ v('Alap', 'VAROS_MODELS.sprayWarn(MODEL)', () => VA().sprayWarn(K())) ] },
   ];
 
   // segéd: modell vagy részek → [[részNév, modell], …]
