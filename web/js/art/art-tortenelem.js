@@ -2,7 +2,8 @@
 //  Matricák — történelmi képregény B szinten (docs/rajzolas.md) – a Helytörténeti Múzeum kvízjátékához
 //  (docs/tortenelem-jatekterv.md): gőzgép, szénes csille, olajkút (himbás szivattyú), olajhordó, műtrágyás zsák,
 //  tehén, hosszúszárnyú bálna, rétisas, kukoricacső, olajpálma, benzinkút, kiszáradt fa, gyárkémény, láncfűrész,
-//  ipari varrógép, tüntetőtábla. A képregény-paneleken ~100–200 px-en jelennek meg.
+//  ipari varrógép, tüntetőtábla; 2. kör (a magyar történetekhez): túzok, fehér gólya, füves földgát, nádas,
+//  vörös iszap, szennyvíz-ülepítő medence. A képregény-paneleken ~100–200 px-en jelennek meg.
 //  A rajz NEM ítélkezik: nincs szöveg, szám, márka, logó, emberi arc; a „kár” tárgya is semleges (füstölgő kémény, száraz fa).
 //  A dobozszerű tárgyak valódi méretből (m) vetítve (ART.geo.camera), az élőlények és növények 2D-ben rajzolva (y lefelé);
 //  4 éles tónus, 3/4-es nézet, tömör olíva árnyék. A fin() a kész rajzot a vászonra illeszti (perem + árnyék tartalékkal).
@@ -645,6 +646,168 @@
       ln('leaf', 'dark', [[c[0] - .08 * k, c[1] + .055 * k], [c[0] + .06 * k, c[1] - .06 * k]], .012 * k),
       dpth('steel', 'dark', [.95, 1.02].map(v => [F(-.02, v), F(.02, v), F(.02, v + .012), F(-.02, v + .012)])),   // kapcsok
       shine([F(-W + .04, 1.46), F(-W + .2, 1.46), F(-W + .04, 1.3)], .7),
+    ] });
+  }
+
+  // ============================================================================================
+  //  17. Túzok – sétáló túzokkakas oldalról, a feje kicsit felénk fordul: szürke fej és nyak, gesztenyebarna
+  //      mellszalag, rozsdabarna hát fekete harántsávokkal, fehér has és szárnyszegély, a csőr tövénél hosszú
+  //      fehér „bajusz”-tollak, szürke lábak (egyik előre lép). (~1 m magas; 2D, y lefelé)
+  // ============================================================================================
+  {
+    const body = smoothC([[34, 48], [42, 34], [60, 28], [80, 32], [93, 42], [90, 56], [76, 66], [56, 70], [40, 64]], 3);
+    const neck = smoothC([[34, 58], [29, 44], [25, 32], [21, 22], [23, 12], [32, 10], [37, 19], [44, 32], [52, 44]], 3);
+    const back = inset(clip(body, [[20, 20], [100, 20], [100, 50], [20, 54]]), body);
+    fin('tuzok', { hu:'túzok', en:'great bustard', look:'walking male great bustard in side view facing left: grey head and thick grey neck, a chestnut-orange breast band, rufous back barred with black, white belly and white wing edge, a short raised rufous tail with a white tip, long white whisker feathers at the base of the bill, sturdy grey legs with one leg stepping forward', tilt:0, shapes:[
+      pth('steel', 'dark', [taper([[52, 66], [48, 76], [44, 86]], 4.2, 3.2), taper([[68, 65], [70, 76], [73, 86]], 4.2, 3.2),   // lábak
+        [[38, 85], [46, 84.5], [46.5, 88], [37, 88]], [[70, 84.5], [79, 85], [79.5, 88], [70, 88]]]),
+      face('cardboard', 'base', [[85, 37], [97, 32], [99.5, 41], [90, 49]]), det('white', 'base', [[95, 32.8], [97, 32], [99.5, 41], [97.4, 41.8]]),   // farok
+      face('white', 'base', body),                                                         // test: fehér has
+      det('cardboard', 'base', back),                                                      // rozsdabarna hát
+      dpth('dark', 'base', [[46, 36], [53, 32], [60, 30], [67, 30], [74, 31.5], [81, 34], [87, 38]].map(([x, y]) => [[x, y], [x + 2.6, y - .4], [x + 1, y + 8], [x - 1.4, y + 8.3]])),   // fekete harántsávok
+      det('white', 'light', taper([[44, 55], [62, 59], [84, 53]], 3, 1.8)),                // fehér szárnyszegély
+      face('steel', 'dark', neck),                                                         // nyak
+      det('orange', 'dark', inset(clip(neck, [[20, 42], [60, 42], [60, 52], [20, 50]]), neck)),   // mellszalag
+      det('steel', 'base', inset([[22, 14], [30, 11], [35, 16], [34, 23], [26, 24], [22, 20]], neck)),   // világosabb fej
+      face('sage', 'dark', [[23, 15], [14, 17.5], [23, 19.5]]),                            // csőr
+      pth('white', 'light', [leafPts(22, 20, 58, 15, 2.8, 4), leafPts(23, 19, 32, 14, 2.6, 4)]),   // „bajusz”-tollak
+      det('dark', 'base', circ(27, 15, 1.4, 8)), det('white', 'base', circ(26.6, 14.6, .5, 6)),   // szem
+      shine([[48, 34], [56, 31], [56.5, 32.3], [49, 35.3]], .55),
+    ] });
+  }
+
+  // ============================================================================================
+  //  18. Gólya – fehér gólya féllábon állva, oldalról: fehér test, fekete evezőtollak a szárny hátsó felén,
+  //      S-ívű nyak, hosszú piros csőr, piros lábak (az egyik felhúzva), fűcsomó a lábánál. (~1 m; 2D)
+  // ============================================================================================
+  {
+    const body = smoothC([[34, 40], [44, 31], [62, 32], [78, 40], [86, 50], [72, 55], [54, 55], [40, 50]], 3);
+    const wing = smoothC([[56, 42], [72, 40], [84, 47], [92, 57], [76, 56], [60, 52]], 2);
+    const neck = smoothC([[36, 46], [32, 32], [28, 22], [26, 13], [31, 7], [37, 9], [36, 18], [39, 30], [46, 38]], 3);
+    fin('golya', { hu:'fehér gólya', en:'white stork on one leg', look:'white stork standing on one leg in side view facing left: white body and S-curved neck, black flight feathers along the back of the folded wing, a long straight red bill pointing down, red legs with one leg lifted and bent, a small grass tuft at its foot', tilt:0, shapes:[
+      face('grass', 'base', smoothC([[36, 93], [40, 86], [46, 89], [50, 84], [55, 89], [60, 86], [64, 93]], 2)),   // fűcsomó
+      pth('red', 'base', [taper([[50, 54], [50, 72], [50, 91]], 2.6, 2.1), taper([[57, 54], [63, 66], [52, 70]], 2.6, 2.1)]),   // lábak (egy felhúzva)
+      det('red', 'dark', [[50, 55], [51.3, 55], [51.1, 90], [50, 90]]),
+      face('white', 'base', body),
+      det('white', 'dark', inset([[40, 50], [56, 55], [72, 55], [80, 52], [62, 49], [46, 47]], body)),   // árnyékos has
+      face('dark', 'base', wing),                                                          // fekete evezőtollak
+      dpth('dark', 'light', [[64, 45], [71, 46], [78, 49]].map(([x, y]) => leafPts(x, y, 18, 10, 2.2, 3))),
+      face('white', 'base', neck),
+      det('white', 'dark', inset([[36, 18], [39, 30], [46, 38], [42, 40], [36, 30], [34, 20]], neck)),
+      face('red', 'base', [[29, 10], [9, 30], [10.5, 31.5], [33, 14]]),                    // hosszú piros csőr
+      det('red', 'dark', [[31, 12.5], [10.5, 31.5], [9.6, 30.7], [30, 11.8]]),
+      det('dark', 'base', circ(32, 10.5, 1.4, 8)), det('white', 'base', circ(31.6, 10.1, .45, 6)),   // szem
+      shine([[44, 33.5], [54, 32], [54.5, 33.4], [45, 35]], .6),
+    ] });
+  }
+
+  // ============================================================================================
+  //  19. Gát – füves földgát (töltés) keresztmetszete diorama-kivágásban: trapéz alakú töltés (korona 4 m,
+  //      magasság 3 m, rézsű 1:2), a bal oldalán folyóvíz, alul földréteg. (3 m magas, 10 m-es szakasz; méterben,
+  //      a magasság ×1,7-es rajzi kiemeléssel, hogy kis méretben is töltésnek látsszon)
+  // ============================================================================================
+  {
+    const TILT = 0, Z0 = -5, Z1 = 5, X0 = -12, X1 = 10.5, WY = 2, VY = 1.7;
+    const P0 = cam({ az:-24, el:20, F:90, tilt:TILT, fit:corners(X0, X1, -1.6 * VY, 3 * VY, Z0, Z1) });
+    const P = ([x, y, z]) => P0([x, y * VY, z]); P.V = P0.V; P.k = P0.k;   // függőleges kiemelés: a töltés jobban olvasható
+    const lev = extrude(P, [[-8, 0], [8, 0], [2, 3], [-2, 3]], Z0, Z1);
+    const sb = box(P, X0, X1, -1.6, 0, Z0, Z1);                      // földréteg a töltés és a meder alatt
+    const wx = -8 + 6 * WY / 3;                                     // a víz széle a rézsűn
+    const water = [[X0, WY, Z1], [wx, WY, Z1], [wx, WY, Z0], [X0, WY, Z0]].map(P);
+    const wfront = [[X0, 0, Z1], [-8, 0, Z1], [wx, WY, Z1], [X0, WY, Z1]].map(P);
+    const lawn = [[8, 0, Z1], [X1, 0, Z1], [X1, 0, Z0], [8, 0, Z0]].map(P);   // a mentett oldali gyep
+    const sil = hull(lev.all.flat());
+    const rip = (x, z, w) => { const a = P([x - w, WY, z]), b = P([x + w, WY, z]); return [a, b, [b[0] - .6, b[1] + .9], [a[0] + .6, a[1] + .9]]; };
+    fin('gat', { hu:'gát (füves földgát)', en:'grassy earthen flood levee', look:'cut-away diorama of a grassy trapezoid earthen flood levee: a flat grassy crown with a gravel path, a sunlit grassy slope facing a blue river on the left, a darker slope and meadow on the right, and a brown soil layer visible in the cut-away front', tilt:TILT, shapes:[
+      face('soil', 'base', sb.sil), det('soil', 'dark', sb.front),                         // földréteg
+      face('water', 'base', water), det('water', 'dark', wfront),                         // folyó: felszín + metszet
+      dpth('water', 'light', [rip(-10.5, 2.5, 1.1), rip(-8, -1.5, .9), rip(-11, -3.5, .7)]),  // fodrok
+      face('grass', 'dark', lawn),
+      face('grass', 'base', sil),                                                          // töltés
+      ...['light', 'base', 'dark', 'line'].map(t => lev.tone(t).length && dpth('grass', t, lev.tone(t).map(p => inset(p, sil, .6)))),
+      det('steel', 'base', [[-.7, 3, Z1], [.7, 3, Z1], [.7, 3, Z0], [-.7, 3, Z0]].map(P)),   // kavicsos út a koronán
+      det('soil', 'base', lev.front),                                                      // a töltés metszete
+      det('grass', 'base', [[-8, 0], [-2, 3], [2, 3], [8, 0], [7.2, 0], [1.75, 2.65], [-1.75, 2.65], [-7.2, 0]].map(([x, y]) => P([x, y, Z1]))),   // gyepréteg
+      dpth('soil', 'dark', [[-4, 1], [0, 1.9], [3.5, .8]].map(([x, y]) => [[x, y], [x + 1.2, y], [x + 1.2, y + .25], [x, y + .25]].map(([u, v]) => P([u, v, Z1])))),   // rétegcsíkok
+      shine([[-12.5, WY, 4.4], [-9.5, WY, 4.4], [-9.5, WY, 3.7], [-12.5, WY, 3.7]].map(P), .6),
+    ] });
+  }
+
+  // ============================================================================================
+  //  20. Nádas – nádcsomó sekély vízben: zöld szárak és hosszú levelek, barna bugás nádtollak a csúcson,
+  //      két gyékény-szerű szár barna „virágzati bunkóval”. (~2 m; 2D)
+  // ============================================================================================
+  {
+    const reeds = [[[34, 86], [32, 52], [26, 22]], [[45, 87], [45, 50], [43, 12]], [[56, 87], [58, 52], [64, 18]], [[65, 86], [69, 58], [78, 32]]];
+    const cats = [[[40, 87], [39, 60], [36, 36]], [[60, 87], [62, 66], [63, 44]]];
+    const tip = r => r[r.length - 1], dirOf = r => Math.atan2(tip(r)[1] - r[1][1], tip(r)[0] - r[1][0]) * 180 / Math.PI;
+    fin('nadas', { hu:'nádas (nádcsomó)', en:'clump of common reed in water', look:'a clump of common reed standing in a small pond: green stems with long arching leaves, drooping brown feathery plume heads at the tops, and two cattail stems with dark brown sausage-shaped heads', tilt:0, shapes:[
+      face('water', 'base', smoothC([[12, 86], [30, 79], [70, 79], [90, 85], [78, 94], [24, 94]], 3)),   // tó
+      det('water', 'dark', [[22, 84], [40, 81], [62, 81], [80, 84], [62, 84], [40, 84]]),
+      pth('grass', 'dark', [...reeds, ...cats].map(r => taper(smooth(r, 1), 2.2, 1.2))),   // szárak
+      pth('leaf', 'base', [leafPts(35, 72, 205, 26, 4, 4), leafPts(46, 68, 235, 22, 3.6, 4), leafPts(57, 70, 300, 24, 3.8, 4), leafPts(66, 74, 330, 24, 4, 4), leafPts(50, 80, 190, 30, 4.2, 4), leafPts(58, 80, 350, 28, 4, 4)]),   // levelek
+      dpth('leaf', 'light', [leafPts(36, 71.5, 205, 22, 1.4, 3), leafPts(47, 67.5, 235, 18, 1.2, 3), leafPts(51, 79.5, 190, 26, 1.4, 3)]),
+      pth('soil', 'light', reeds.map(r => leafPts(...lerp(r[1], tip(r), .8), dirOf(r) + (tip(r)[0] < 44 ? -40 : 40), 19, 10, 4))),   // bugás nádtoll
+      dpth('soil', 'base', reeds.map(r => leafPts(...lerp(r[1], tip(r), .82), dirOf(r) + (tip(r)[0] < 44 ? -46 : 46), 15, 3.4, 4))),
+      pth('chocolate', 'base', cats.map(r => taper([lerp(r[1], tip(r), .25), lerp(r[1], tip(r), .8)], 5.2, 5))),   // gyékény-bunkók
+      dpth('chocolate', 'light', cats.map(r => taper([lerp(r[1], tip(r), .3), lerp(r[1], tip(r), .75)].map(([x, y]) => [x - 1.2, y]), 1.4, 1.4))),
+      dpth('water', 'light', [[[26, 89], [36, 88], [36, 89.2], [27, 90]], [[64, 90], [74, 89], [74, 90.2], [65, 91]]]),   // fodrok
+      shine([[16, 86], [24, 83], [24.6, 84], [17, 87]], .6),
+    ] });
+  }
+
+  // ============================================================================================
+  //  21. Vörös iszap – szétterülő rozsdavörös iszapfolt, hátul felcsapó iszaphullámmal és fröccsenő cseppekkel,
+  //      a szélén fűcsomó. Semleges ábrázolás: nincs épület, ember, állat. (~2 m; 2D)
+  // ============================================================================================
+  {
+    const pool = blob(50, 74, 46, 15, -3, .1, 1.3, 16);
+    const wave = smoothC([[8, 74], [12, 60], [24, 50], [42, 44], [60, 42], [74, 46], [82, 54], [74, 55], [66, 52], [59, 58], [62, 72]], 3);
+    fin('voros_iszap', { hu:'vörös iszap', en:'spreading red sludge wave', look:'a spreading puddle of rust-red sludge with a low thick sludge wave rolling forward at the back, glossy highlights, flying drops and splashes, and a small grass tuft at the edge about to be reached', tilt:0, shapes:[
+      face('grass', 'base', smoothC([[82, 76], [85, 64], [89, 70], [92, 62], [94, 72], [97, 64], [98, 78]], 2)),   // fűcsomó
+      face('ember', 'dark', pool),                                                         // szétterülő folt
+      det('ember', 'line', inset(blob(47, 77, 30, 8, -3, .12, 2, 14), pool), { o:.55 }),
+      det('ember', 'base', inset([[10, 78], [22, 84], [44, 88], [70, 87], [88, 80], [72, 85], [44, 85], [22, 82]], pool)),   // világos elülső perem
+      face('ember', 'dark', wave),                                                         // iszaphullám
+      det('ember', 'line', inset([[82, 54], [74, 55], [66, 52], [59, 58], [62, 72], [50, 64], [52, 52], [64, 46]], wave), { o:.8 }),   // a hullám belseje
+      det('ember', 'base', inset([[12, 62], [24, 51], [42, 45], [60, 43], [74, 47], [60, 47], [42, 49], [24, 56]], wave)),   // hullámtaraj
+      pth('ember', 'dark', [drop(80, 38, 2.6, 40), drop(88, 46, 2, 55), drop(70, 32, 1.8, 20), circ(90, 56, 1.4, 8), drop(52, 34, 1.8, 0), drop(14, 50, 2, -30)]),   // fröccsenés
+      shine([[20, 58], [30, 51], [31, 52.2], [21.5, 59.2]], .55),
+      shine([[30, 80], [42, 78], [42.3, 79.2], [31, 81.2]], .5),
+    ] });
+  }
+
+  // ============================================================================================
+  //  22. Szennyvíz-ülepítő medence – kerek betonmedence (Ø 30 m, fal 1 m a talaj fölött) vízzel, középen
+  //      betáplálóakna és oszlop, róla a peremig érő forgó híd sárga korláttal, a peremen járó hajtókocsival,
+  //      alatta a vízben a kotrókar. (méterben)
+  // ============================================================================================
+  {
+    const TILT = 0, R = 15, WH = 1, TH = 50, BW = .8;
+    const P = cam({ az:20, el:34, F:140, tilt:TILT, fit:corners(-17.5, 17.5, 0, 3.4, -17.5, 17.5) });
+    const L = lathe(P, [[R, 0], [R, WH]]);
+    const u = [sin(TH), 0, cos(TH)], w = [cos(TH), 0, -sin(TH)];
+    const at = (t, s, y) => P([u[0] * t + w[0] * s, y, u[2] * t + w[2] * s]);
+    const sv = dot(w, P.V) > 0 ? BW : -BW;                          // a híd felénk néző oldala
+    const deck = [at(0, -BW, 2.6), at(R + .3, -BW, 2.6), at(R + .3, BW, 2.6), at(0, BW, 2.6)];
+    const side = [at(0, sv, 2.1), at(R + .3, sv, 2.1), at(R + .3, sv, 2.6), at(0, sv, 2.6)];
+    const rail = [at(.8, sv, 2.6), at(R, sv, 2.6), at(R, sv, 3.3), at(.8, sv, 3.3)];
+    const pier = acyl(P, [0, 0, 0], [0, 1, 0], .7, 2.6, 10), well = acyl(P, [0, 0, 0], [0, 1, 0], 2.6, 1.3, 16);
+    fin('szennyviz_medence', { hu:'szennyvíz-ülepítő medence', en:'round wastewater clarifier basin', look:'round concrete wastewater clarifier basin seen from above at an angle: a grey concrete ring wall on a small lawn, blue-green water inside with ripples, a central feed well and pier, and a rotating bridge with yellow railings reaching from the centre to a drive carriage on the rim, with the scraper arm visible under the water', tilt:TILT, shapes:[
+      face('grass', 'base', disc(P, 0, 0, 0, R + 2.4, R + 2.4, 24)),                       // gyep a medence körül
+      face('steel', 'base', L.sil),                                                        // betonfal kívül
+      det('steel', 'dark', L.strip(35, 90)), det('steel', 'light', L.strip(-85, -45)),
+      det('steel', 'dark', disc(P, 0, WH, 0, R - .5, R - .5, 28)),                         // belső fal (hátul látszik)
+      det('teal', 'base', disc(P, 0, WH - .45, 0, R - .5, R - .5, 28)),                    // víz
+      dpth('teal', 'dark', [band([at(2.6, 0, .55), at(R - .6, 0, .55)], 1)]),               // kotrókar a víz alatt
+      dpth('teal', 'light', [[-6, 7], [5, -8], [-9, -4]].map(([x, z]) => disc(P, x, .56, z, 1.8, .35, 8))),   // fodrok
+      pth('steel', 'light', [pos(disc(P, 0, WH, 0, R, R, 28)), neg(disc(P, 0, WH, 0, R - .5, R - .5, 28))]),   // fal pereme
+      face('steel', 'base', well.sil), det('steel', 'light', well.top), det('teal', 'dark', disc(P, 0, 1.3, 0, 2.2, 2.2, 14)),   // betáplálóakna
+      face('steel', 'dark', pier.sil),                                                     // oszlop
+      face('steel', 'dark', side), face('steel', 'base', deck),                            // forgó híd
+      det('honey', 'base', rail), ln('honey', 'dark', [at(.8, sv, 3.3), at(R, sv, 3.3)], .7),   // sárga korlát
+      face('honey', 'dark', [at(R - .9, -1.1, 1), at(R + .9, -1.1, 1), at(R + .9, 1.1, 1), at(R + .9, 1.1, 2.7), at(R - .9, 1.1, 2.7), at(R - .9, -1.1, 2.7)]),   // hajtókocsi
+      shine([[-10, 6], [-6, 9]].map(([x, z]) => P([x, .56, z])).concat([P([-5.6, .56, 8.4]), P([-9.6, .56, 5.4])]), .6),
     ] });
   }
 

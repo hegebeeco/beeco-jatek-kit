@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.8.1 – 2026-09-22
+* Új matricák (`art-tortenelem.js`, B szint, magyar történetekhez): `tuzok`, `golya`, `gat` (árvízvédelmi töltés), `nadas`, `voros_iszap`, `szennyviz_medence`.
+
 ## 1.8.0 – 2026-09-22
 * Új matricák (`web/js/art/art-tortenelem.js`, B szint, történelmi képregényhez): `gozgep`, `szencsille`, `olajkut`, `olajhordo`, `mutragyazsak`, `tehen`, `balna`, `sas`, `kukorica`, `olajpalma`, `benzinkut`, `halott_fa`, `gyarkemeny`, `lancfuresz`, `varrogep`, `tabla_tuntetes`. Először a „Nagyi mesél” (Helytörténeti Múzeum) játékban.
 * Új 3D városi modell: `museum` (`varos-kozpont.js`, oszlopos homlokzat, B szint), a katalógusban is.
