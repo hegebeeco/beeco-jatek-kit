@@ -6,7 +6,7 @@
 //  • call  = a másolható hívás, pontosan így írd a játékba (a teszt ellenőrzi, hogy ugyanazt építi, mint a build)
 //  • build = () => modell, vagy RÉSZEK objektuma ({ body, heat, … }) – a részeket a galéria külön kapcsolja
 //  Új modell: a builder a 3d/ (vagy vilag/) fájlba, ide egy tétel – a galéria és a teszt magától felveszi.
-//  Kell hozzá: js/art/model-kit.js + a 3d/*-modellek.js fájlok (+ 3d/elokert-allatok.js, 3d/varos-poszmeh.js) + vilag/vilag-modellek.js (Node-ban a teszt tölti be őket).
+//  Kell hozzá: js/art/model-kit.js + a 3d/*-modellek.js fájlok (+ 3d/elokert-allatok.js, 3d/varos-poszmeh.js, 3d/varos-kozpont.js) + vilag/vilag-modellek.js (Node-ban a teszt tölti be őket).
 // ============================================================
 (function(root){
   const g = n => root[n];                                              // a builder-globálisok (böngészőben window, Node-ban globalThis)
@@ -110,7 +110,7 @@
       variants:[['Méhecske', 'bee'], ['Pillangó', 'butterfly'], ['Madár (vörösbegy)', 'bird'], ['Denevér', 'bat']].map(([l, fn]) => v(l, `EK_MODELS.${fn}(MODEL)`, () => EK()[fn](K()))) },
     { id:'ek-animals', group:'Élő kert', name:'Földön járó állatok', desc:'Talp y = 0, orr +Z; 0,15–0,5 egység.',
       variants:[['Katica', 'ladybird'], ['Sün', 'hedgehog'], ['Béka', 'frog'], ['Gyík', 'lizard']].map(([l, fn]) => v(l, `EK_MODELS.${fn}(MODEL)`, () => EK()[fn](K()))) },
-    // ---------------- Méhesd (3d/varos-modellek.js + varos-poszmeh.js; 1 egység ≈ 25 m, dioráma-léptékben; hosszú elemek az X mentén) ----------------
+    // ---------------- Méhesd (3d/varos-modellek.js + varos-poszmeh.js + varos-kozpont.js; 1 egység ≈ 25 m, dioráma-léptékben; hosszú elemek az X mentén) ----------------
     ...[['va-houses', 'houses', 'Házsor kertekkel', 'n családi ház (1,1 egység telkenként), előttük kert fával, bokorral, kerítéssel; eltérő tetőszínek, minden 2. ház oromzata az utcára néz.', "{ n:3 }", { n:3 }],
         ['va-blocks', 'blocks', 'Lakótelepi panelház', 'Felújított, pasztell: 8 szint ablaksávokkal, panelhézagok, sárga erkélyoszlopok, lépcsőház, attika, gépház. w × d.', "{ w:2.4, d:0.9 }", { w:2.4, d:0.9 }],
         ['va-parking', 'parking', 'Parkoló autókkal', 'Merőleges beállók felfestéssel, egyszerű dobozautók három színben, a helyek kb. fele foglalt. w × d.', "{ w:2, d:1.2 }", { w:2, d:1.2 }]].map(([id, fn, name, desc, arg, o]) =>
@@ -140,6 +140,18 @@
       variants:[ v('Királynő', 'VAROS_MODELS.bumblebeeQueen(MODEL)', () => VA().bumblebeeQueen(K())), v('Dolgozó', 'VAROS_MODELS.bumblebeeWorker(MODEL)', () => VA().bumblebeeWorker(K())) ] },
     { id:'va-nest', group:'Méhesd', name:'Poszméh-fészek', desc:'Apró földkupac fűcsomókkal, elöl (+Z) a régi rágcsálójárat bejárata. Ø ≈ 0,4.', variants:[ v('Alap', 'VAROS_MODELS.nest(MODEL)', () => VA().nest(K())) ] },
     { id:'va-spray', group:'Méhesd', name:'Permetezés-jelzés', desc:'Háromszögletű „Figyelem!” tábla karón (piros szegély, felkiáltójel) – vegyszer, flakon és márka nélkül.', variants:[ v('Alap', 'VAROS_MODELS.sprayWarn(MODEL)', () => VA().sprayWarn(K())) ] },
+    // Méhesd városközpont és zöld infrastruktúra (3d/varos-kozpont.js)
+    ...[['va-townhall', 'townHall', 'Városháza', 'Kétszintes, szimmetrikus, mézsárga középrizalit oromzattal, kis torony (óralap nélkül); előtte tér két paddal, fával, zászlórúddal. 1,8 × 1,3.'],
+        ['va-library', 'library', 'Könyvtár', 'Másfél szintes homokkő épület nagy íves ablakokkal, palatető tetőablakkal; könyvleadó doboz, kerékpártámasz biciklivel. 1,3 × 1,0.'],
+        ['va-market', 'market', 'Piaccsarnok', 'Nyitott csarnok oszlopokon, nyeregtető szellőző gerinccel, 4 stand ládákban zöldséggel és gyümölccsel. 1,6 × 1,1.'],
+        ['va-recycling', 'recyclingYard', 'Hulladékudvar', 'Korláttal kerített placc, elöl nyitott kapu, 5 színes konténer (papír, műanyag, üveg, vegyes, fém/egyéb), irodakonténer. 1,6 × 1,2.']].map(([id, fn, name, desc]) =>
+      ({ id, group:'Méhesd', name, desc, variants:[ v('Alap', `VAROS_MODELS.${fn}(MODEL)`, () => VA()[fn](K())) ] })),
+    { id:'va-busstop', group:'Méhesd', name:'Buszmegálló', desc:'Járda, fedett váró zöldtetővel és paddal, felirat nélküli megállótábla, buszöböl sárga felfestéssel, busz (+X felé). opts.bus, opts.busColor. 1,6 × 0,8.',
+      variants:[ v('Busszal', 'VAROS_MODELS.busStop(MODEL)', () => VA().busStop(K())), v('Zsálya busz', "VAROS_MODELS.busStop(MODEL, { busColor:'sage:1' })", () => VA().busStop(K(), { busColor:'sage:1' })),
+        v('Busz nélkül', 'VAROS_MODELS.busStop(MODEL, { bus:false })', () => VA().busStop(K(), { bus:false })) ] },
+    { id:'va-solar', group:'Méhesd', name:'Napelem-mező', desc:'Panelsorok 25°-ban +Z felé döntve, világos kerettel, lábakon; w × d, talp y = 0 (a játék emeli a tetőre).', variants:[ v('0,8 × 0,5', 'VAROS_MODELS.solarRoof(MODEL, { w:0.8, d:0.5 })', () => VA().solarRoof(K(), { w:0.8, d:0.5 })) ] },
+    { id:'va-bikelane', group:'Méhesd', name:'Kerékpársáv (szakasz)', desc:'Az X mentén, len hosszal, 0,12 széles zöld sáv sárga szélvonallal, ~1 egységenként festett kerékpár-jel.', variants:[ v('4 egység', 'VAROS_MODELS.bikeLane(MODEL, { len:4 })', () => VA().bikeLane(K(), { len:4 })) ] },
+    { id:'va-turbine', group:'Méhesd', name:'Szélkerék', desc:'Részek: body + blades (+ hub = forgáspont [0, 1.3, 0.11]); a lapátok a helyükön, a Z tengely körül forognak. Torony 1,3, csúcs ≈ 1,84.', variants:[ v('Alap', 'VAROS_MODELS.windTurbine(MODEL)', () => VA().windTurbine(K())) ] },
   ];
 
   // segéd: modell vagy részek → [[részNév, modell], …]

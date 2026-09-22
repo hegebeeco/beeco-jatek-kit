@@ -1,6 +1,6 @@
 {
- "version": "3b5443632056",
- "count": 109,
+ "version": "63d6c95cdf1c",
+ "count": 110,
  "files": {
   "assets/brand/bee-angry.webp": "7a53dcb6d6f4",
   "assets/brand/bee-cheer.webp": "8af127ee462a",
@@ -47,11 +47,12 @@
   "js/3d/elokert-allatok.js": "d26cd62909e1",
   "js/3d/elokert-modellek.js": "9c18f71b01bf",
   "js/3d/huto-modellek.js": "b6e1653dea8f",
-  "js/3d/katalogus.js": "af54834c4367",
+  "js/3d/katalogus.js": "1ef32b601a9e",
   "js/3d/orbit.js": "4dbac5e6c04b",
   "js/3d/otthon-modellek.js": "396d5ee7176c",
   "js/3d/rezsi-modellek.js": "2223a09f8c32",
   "js/3d/szelektalj-modellek.js": "5870e19a7fb3",
+  "js/3d/varos-kozpont.js": "5cc396459edb",
   "js/3d/varos-modellek.js": "f7ae3d9f698c",
   "js/3d/varos-poszmeh.js": "3e73bb5b54be",
   "js/aramlas.js": "906e77d2e37a",

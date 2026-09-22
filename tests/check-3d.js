@@ -22,7 +22,7 @@ globalThis.RZ_MODELS = require(J('3d/rezsi-modellek.js'));
 const ot = require(J('3d/otthon-modellek.js')); globalThis.OT = ot.OT; globalThis.OT_MODELS = ot.OT_MODELS;
 globalThis.VILAG_MODELS = require(J('vilag/vilag-modellek.js'));
 require(J('3d/elokert-modellek.js')); require(J('3d/elokert-allatok.js'));   // → globalThis.EK_MODELS
-require(J('3d/varos-modellek.js')); require(J('3d/varos-poszmeh.js'));       // → globalThis.VAROS_MODELS (Méhesd)
+require(J('3d/varos-modellek.js')); require(J('3d/varos-poszmeh.js')); require(J('3d/varos-kozpont.js'));       // → globalThis.VAROS_MODELS (Méhesd)
 const CAT = require(J('3d/katalogus.js'));
 
 // a hívás-szöveg kiértékelése ugyanazokkal a nevekkel, mint a böngészőben

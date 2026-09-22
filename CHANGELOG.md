@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.6.0 – 2026-09-22
+* Új 3D város-elemek (`web/js/3d/varos-kozpont.js`, B szint, a `VAROS_MODELS`-be): `townHall` (városháza), `library` (könyvtár), `busStop` (buszmegálló busszal, `{bus:false}`), `market` (piaccsarnok), `recyclingYard` (hulladékudvar 5 konténerrel), `solarRoof({w,d})` (napelem-mező), `bikeLane({len})` (bringaút), `windTurbine` (szélkerék: `{ body, blades, hub }` – a lapát a `hub` pont körül, a Z tengely mentén forog). Katalógus + galéria (`modellek.html`) + `check-3d`. Először a Szelektálj! „Méhesd 2050” városi hubjában.
+
 ## 1.5.2 – 2026-09-22
 * `i18n.js`: minden nyelvválasztó magától működik (közös kattintás-figyelő – a menü fejlécében nem volt kezelő), és váltáskor az URL `?lang=` paramétere törlődik (különben a link nyelve felülírta a választást).
 
