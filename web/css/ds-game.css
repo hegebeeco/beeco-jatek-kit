@@ -44,6 +44,9 @@
 .ds-result-lb{ width:100%; display:grid; gap:var(--sp-2); text-align:left; }
 .ds-result-lb-row{ display:flex; gap:var(--sp-2); align-items:center; }
 .ds-result-lb-row .ds-input{ flex:1; min-width:0; }
+.ds-result-nick{ flex:1; min-width:0; justify-content:flex-start; overflow:hidden; } .ds-result-nick b{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ds-result-lb-note{ margin:0; font-size:var(--fs-s); } .ds-result-lb-note:empty{ display:none; }
+.ds-result-lb-list li.is-me{ font-weight:800; background:var(--butter); border-radius:var(--r-s); }
 .ds-result-lb-list{ margin:0 0 12px 22px; padding:0; font-size:var(--fs-s); line-height:1.7; font-variant-numeric:tabular-nums; }
 .ds-result-more{ width:100%; text-align:left; margin-top:0; }
 .ds-result-more p{ margin:0 0 10px; }
