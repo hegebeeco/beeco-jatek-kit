@@ -144,7 +144,8 @@
     ...[['va-townhall', 'townHall', 'Városháza', 'Kétszintes, szimmetrikus, mézsárga középrizalit oromzattal, kis torony (óralap nélkül); előtte tér két paddal, fával, zászlórúddal. 1,8 × 1,3.'],
         ['va-library', 'library', 'Könyvtár', 'Másfél szintes homokkő épület nagy íves ablakokkal, palatető tetőablakkal; könyvleadó doboz, kerékpártámasz biciklivel. 1,3 × 1,0.'],
         ['va-market', 'market', 'Piaccsarnok', 'Nyitott csarnok oszlopokon, nyeregtető szellőző gerinccel, 4 stand ládákban zöldséggel és gyümölccsel. 1,6 × 1,1.'],
-        ['va-recycling', 'recyclingYard', 'Hulladékudvar', 'Korláttal kerített placc, elöl nyitott kapu, 5 színes konténer (papír, műanyag, üveg, vegyes, fém/egyéb), irodakonténer. 1,6 × 1,2.']].map(([id, fn, name, desc]) =>
+        ['va-recycling', 'recyclingYard', 'Hulladékudvar', 'Korláttal kerített placc, elöl nyitott kapu, 5 színes konténer (papír, műanyag, üveg, vegyes, fém/egyéb), irodakonténer. 1,6 × 1,2.'],
+        ['va-museum', 'museum', 'Helytörténeti Múzeum', 'Egyszintes klasszicista épület oszlopcsarnokkal (4 oszlop, felirat nélküli oromzat), széles lépcső, magas íves ablakok; előtte kövezett tér nyomós kúttal, két paddal, sima mézsárga szalaggal. 1,6 × 1,2.']].map(([id, fn, name, desc]) =>
       ({ id, group:'Méhesd', name, desc, variants:[ v('Alap', `VAROS_MODELS.${fn}(MODEL)`, () => VA()[fn](K())) ] })),
     { id:'va-busstop', group:'Méhesd', name:'Buszmegálló', desc:'Járda, fedett váró zöldtetővel és paddal, felirat nélküli megállótábla, buszöböl sárga felfestéssel, busz (+X felé). opts.bus, opts.busColor. 1,6 × 0,8.',
       variants:[ v('Busszal', 'VAROS_MODELS.busStop(MODEL)', () => VA().busStop(K())), v('Zsálya busz', "VAROS_MODELS.busStop(MODEL, { busColor:'sage:1' })", () => VA().busStop(K(), { busColor:'sage:1' })),

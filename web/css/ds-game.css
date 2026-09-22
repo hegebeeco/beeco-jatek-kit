@@ -41,7 +41,7 @@
 .ds-result-stats{ display:flex; flex-wrap:wrap; gap:var(--sp-2); justify-content:center; }
 .ds-result-actions{ display:flex; flex-direction:column; gap:var(--sp-2); width:100%; }
 .ds-result-actions .ds-row{ display:flex; flex-wrap:wrap; gap:var(--sp-2); justify-content:center; }
-.ds-result-lb{ width:100%; display:grid; gap:var(--sp-2); text-align:left; }
+.ds-result-lb{ width:100%; display:grid; grid-template-columns:minmax(0, 1fr); gap:var(--sp-2); text-align:left; }
 .ds-result-lb-row{ display:flex; gap:var(--sp-2); align-items:center; }
 .ds-result-lb-row .ds-input{ flex:1; min-width:0; }
 .ds-result-nick{ flex:1; min-width:0; justify-content:flex-start; overflow:hidden; } .ds-result-nick b{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }

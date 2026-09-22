@@ -15,6 +15,11 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.8.0 – 2026-09-22
+* Új matricák (`web/js/art/art-tortenelem.js`, B szint, történelmi képregényhez): `gozgep`, `szencsille`, `olajkut`, `olajhordo`, `mutragyazsak`, `tehen`, `balna`, `sas`, `kukorica`, `olajpalma`, `benzinkut`, `halott_fa`, `gyarkemeny`, `lancfuresz`, `varrogep`, `tabla_tuntetes`. Először a „Nagyi mesél” (Helytörténeti Múzeum) játékban.
+* Új 3D városi modell: `museum` (`varos-kozpont.js`, oszlopos homlokzat, B szint), a katalógusban is.
+* Javítás: a kör vége panel ranglista-sora keskeny kijelzőn nem lóg ki (`.ds-result-lb` rács: `minmax(0, 1fr)`).
+
 ## 1.7.0 – 2026-09-22
 * Új matricák (`web/js/art/art-kozlekedes.js`, B szint): `e_bringa`, `telekocsi`, `berlet` (🎫), `esernyo` (☔), `esoruha`, `esos_felho`, `viharfelho` (⛈️), `iskola` (🏫), `rendelo` (🏥, zöld kereszt), `aktataska` (💼), `nagyi` (👵), `bakancs` (🥾), `jeges_ut`. Galéria: `arculat.html` → Közlekedés. Először a „Nem gáz a pedál” játékban.
 

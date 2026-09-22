@@ -25,6 +25,10 @@
 //                  const b = parts.blades.toThree(THREE, …); b.position.set(-hub[0], -hub[1], -hub[2]); piv.add(b);
 //                  // animációban: piv.rotation.z -= dt * 1.5;
 //                Teljes magasság ≈ 1,84 (a felső lapát csúcsa), a rotor átmérője ≈ 1,1, az alap Ø 0,28.
+//  museum        Méhesdi Helytörténeti Múzeum: egyszintes klasszicista/eklektikus épület kőlábazaton, halvány mézszínű
+//                vakolattal, oszlopcsarnokkal (4 oszlop, háromszög-oromzat felirat nélkül), széles lépcsővel, magas íves
+//                ablakokkal, patinás kontyolt tetővel; előtte kövezett tér régi nyomós kúttal és itatóvályúval, két paddal
+//                és egy zászlótartóval (sima mézsárga fecskefarkú szalag, jelkép nélkül). Alap 1,6 × 1,2, tető ≈ 0,95.
 //
 //  Tengelyek, lépték: mint a varos-modellek.js-ben (Y fel, talp y = 0, origó = közép, eleje +Z; 1 egység ≈ 25 m, dioráma-léptékben).
 //  Betöltési sorrend: 3d/elokert-modellek.js és 3d/varos-modellek.js UTÁN (a segédeiket használja). Node-ban require is elég.
@@ -301,7 +305,66 @@
     return { body, blades, hub:TURBINE_HUB.slice() };
   }
 
-  Object.assign(VM, { townHall, library, busStop, market, recyclingYard, solarRoof, bikeLane, windTurbine, TURBINE_HUB });
+  // ================= HELYTÖRTÉNETI MÚZEUM =================
+  function museum(K){
+    const m = K.model(), cb = K.chamferBox, W = 1.3, D = 0.55, z0 = -0.29, F = z0 + D / 2;
+    const B0 = 0.11, Hw = 0.57, Ey = B0 + Hw + 0.06, rise = 0.2;                  // B0 = a lábazat teteje, Ey = a párkány teteje
+    m.add(cb(1.6, 0.03, 1.2, 0.01), { color:'steel:1', t:[0, 0.015, 0] });                                              // kövezett tér
+    m.add(K.cylinder(0.13, 0.13, 0.006, 8), { color:'white:1', t:[0.56, 0.032, 0.33] });                              // kőkör a kút körül
+    // lábazat (magasított kőtalapzat) + főtömeg halvány mézszínű vakolattal, fehér sarok-lizénák, főpárkány
+    m.add(cb(W + 0.06, B0 - 0.03, D + 0.06, 0.012), { color:'white:1', t:[0, 0.03 + (B0 - 0.03) / 2, z0] });
+    m.add(cb(W, Hw, D, 0.02), { color:'honey:0', t:[0, B0 + Hw / 2, z0] });
+    for(const sx of [-1, 1]) m.add(K.box(0.05, Hw, 0.02), { color:'white:1', t:[sx * (W / 2 - 0.025), B0 + Hw / 2, F + 0.006] });
+    m.add(K.box(W + 0.05, 0.06, D + 0.05), { color:'white:1', t:[0, Ey - 0.03, z0] });
+    // alacsony kontyolt tető (patinás rézfedés)
+    const e = 0.03, rx = W / 2 - D / 2;
+    m.add(K.hull([[-W / 2 - e, Ey, z0 - D / 2 - e], [W / 2 + e, Ey, z0 - D / 2 - e], [W / 2 + e, Ey, z0 + D / 2 + e],
+      [-W / 2 - e, Ey, z0 + D / 2 + e], [-rx, Ey + rise, z0], [rx, Ey + rise, z0]]), { color:'teal:1' });
+    // oszlopcsarnok (portikusz): 4 oszlop lábazattal és fejezettel, gerendázat, háromszög-oromzat – felirat nélkül
+    const PW = 0.62, PD = 0.26, PZ = F + PD / 2, cz = F + PD - 0.04;
+    m.add(K.box(PW + 0.1, B0 - 0.03, PD + 0.02), { color:'white:1', t:[0, 0.03 + (B0 - 0.03) / 2, PZ] });           // a portikusz padlója
+    for(const x of [-0.24, -0.08, 0.08, 0.24]) m.add(K.lathe([[0.036, B0], [0.036, B0 + 0.025], [0.024, B0 + 0.035], [0.02, Ey - 0.09],
+      [0.034, Ey - 0.065]], 6), { color:'white:1', t:[x, 0, cz] });
+    m.add(K.box(PW + 0.04, 0.065, PD + 0.02), { color:'white:1', t:[0, Ey - 0.065 / 2, PZ + 0.005] });                 // gerendázat
+    const ph = 0.19, hw = PW / 2 + 0.03, pz0 = z0, pz1 = F + PD + 0.015;
+    m.add(K.hull([[-hw, Ey, pz0], [hw, Ey, pz0], [0, Ey + ph, pz0], [-hw, Ey, pz1], [hw, Ey, pz1], [0, Ey + ph, pz1]]), { color:'white:1' });
+    m.add(K.extrude([[-hw + 0.06, 0], [hw - 0.06, 0], [0, ph - 0.045]], 0.01), { color:'honey:0', t:[0, Ey + 0.02, pz1 + 0.001] });   // oromzatmező
+    const pa = Math.atan2(ph, hw), pl = Math.hypot(ph, hw) + 0.02;                                                   // rézfedés az oromzaton
+    for(const sx of [-1, 1]) m.add(K.box(pl, 0.022, pz1 - pz0 + 0.03), { color:'teal:1',
+      t:[sx * hw / 2, Ey + ph / 2 + 0.014, (pz0 + pz1) / 2 + 0.015], r:[0, 0, -sx * pa * DEG] });
+    // bejárat: íves kapu fehér kerettel a csarnok mélyén
+    m.add(K.extrude(arch(0.18, 0.38, 4), 0.012), { color:'white:1', t:[0, B0, F + 0.004] });
+    m.add(K.extrude(arch(0.14, 0.35, 4), 0.012), { color:'wood:2', t:[0, B0, F + 0.01] });
+    // magas íves ablakok a két szárnyon (elöl) és az oldalfalakon, hátul két egyszerű ablak
+    for(const x of [0.42, 0.56]) for(const sx of [-1, 1]){
+      m.add(K.extrude(arch(0.12, 0.38, 4), 0.012), { color:'white:1', t:[sx * x, B0 + 0.07, F + 0.004] });
+      m.add(K.extrude(arch(0.09, 0.35, 4), 0.012), { color:'glass:2', t:[sx * x, B0 + 0.085, F + 0.01] }); }
+    for(const z of [z0 - 0.12, z0 + 0.12]) for(const sx of [-1, 1])
+      m.add(K.extrude(arch(0.09, 0.35, 4), 0.012), { color:'glass:2', t:[sx * (W / 2 + 0.004), B0 + 0.085, z], r:[0, 90, 0] });
+    for(const sx of [-1, 1]) m.add(K.box(0.1, 0.3, 0.012), { color:'glass:2', t:[sx * 0.3, B0 + 0.22, z0 - D / 2 - 0.004] });   // hátsó ablakok
+    // széles lépcső a portikusz előtt (3 fok a térig)
+    for(let i = 0; i < 3; i++) m.add(K.box(0.8 - i * 0.04, 0.027, 0.06), { color:'white:1', t:[0, 0.03 + 0.0135 + i * 0.027, F + PD + 0.14 - i * 0.05] });
+    // zászlótartó a tér bal szélén: oszlop, keresztrúd, lelógó sima mézsárga fecskefarkú szalag (jelkép, felirat nélkül)
+    const fx = -0.68, fz = 0.3;
+    m.add(K.cylinder(0.008, 0.012, 0.8, 6), { color:'dark:2', t:[fx, 0.43, fz] });
+    m.add(K.box(0.16, 0.01, 0.01), { color:'dark:2', t:[fx + 0.07, 0.8, fz] });
+    m.add(K.extrude([[0, 0], [0.12, 0], [0.12, -0.3], [0.06, -0.25], [0, -0.3]], 0.008), { color:'gold:1', t:[fx + 0.015, 0.795, fz] });
+    // régi nyomós kút (öntöttvas, patinás zöld): kőtalp, karcsú test gombos tetővel, kifolyó, kar, kő itatóvályú
+    const kx = 0.56, kz = 0.3;
+    m.add(K.cylinder(0.045, 0.05, 0.03, 6), { color:'white:1', t:[kx, 0.045, kz] });
+    m.add(K.lathe([[0.032, 0.06], [0.02, 0.1], [0.02, 0.25], [0.03, 0.27], [0, 0.31]], 6), { color:'teal:1', t:[kx, 0, kz] });
+    m.add(K.box(0.018, 0.018, 0.07), { color:'teal:1', t:[kx, 0.2, kz + 0.045] });                                   // kifolyó
+    m.add(K.box(0.012, 0.02, 0.012), { color:'teal:1', t:[kx, 0.19, kz + 0.078] });
+    rod(m, K, [kx, 0.26, kz - 0.02], [kx, 0.2, kz - 0.16], 0.007, 0.006, 4, 'dark:2');                                 // pumpáló kar
+    m.add(K.box(0.13, 0.045, 0.08), { color:'white:1', t:[kx, 0.055, kz + 0.1] });                               // itatóvályú
+    m.add(K.box(0.1, 0.004, 0.05), { color:'glass:2', t:[kx, 0.078, kz + 0.1] });
+    // két pad a tér elején, a múzeum felé fordulva
+    bench(m, K, -0.34, 0.5, 180, 'wood:2', 0.03);
+    bench(m, K, 0.3, 0.5, 180, 'wood:2', 0.03);
+    return m;
+  }
+
+  Object.assign(VM, { townHall, library, busStop, market, recyclingYard, solarRoof, bikeLane, windTurbine, museum, TURBINE_HUB });
   root.VAROS_MODELS = VM;
   if(typeof module !== 'undefined' && module.exports) module.exports = VM;
 })(typeof window !== 'undefined' ? window : globalThis);
