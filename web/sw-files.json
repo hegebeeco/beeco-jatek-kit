@@ -1,6 +1,6 @@
 {
- "version": "1e1eeb193609",
- "count": 110,
+ "version": "cd3095e94fd3",
+ "count": 111,
  "files": {
   "assets/brand/bee-angry.webp": "7a53dcb6d6f4",
   "assets/brand/bee-cheer.webp": "8af127ee462a",
@@ -67,6 +67,7 @@
   "js/art/art-huto-kamra.js": "13dbb4560b4f",
   "js/art/art-huto.js": "ad4124c9b14e",
   "js/art/art-imp.js": "114342da9f56",
+  "js/art/art-kozlekedes.js": "a7bf2899c4d4",
   "js/art/art-nature-b.js": "b732e51cd2d7",
   "js/art/art-nature.js": "162150877bf1",
   "js/art/art-office.js": "159b2aa7c01c",

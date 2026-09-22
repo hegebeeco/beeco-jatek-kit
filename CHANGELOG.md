@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.7.0 – 2026-09-22
+* Új matricák (`web/js/art/art-kozlekedes.js`, B szint): `e_bringa`, `telekocsi`, `berlet` (🎫), `esernyo` (☔), `esoruha`, `esos_felho`, `viharfelho` (⛈️), `iskola` (🏫), `rendelo` (🏥, zöld kereszt), `aktataska` (💼), `nagyi` (👵), `bakancs` (🥾), `jeges_ut`. Galéria: `arculat.html` → Közlekedés. Először a „Nem gáz a pedál” játékban.
+
 ## 1.6.1 – 2026-09-22
 * `ds-game.css`: kör vége ranglista – becenév-csipesz (`.ds-result-nick`), üzenet-sor (`.ds-result-lb-note`), a saját sor kiemelése (`li.is-me`). A globális ranglistához (generált becenév, Supabase).
 

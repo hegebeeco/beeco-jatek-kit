@@ -530,6 +530,7 @@
 <script src="js/art/art-imp.js"></script>
 <script src="js/art/art-devices.js"></script>
 <script src="js/art/art-extra.js"></script>
+<script src="js/art/art-kozlekedes.js"></script>
 <script>
   // a kalauz tartalma a VALÓDI design system fájlokból épül (nem másolat)
   const $ = (s) => document.querySelector(s);
@@ -603,7 +604,7 @@
   });
 
   // illusztrációk: csoport-fülek + rács; a méret-sor egy jellemző matricával
-  const ART_GROUPS = [['', 'Mind'], ['nature', 'Természet'], ['home', 'Otthon'], ['office', 'Iroda'], ['food', 'Ételek'], ['huto', 'Hűtő-mester'], ['things', 'Tárgyak'], ['devices', 'Gépek'], ['extra', 'Egyéb'], ['waste', 'Hulladékok']];
+  const ART_GROUPS = [['', 'Mind'], ['nature', 'Természet'], ['home', 'Otthon'], ['office', 'Iroda'], ['food', 'Ételek'], ['huto', 'Hűtő-mester'], ['things', 'Tárgyak'], ['devices', 'Gépek'], ['extra', 'Egyéb'], ['kozlekedes', 'Közlekedés'], ['waste', 'Hulladékok']];
   const artCell = (n) => { const A = ART.LIB[n];
     return `<div class="pic-cell" title="${A.en}">${artIcon(n, A.hu, 'art-demo')}<b style="font-size:var(--fs-xs);text-align:center">${A.hu}</b><span class="label">${n} ${(A.emoji || []).join(' ')}</span></div>`; };
   function artShow(lib){
