@@ -15,6 +15,10 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.9.1 – 2026-09-23
+* **Javítás (fontos):** a `tokens.css`-ben a „Nagyobb betűk” blokk tévedésből a `:root` közepére került, és kiütötte a sarok-, térköz- és árnyék-tokeneket – emiatt minden doboz szögletes lett. A blokk a fájl végére került, és a `check-arculat` mostantól ellenőrzi, hogy a lényeges tokenek a `:root`-ban vannak.
+* **Betöltés:** az offline mód service workere a betöltés után **8 másodperccel** regisztrál (`offline.js`), így a ~6 MB-os előtöltés nem veszi el a sávot az első játéktól. A `sw-lista.js` kihagyja a Three.js helyi tartalékát (csak akkor kell, ha a CDN tiltva van – használatkor kerül a tárba).
+
 ## 1.9.0 – 2026-09-23
 * **Akadálymentesség:** „Nagyobb betűk” az egész felületre (`tokens.css` → `html.nagy-betuk` méret-tokenek).
 * **Új matricák** (`web/js/art/art-extra2.js`, B szint): `pizza` (🍕), `alma` (🍎), `karacsonyfa` (🎄), `hervadt_virag` (🥀), `fogaskerek` (⚙️), `muzeum` (🏛️).

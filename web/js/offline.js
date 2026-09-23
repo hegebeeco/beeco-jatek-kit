@@ -33,7 +33,10 @@
         resolve({ cached:state.cached, version:state.version });
       })
       .catch(() => resolve({ cached:false, version:null }));          // pl. iframe tiltott tárolóval, iOS WebView: csendben kimarad
-    // a regisztráció ne versenyezzen a játék első betöltésével
-    if(document.readyState === 'complete') start(); else addEventListener('load', start, { once:true });
+    // A regisztráció ne versenyezzen a játék első betöltésével: a `load` UTÁN még várunk 8 másodpercet,
+    // hogy a menü és az első játék adatai előbb jöjjenek meg. (2026-09-23: mobilneten a teljes gyűjtemény
+    // letöltése – ~6 MB – közvetlenül a betöltés után elvette a sávot az első játéktól.)
+    const kesleltetve = () => setTimeout(start, 8000);
+    if(document.readyState === 'complete') kesleltetve(); else addEventListener('load', kesleltetve, { once:true });
   });
 })();

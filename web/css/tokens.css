@@ -42,10 +42,6 @@
   --display:"Lalezar", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;   /* címek, számok, fő gomb */
   --body:"Open Sans", "Segoe UI", system-ui, -apple-system, sans-serif;                   /* minden szöveg */
   --fs-xs:12px; --fs-s:14px; --fs-m:16px; --fs-l:20px; --fs-xl:26px; --fs-2xl:34px; --fs-3xl:46px;
-}
-/* „Nagyobb betűk” (Beállítások): minden felületi szöveg nagyobb – gyengénlátóknak és kivetítőre (2026-09-23) */
-html.nagy-betuk {
-  --fs-xs:14px; --fs-s:16px; --fs-m:19px; --fs-l:23px; --fs-xl:30px; --fs-2xl:38px; --fs-3xl:50px;
 
   /* ---- 4. Térköz (4 px-es rács) ---- */
   --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
@@ -105,4 +101,10 @@ html.nagy-betuk {
 .ds-cb{
   --data-seq-1:var(--scale-cb-1); --data-seq-2:var(--scale-cb-2); --data-seq-3:var(--scale-cb-3); --data-seq-4:var(--scale-cb-4); --data-seq-5:var(--scale-cb-5);
   --data-neg-2:var(--div-cb-neg-2); --data-neg-1:var(--div-cb-neg-1); --data-0:var(--div-cb-0); --data-pos-1:var(--div-cb-pos-1); --data-pos-2:var(--div-cb-pos-2);
+}
+
+/* „Nagyobb betűk” (Beállítások → Nagyobb betűk): CSAK a betűméret-tokeneket írja felül, semmi mást.
+   2026-09-23: ez a blokk korábban tévedésből a :root közepére került, és kiütötte a sarok-, térköz- és árnyék-tokeneket. */
+html.nagy-betuk {
+  --fs-xs:14px; --fs-s:16px; --fs-m:19px; --fs-l:23px; --fs-xl:30px; --fs-2xl:38px; --fs-3xl:50px;
 }
