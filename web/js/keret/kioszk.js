@@ -15,7 +15,8 @@ const keretKioszk = (function(){
   if(MODE == null) return { aktiv:false, indit(){} };
   window.KIOSZK = MODE; document.documentElement.classList.add('kiosk-lock');
   const IDLE = 120000, WARN = 20, SAVER = 45000;
-  const KEEP = /^beeco_(rz_(big|help|captions|palette)|input|hatter|haptic|music|muted|reduce|calm|tips|scores|best_)/;
+  // marad: CSAK a gép beállításai. Minden látogatói adat törlődik (rekordok és helyi ranglisták is), 2026-09-23.
+  const KEEP = /^beeco_(rz_(big|help|captions|palette)|input|hatter|haptic|music|muted|reduce|calm|tips|lang)$/;
   let cfg = null, last = Date.now(), warnT = null, left = 0, lock = null, saverT = null, slide = 0;
   const $ = (h, id, cls) => { const d = document.createElement('div'); d.id = id; d.className = cls || 'hidden'; d.innerHTML = h || ''; document.body.appendChild(d); return d; };
   let home, idle, saver;

@@ -15,6 +15,9 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.8.2 – 2026-09-23
+* Kioszk (`js/keret/kioszk.js`): a látogató után MINDEN haladás törlődik (rekordok és helyi ranglisták is) – eddig ezek bent maradtak, és a következő látogató az előző eredményeit látta.
+
 ## 1.8.1 – 2026-09-22
 * Új matricák (`art-tortenelem.js`, B szint, magyar történetekhez): `tuzok`, `golya`, `gat` (árvízvédelmi töltés), `nadas`, `voros_iszap`, `szennyviz_medence`.
 
