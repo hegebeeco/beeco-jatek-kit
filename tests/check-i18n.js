@@ -43,7 +43,9 @@ for(const f of walk(WEB, /\.html$/)){
 for(const [k, v] of Object.entries(EN)) if(ACC.test(v) && !/[A-Z][a-zé]+i\b|beeco|Zöldi|Ökos|Szelektálj|Hűtő|Nébih|KSH|MVM|Ft\b/.test(v)) warns.push(`magyar ékezet az angol szótárban: ${JSON.stringify(v).slice(0, 80)}`);
 
 // ---- 3. angol tartalom szerkezete ----
-const FIX = /^(id|ids|url|forras|src|sources?|sticker|icon|img|logo|emoji|zone|bin|bins|product|dim|group|kind|type|level|n|role|accent|color|shape|flag|device|hotspot|room|requires|answer|alsoOk|alsoFits|mode|season|time|lb|best|game)$/i;
+const FIX = /^(id|ids|url|forras|src|sources?|sticker|icon|img|logo|emoji|zone|bin|bins|dim|group|kind|type|level|n|role|accent|color|shape|flag|device|hotspot|room|requires|answer|alsoOk|alsoFits|mode|season|time|lb|best|game)$/i;
+// a `product` az impact.json-ban azonosító (a címke melyik termékhez tartozik), a greenwash.json-ban viszont KIÍRT terméknév
+const isFix = (key, file) => FIX.test(key) || (/^product$/i.test(key) && /impact/.test(file));
 function cmp(a, b, p, f){
   if(Array.isArray(a)){ if(!Array.isArray(b) || a.length !== b.length){ errors.push(`${f}: ${p} tömbhossz eltér (${a.length} ↔ ${Array.isArray(b) ? b.length : typeof b})`); return; } a.forEach((x, i) => cmp(x, b[i], `${p}[${i}]`, f)); return; }
   if(a && typeof a === 'object'){ if(!b || typeof b !== 'object'){ errors.push(`${f}: ${p} nem objektum az angolban`); return; }
@@ -51,7 +53,7 @@ function cmp(a, b, p, f){
     for(const k of Object.keys(b)) if(!(k in a) && !k.startsWith('_')) errors.push(`${f}: ${p}.${k} csak az angolban van`); return; }
   const key = p.split(/[.[]/).pop().replace(']', '');
   if(typeof a !== 'string'){ if(a !== b) errors.push(`${f}: ${p} értéke eltér (${a} ↔ ${b}) – szám/igaz-hamis nem változhat`); return; }
-  if(FIX.test(key) || /^https?:/.test(a)){ if(a !== b) errors.push(`${f}: ${p} azonosító/link eltér („${a}” ↔ „${b}”)`); return; }
+  if(isFix(key, f) || /^https?:/.test(a)){ if(a !== b) errors.push(`${f}: ${p} azonosító/link eltér („${a}” ↔ „${b}”)`); return; }
   if(typeof b !== 'string') errors.push(`${f}: ${p} nem szöveg az angolban`);
   else{ if(ACC.test(b) && b === a && a.length > 12 && !/\.source\d?\./.test(p)) warns.push(`${f}: ${p} fordítatlannak tűnik: ${a.slice(0, 60)}`);   // forráscím eredeti nyelven maradhat
     // ezres elválasztó: magyarul szóköz (85 000), angolul vessző (85,000) → mindkettő 85000; tizedes: 1,5 ↔ 1.5

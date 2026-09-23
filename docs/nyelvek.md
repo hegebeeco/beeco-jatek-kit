@@ -24,3 +24,16 @@ Modul: `web/js/i18n.js` (`I18N`, `tr`) · ellenőrzés: `node tests/check-i18n.j
 5. **Hivatalos címkék neve** (EU Ecolabel, FSC, Fairtrade…) a hivatalos angol nevükön; a magyar hatósági jelek angol leírással.
 6. **Hossz:** az angol ne legyen jóval hosszabb (gombok, csipeszek!) – ha kell, rövidíts.
 7. **Az angol fordítás első változat** – a beeco (vagy anyanyelvi lektor) jóváhagyása kell; a tartalom táblázatban is átnézhető (`tools/tartalom.js`).
+
+## Állapot (2026-09-23)
+
+**Kész angolul:** a keret (menü, beállítások, Rólunk, kör vége, kioszk, album/küldetések, tanári lap, beágyazás) és a tartalom
+**18/19 fájlban** – köztük a hat korábban hiányzó játék: Greenwashing-vadász, Hűtő-mester, Mi van mögötte?, 2075, Ökos-rejtély,
+valamint a polgármester, Élő kert, Méhesd hálózat, közlekedés, múzeum, Méhesd 2050.
+A `data/en/jatek-db.json` szándékosan nincs (adatbázis-export, csak számok).
+
+**Amire figyelni kell:**
+* A fordítás **első változat**, anyanyelvi/beeco-lektorálásra vár (a `docs/jovahagyas.md` táblái).
+* A **forráscímek és kiadó-nevek magyarul maradnak** (tulajdonnév) – a `check-i18n` ezért ír „fordítatlannak tűnik” figyelmeztetéseket, ez rendben van.
+* Az Ökos-rejtély **kódzár-rejtvényei** angolul is ugyanazokra a számokra épülnek (házszám, lámpák, radiátorok) – a szöveg alkalmazkodott, a számok nem változtak.
+* Ha egy játék felületi szövege be van égetve, előbb `tr()`-be kell csomagolni, és csak utána van értelme a szótárnak.

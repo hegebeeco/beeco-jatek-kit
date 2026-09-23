@@ -15,6 +15,12 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 *(még nincs)*
 
+## 1.9.0 – 2026-09-23
+* **Akadálymentesség:** „Nagyobb betűk” az egész felületre (`tokens.css` → `html.nagy-betuk` méret-tokenek).
+* **Új matricák** (`web/js/art/art-extra2.js`, B szint): `pizza` (🍕), `alma` (🍎), `karacsonyfa` (🎄), `hervadt_virag` (🥀), `fogaskerek` (⚙️), `muzeum` (🏛️).
+* **`check-i18n`:** a `product` mező csak az `impact.json`-ban számít azonosítónak – máshol fordítható (a Greenwashing terméknevei).
+* `docs/nyelvek.md`: fordítási állapot és a visszatérő buktatók (beégetett szöveg → előbb `tr()`, csak utána szótár).
+
 ## 1.8.2 – 2026-09-23
 * Kioszk (`js/keret/kioszk.js`): a látogató után MINDEN haladás törlődik (rekordok és helyi ranglisták is) – eddig ezek bent maradtak, és a következő látogató az előző eredményeit látta.
 

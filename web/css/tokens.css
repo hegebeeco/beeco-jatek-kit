@@ -42,6 +42,10 @@
   --display:"Lalezar", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;   /* címek, számok, fő gomb */
   --body:"Open Sans", "Segoe UI", system-ui, -apple-system, sans-serif;                   /* minden szöveg */
   --fs-xs:12px; --fs-s:14px; --fs-m:16px; --fs-l:20px; --fs-xl:26px; --fs-2xl:34px; --fs-3xl:46px;
+}
+/* „Nagyobb betűk” (Beállítások): minden felületi szöveg nagyobb – gyengénlátóknak és kivetítőre (2026-09-23) */
+html.nagy-betuk {
+  --fs-xs:14px; --fs-s:16px; --fs-m:19px; --fs-l:23px; --fs-xl:30px; --fs-2xl:38px; --fs-3xl:50px;
 
   /* ---- 4. Térköz (4 px-es rács) ---- */
   --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
