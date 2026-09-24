@@ -13,7 +13,8 @@ Hol tart egy játék? `node ~/CLAUDE/beeco-jatek-kit/tools/kit-sync.js <projekt>
 
 ## Készül (következő verzió)
 
-*(még nincs)*
+* **`[WEB]` weboldal-réteg** (JAVÍTÁS, a játékokat nem érinti): `docs/weboldal.md`: a tokenek megfeleltetése a beeco.hu
+  Webflow-osztályaira, a csak weboldalon használt minták listája `[WEB]` jellel; hivatkozás az `arculat.md` 2. és új 12. pontjában és a README-ben.
 
 ## 1.9.1 – 2026-09-23
 * **Javítás (fontos):** a `tokens.css`-ben a „Nagyobb betűk” blokk tévedésből a `:root` közepére került, és kiütötte a sarok-, térköz- és árnyék-tokeneket – emiatt minden doboz szögletes lett. A blokk a fájl végére került, és a `check-arculat` mostantól ellenőrzi, hogy a lényeges tokenek a `:root`-ban vannak.
